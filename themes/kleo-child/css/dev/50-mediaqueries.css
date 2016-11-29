@@ -1,5 +1,10 @@
 /* Queries pour le formulaire de recherche avancé: */
 
+.container-full {
+	margin-right: auto;
+	margin-left: auto;
+}
+
 @media only screen and (min-width: 600px) { 
 	.bps-form {
 			-webkit-column-count: 2;
@@ -47,6 +52,11 @@
 		-moz-column-count: 4;
 		column-count: 4;
 	}
+	
+	.container-full {
+		max-width: 970px;
+	}
+	
 }
 
 @media only screen and (min-width: 1200px) { 
@@ -54,6 +64,10 @@
 		-webkit-column-count: 5;
 		-moz-column-count: 5;
 		column-count: 5;
+	}
+	
+	.container-full {
+		max-width: 1170px;
 	}
 }
 
@@ -154,3 +168,12 @@
 	}
 
 }
+
+
+@media (min-width: 1440px) {
+
+	.container-full {
+    max-width: 1280px;
+	}
+}
+

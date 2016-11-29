@@ -37,7 +37,7 @@ function kino_register_styles() {
 			'main-style', 
 			get_stylesheet_directory_uri() . '/css/dev/00-main.css', // main.css
 			false, // dependencies
-			'2015.12.23' // version
+			'2016.11.28' // version
 	); 
 	
 	/*
@@ -55,10 +55,14 @@ function kino_register_styles() {
 	    ); 
 	}
 		
-		/* Remove uneccessary fonts loaded by parent theme */
+		/* Remove uneccessary styles loaded by parent theme */
 		
 		wp_dequeue_style( 'kleo-style' );
 		wp_deregister_style( 'kleo-style' );
+		
+		wp_dequeue_style( 'kleo-app-css' );
+		wp_deregister_style( 'kleo-app-css' );
+		
 		
 		wp_dequeue_style( 'kleo-colors' );
 		wp_deregister_style( 'kleo-colors' );
@@ -294,10 +298,24 @@ function kino_title_filter( $args ) {
 		// bp_send_private_message_button = OK
 		
 		// $title_buttons = do_action( 'bp_member_header_actions' );
-		$title_buttons = bp_get_send_message_button();
 		
-		$title_buttons .= bp_get_send_public_message_button();
+		$title_buttons = '';
 		
+		// Test if function exists: bp_get_send_message_button()
+		
+		 if ( function_exists( 'bp_get_send_message_button' ) ) {
+		 	
+		 	$title_buttons = bp_get_send_message_button();
+		 
+		 }
+		 
+		 if ( function_exists( 'bp_get_send_public_message_button' ) ) {
+		 	
+		 	$title_buttons = bp_get_send_public_message_button();
+		 
+		 }
+		
+
 		$args['title'] .= $title_buttons;
 		
 		// class="user-nicename">@<?php bp_displayed_user_mentionname(); 
