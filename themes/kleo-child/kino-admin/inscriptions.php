@@ -27,7 +27,6 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         /*
          * Une page pour faciliter la gestion des inscriptions kino
         ***************
-        
         ****/
         
         $kino_debug_mode = 'off';

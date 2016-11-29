@@ -263,7 +263,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  	  if( !in_array( "kabaret-2016", $kino_user_role ) ) { 
  	    
  	    // un peu de pub...
- 	    $kino_notification = 'Le prochain Kino Kabaret se déroule du 18 au 28 janvier 2016! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/1/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.';
+ 	    $kino_notification = 'Le prochain Kino Kabaret se déroule du 8 au 19 janvier 2017! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/1/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.';
  	    
  	    break; }
  		
