@@ -237,6 +237,17 @@ function kino_get_field_group_conditions( $groups ) {
   		}
   	}
   	
+  	
+  	if (!current_user_can( 'publish_pages' )) {
+  		  		
+  		if (!in_array( "kabaret-2017", $kino_user_role )) {
+  			//
+  			$forbidden_groups[] = "Kino Kabaret 2017";
+  		}
+  	
+  	}
+  	
+
   	$forbidden_group_ids = array(
   		// 7, // Technicien = 7
   		// 9, // Kabaret = 9
@@ -259,7 +270,7 @@ function kino_get_field_group_conditions( $groups ) {
 			}
 			
   	} // end for loop.
-  	
+  	  	
   return $groups_updated;
 }
 
