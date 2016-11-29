@@ -31,3 +31,20 @@ function kgva_remove_users_columns($column_headers) {
     unset($column_headers['backwpup_role']);
     return $column_headers;
 }
+
+/*
+ * Admin CSS
+ * Hide KLEO notifications
+*/
+
+function kino_kleo_admin_css() {
+	echo '<style>
+	  #setting-error-tgmpa {
+	  	display: none;
+	  }
+	</style>';
+}
+add_action('admin_head', 'kino_kleo_admin_css');
+
+
+
