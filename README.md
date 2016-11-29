@@ -4,7 +4,7 @@ Un thème WordPress pour le site kinogeneva.ch
 
 ## Organisation du dossier
 
-Le thème actif est /themes/kleo-child/, qui est un thème-enfant de /themes/kleo/.
+Le thème se nomme "kleo-child", c'est un thème-enfant de /themes/kleo/.
 
 Certaines fonctionalités se trouvent dans le plugin /kinogeneva-settings/ (notamment la traduction de chaînes de langue).
 
