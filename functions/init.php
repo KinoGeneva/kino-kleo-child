@@ -41,10 +41,8 @@ function kino_register_styles() {
 		wp_dequeue_style( 'kleo-app-css' );
 		wp_deregister_style( 'kleo-app-css' );
 		
-		
 		wp_dequeue_style( 'kleo-colors' );
 		wp_deregister_style( 'kleo-colors' );
-		
 
 }
 add_action( 'wp_enqueue_scripts', 'kino_register_styles', 25 );

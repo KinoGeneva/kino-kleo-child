@@ -153,7 +153,7 @@
 				 				
 				 				} else if ( in_array( $userid, $ids_group_real_platform_pending ) ) {
 				 				
-				 							// $kino_disable_real_checkbox = true;
+//				 							 $kino_disable_real_checkbox = true;
 				 							
 				 							$kino_real_notification = 'Votre statut de réalisateur-trice <b>sur la plateforme</b> est <b>en attente de validation</b>.';
 				 				
@@ -170,7 +170,7 @@
 				 				
 				 				?>
 				 					// Dans "Profil Kinoïte", option Réalisateur-trice:
-				 					//$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> input[value="Réalisateur-trice"]').prop('disabled', true);
+				 					
 				 					$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> label[for="field_<?php echo $kino_fields['profile-role-real']; ?>"]').hide();
 				 					
 				 					<?php
@@ -256,7 +256,7 @@
 				 					
 				 					} else if ( in_array( $userid, $ids_group_real_kabaret_pending ) ) {
 				 					
-				 								// $kabaret_disable_real_checkbox = true;
+				 								 $kabaret_disable_real_checkbox = true;
 				 								
 				 								$kino_real_kab_notification = 'Votre statut de réalisateur-trice <b>pour le Kino Kabaret</b> est <b>en attente de validation</b>.<br/><br/>';
 				 					
@@ -273,9 +273,6 @@
 				 			
 				 				?>
 				 						
-				 					// $('#profile-edit-form #field_<?php echo $kino_fields['role-kabaret-real']; ?>').prop('disabled', true);
-				 					
-				 					// $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> input[value="Réalisateur-trice"]').prop('disabled', true);
 				 					
 				 					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> label[for="field_<?php echo $kino_fields['role-kabaret-real']; ?>"]').hide();
 				 					

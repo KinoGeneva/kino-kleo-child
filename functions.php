@@ -22,10 +22,10 @@ add_filter( 'body_class', 'kino_body_class' );
 function kino_body_class( $classes ) {
 	
 	$host = $_SERVER['HTTP_HOST'];
-	if ( $host == 'kinogeneva.4o4.ch' ) {
-		$classes[] = 'test-site';
-	} else {
+	if ( $host == 'kinogeneva.ch' ) {
 		$classes[] = 'live-site';
+	} else {
+		$classes[] = 'test-site';
 	}
 		
 	return $classes;
