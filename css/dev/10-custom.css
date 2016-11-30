@@ -378,6 +378,13 @@ body.buddypress .kleo-quick-contact-wrapper {
 	margin-top: 2px;
 }
 
+.kino-edit-profile .field_type_checkbox legend,
+.kino-edit-profile .field_type_radio legend {
+	margin-left:  -20px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	font-size: 14px;
+}
 
 #buddypress .field-visibility-settings, 
 #buddypress .field-visibility-settings-toggle, 
@@ -433,6 +440,16 @@ body.buddypress .kleo-quick-contact-wrapper {
 	padding: 0;
 	position: absolute;
 	width: 1px;
+}
+
+/*
+ * Customisation de champs individuels
+ * field_1992 : champ message d'info
+*/
+
+#buddypress .field_1992 input,
+#buddypress .field_1992 .field-visibility-settings-toggle {
+	display: none;
 }
 
 /* @end */
