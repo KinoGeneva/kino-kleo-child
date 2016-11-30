@@ -234,6 +234,9 @@
 body.buddypress .kleo-quick-contact-wrapper {
 	display: none;
 }
+/*
+* Note: on masque le formulaire de contact quand on est sur les pages de profil.
+*/
 
 #buddypress #change-cover-image-personal-li {
 	display: none;
@@ -536,6 +539,7 @@ body.buddypress .kleo-quick-contact-wrapper {
 .kleo-members-carousel .kleo-online-status {
 	z-index: 0;	
 }
+
 
 /* @end */
 

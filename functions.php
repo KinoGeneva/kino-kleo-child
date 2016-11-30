@@ -92,7 +92,7 @@ function kino_login_redirection( $redirect_to, $request, $user ) {
 				return bp_core_get_user_domain($user->ID);
 				
 				// Déjà inscrit au Kabaret?
-//				if ( in_array( "kabaret-2016", $kino_user_role ) ) {
+//				if ( in_array( "kabaret-2017", $kino_user_role ) ) {
 //					
 //					// Aller à la section identité
 //					return bp_core_get_user_domain($user->ID).'/profile/edit/group/10/';

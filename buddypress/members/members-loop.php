@@ -55,15 +55,15 @@
           	$user_role = kino_user_participation_role( bp_get_member_user_id(), $kino_fields );
           	
           	// Réalisateur ?
-          	if ( in_array( "realisateur-2016", $user_role )) {
+          	if ( in_array( "realisateur-kab", $user_role )) {
           		echo '<span class="kp-pointlist">Réalisateur-trice</span>';
           	}
           	// Technicien ?
-          	if ( in_array( "technicien-2016", $user_role )) {
+          	if ( in_array( "technicien-kab", $user_role )) {
           		echo '<span class="kp-pointlist">Artisan-ne / technicien-ne</span>';
           	}
           	// Comédien ?
-          	if ( in_array( "comedien-2016", $user_role )) {
+          	if ( in_array( "comedien-kab", $user_role )) {
           		echo '<span class="kp-pointlist">Comédien-ne</span>';
           	}
           	// Bénévole? - benevole-complete

@@ -77,7 +77,7 @@ function kino_hide_some_profile_fields( $retval ) {
 			
 			$kino_excluded_id = kino_list_of_excluded_profile_fields();
 			
-			// is Realisateur for 2016?
+			// is Realisateur for current Kino Kabaret?
 			
 			$kino_user_role = kino_user_participation( bp_loggedin_user_id(), $kino_fields );
 			
@@ -91,7 +91,7 @@ function kino_hide_some_profile_fields( $retval ) {
 			
 			if ( !in_array( "realisateur", $kino_user_role ) ) {
 				
-				// Don't show Session options for Kino Kabaret 2016
+				// Don't show Session options for Kino Kabaret
 				
 				$kino_excluded_id[] = $kino_fields['session-un'];
 				$kino_excluded_id[] = $kino_fields['session-deux'];
@@ -192,18 +192,8 @@ add_filter( 'bp_profile_get_field_groups', 'kino_get_field_group_conditions', 10
 
 function kino_get_field_group_conditions( $groups ) {
 
-  // $groups = array();
-  // $number_of_groups = count( $groups );
-  
-//  	$kino_role = bp_get_profile_field_data( array(
-//  		'field'   => '1',
-//  		'user_id' => bp_loggedin_user_id()
-//  	) );
 		
-		$forbidden_groups = array(
-			"5.a Inscription Kabaret",
-			"5.b Kabaret suite",
-		);
+		$forbidden_groups = array();
   	
   	// champs à tester:
   	$kino_fields = kino_test_fields();
@@ -213,7 +203,7 @@ function kino_get_field_group_conditions( $groups ) {
 
   	
   	if (!in_array( "realisateur", $kino_user_role )) {
-  		if (!in_array( "realisateur-2016", $kino_user_role )) {
+  		if (!in_array( "realisateur-kab", $kino_user_role )) {
   			$forbidden_groups[] = "Compétence Réalisateur";
   		}
   	}
@@ -230,7 +220,7 @@ function kino_get_field_group_conditions( $groups ) {
   		$forbidden_groups[] = "Aide bénévole";
   	}
   	
-  	if (!in_array( "kabaret-2016", $kino_user_role )) {
+  	if (!in_array( "kabaret-2017", $kino_user_role )) {
   		// bénévole pour kabaret ? 
   		if (!in_array( "benevole-kabaret", $kino_user_role )) {
   			$forbidden_groups[] = "Kino Kabaret 2016";
@@ -274,18 +264,3 @@ function kino_get_field_group_conditions( $groups ) {
   return $groups_updated;
 }
 
-
-
-/* Prevent links on profile page
-************************************ */
-
-function remove_xprofile_links() {
-    remove_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 2 );
-}
-add_action( 'bp_init', 'remove_xprofile_links', 20 );
-// source: https://codex.buddypress.org/themes/bp-custom-php/
-
-
-
-
-//

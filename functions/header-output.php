@@ -45,7 +45,7 @@ function kino_wp_head(){
     } 
     
     /*
-    	Code for Editors and Admin
+    	Code for non-Editors and non-Admin
     */
     
     if ( !current_user_can( 'publish_pages' ) ) {
@@ -60,6 +60,8 @@ function kino_wp_head(){
     	#group-create-nav {
     	 display: none;
     	}
+    	
+    	
     	
     	<?php 
     }

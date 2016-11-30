@@ -129,7 +129,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 			) );
 			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) ) {
 						
-						$kup[] = "kabaret-2016";
+						$kup[] = "kabaret-2017";
 						
 						// Profil Cabaret 2016 complet? 
 						
@@ -173,33 +173,33 @@ function kino_user_participation( $userid, $kino_fields ) {
 			// ***************
 			
 			// Test des rôles pour le Kabaret 2016
-			$kino16_particiation_boxes = bp_get_profile_field_data( array(
+			$kab_particiation_boxes = bp_get_profile_field_data( array(
 					'field'   => $kino_fields['role-kabaret'],
 					'user_id' => $userid
 			) );
 			// test field 135 = participation en tant que
-			if ($kino16_particiation_boxes) {
-				foreach ($kino16_particiation_boxes as $key => $value) {
+			if ($kab_particiation_boxes) {
+				foreach ($kab_particiation_boxes as $key => $value) {
 				
 					$value = mb_substr($value, 0, 4);
 				
 				  if ( $value == "Réal" ) {
-				  	$kup[] = "realisateur-2016";
+				  	$kup[] = "realisateur-2017";
 				  }
 				  if ( $value == "Comé" ) {
-				  	$kup[] = "comedien-2016";
+				  	$kup[] = "comedien-2017";
 				  }
 				  if ( $value == "Arti" ) {
-				  	$kup[] = "technicien-2016";
+				  	$kup[] = "technicien-2017";
 				  }
 				} // end foreach
 			} //
 			
 			// ***************
 			
-			// Test statut réalisateur pour 2016
+			// Test statut réalisateur pour 2017
 			
-			// if ($kino16_particiation_boxes) {
+			// if ($kino17_particiation_boxes) {
 			// NOTE: box could be disabled - if real has been rejected
 				
 				$ids_group_real_kab_valid = get_objects_in_term( 
@@ -223,7 +223,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 						$kup[] = "real-kab-pending";
 					}
 				
-			// } // END if 2016 participation
+			// } // END if 2017 participation
 			
 			// ***************
 			
@@ -262,10 +262,10 @@ function kino_user_participation( $userid, $kino_fields ) {
 			- comedien
 			- benevole
 			
-			- realisateur-2016
-			- technicien-2016
-			- comedien-2016
-			- kabaret-2016
+			- realisateur-kab
+			- technicien-kab
+			- comedien-kab
+			- kabaret-2017
 			- benevole-kabaret
 			
 			- real-kab-valid
@@ -284,7 +284,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 }
 
 
-// Same as above, but Kino 2016 role only
+// Same as above, but Kino Kabaret role only
 
 function kino_user_participation_role( $userid, $kino_fields ) {
 	
@@ -297,24 +297,24 @@ function kino_user_participation_role( $userid, $kino_fields ) {
 	$kup = array();
 	
 	// Test des rôles pour le Kabaret 2016
-	$kino16_particiation_boxes = bp_get_profile_field_data( array(
+	$kab_particiation_boxes = bp_get_profile_field_data( array(
 			'field'   => $kino_fields['role-kabaret'],
 			'user_id' => $userid
 	) );
 	// test field 135 = participation en tant que
-	if ($kino16_particiation_boxes) {
-		foreach ($kino16_particiation_boxes as $key => $value) {
+	if ($kab_particiation_boxes) {
+		foreach ($kab_particiation_boxes as $key => $value) {
 		
 			$value = mb_substr($value, 0, 4);
 		
 		  if ( $value == "Réal" ) {
-		  	$kup[] = "realisateur-2016";
+		  	$kup[] = "realisateur-kab";
 		  }
 		  if ( $value == "Comé" ) {
-		  	$kup[] = "comedien-2016";
+		  	$kup[] = "comedien-kab";
 		  }
 		  if ( $value == "Arti" ) {
-		  	$kup[] = "technicien-2016";
+		  	$kup[] = "technicien-kab";
 		  }
 		} // end foreach
 	} //
@@ -559,7 +559,7 @@ function kino_user_fields( $kino_userid, $kino_fields ) {
 	   ) );
 	  
 	  // Role Technicien ??
-	  if ( in_array( "technicien-2016", $kino_userdata["participation"] )) {
+	  if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
 	  
 						  $kino_userdata["role-tech"] = bp_get_profile_field_data( array(
 						   		'field'   => $kino_fields['role-kabaret-tech'],
@@ -621,7 +621,7 @@ function kino_user_fields( $kino_userid, $kino_fields ) {
 	   }
 	   
 	  // Role Comédien ??
-	  if ( in_array( "comedien-2016", $kino_userdata["participation"] )) {
+	  if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
 	  
 				  $kino_userdata["role-comed"] = bp_get_profile_field_data( array(
 				     		'field'   => $kino_fields['role-kabaret-comed'],

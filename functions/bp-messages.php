@@ -142,8 +142,8 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  				 		  // do nothing
  				 		  
  				 		  // TROUBLESHOOTING: 
- 				 		  // test if user is also in "realisateur-2016"
- 				 		  if ( in_array( "realisateur-2016", $kino_user_role ) ) {
+ 				 		  // test if user is also in "realisateur-kab"
+ 				 		  if ( in_array( "realisateur-kab", $kino_user_role ) ) {
  				 		  	// platform + kino = all OK
  				 		  } else {
  				 		  	// platform ONLY: probably mistake : add to email list!
@@ -165,7 +165,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  		} // end testing "realisateur"
  		
  		
- 		if ( in_array( "realisateur-2016", $kino_user_role ) ) {
+ 		if ( in_array( "realisateur-kab", $kino_user_role ) ) {
  							
  							// build arrays:
  							$ids_group_real_kabaret = get_objects_in_term( 
@@ -197,7 +197,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
 //				 				  	$kino_fields['mailpoet-real-kabaret-pending'] );
  					 		}
  					
- 			} // end testing "realisateur-2016"
+ 			} // end testing "realisateur-kab"
  			
  			
  			// test if Bénévole?
@@ -260,7 +260,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  		
  		/*Q0 : taking part in Kino 2016? */
  		
- 	  if( !in_array( "kabaret-2016", $kino_user_role ) ) { 
+ 	  if( !in_array( "kabaret-2017", $kino_user_role ) ) { 
  	    
  	    // un peu de pub...
  	    $kino_notification = 'Le prochain Kino Kabaret se déroule du 8 au 19 janvier 2017! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/1/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.';
@@ -346,7 +346,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
 		
 		
 		// Q6 : is "Kino Kabaret 2016" complete?
-		if( in_array( "kabaret-2016", $kino_user_role ) && !in_array( "kabaret-complete", $kino_user_role ) ) { 
+		if( in_array( "kabaret-2017", $kino_user_role ) && !in_array( "kabaret-complete", $kino_user_role ) ) { 
 		 		$kino_notification = 'Complétez les informations relatives à votre participation au Kino Kabaret.';
 		 		break; }
 		

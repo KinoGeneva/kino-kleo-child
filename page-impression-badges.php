@@ -597,18 +597,18 @@ body {
         			$kino_star_number++;
         		}
         		
-        		if ( in_array( "realisateur-2016", $kino_userdata["participation"] )) {
+        		if ( in_array( "realisateur-kab", $kino_userdata["participation"] )) {
       	 			// echo '<span class="kp-pointlist">Réalisateur-trice</span>';
       	 			$kino_role_css .= ' role-real';
       	 			$kino_star_number++;
       	 		}
       	 		
-      	 		if ( in_array( "technicien-2016", $kino_userdata["participation"] )) {
+      	 		if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
       	 			$kino_role_css .= ' role-tech';
       	 			$kino_star_number++;
       	 		}
       	 		
-      	 		if ( in_array( "comedien-2016", $kino_userdata["participation"] )) {
+      	 		if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
       	 			$kino_role_css .= ' role-comed';
       	 			$kino_star_number++;
       	 		}
@@ -680,7 +680,7 @@ body {
 
         	 // 3) Role
         	 echo '<div class="role-block">';
-        	 if ( in_array( "realisateur-2016", $kino_userdata["participation"] )) {
+        	 if ( in_array( "realisateur-kab", $kino_userdata["participation"] )) {
 
         	 		echo '<div class="role-real">Réalisateur';
         	 		// niveau?
@@ -705,7 +705,7 @@ body {
         	 		echo '</div>';
         	 	}
         	 	
-        	 	if ( in_array( "technicien-2016", $kino_userdata["participation"] )) {
+        	 	if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
         	 		echo '<div class="role-tech">Artisan-ne / Technicien-ne';
         	 		// niveau?
         	 		
@@ -719,7 +719,7 @@ body {
         	 		echo '</div>';
         	 	}
         	 	
-        	 	if ( in_array( "comedien-2016", $kino_userdata["participation"] )) {
+        	 	if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
         	 		echo '<div class="role-comed">Comédien-ne';
         	 		// niveau?
         	 		$kino_niveau = bp_get_profile_field_data( array(
@@ -741,15 +741,15 @@ body {
 					
 					echo '<div class="starbox">';
 					
-					if ( in_array( "realisateur-2016", $kino_userdata["participation"] )) {
+					if ( in_array( "realisateur-kab", $kino_userdata["participation"] )) {
 							echo '<img class="star" src="'. $url .'/img/badges/Star_G.png" />';
 						}
 						
-						if ( in_array( "technicien-2016", $kino_userdata["participation"] )) {
+						if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
 							echo '<img class="star" src="'. $url .'/img/badges/Star_B.png" />';
 						}
 						
-						if ( in_array( "comedien-2016", $kino_userdata["participation"] )) {
+						if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
 							echo '<img class="star" src="'. $url .'/img/badges/Star_R.png" />';
 						}
 						
@@ -762,7 +762,7 @@ body {
 					
         	 // Talents
         	 
-        	 if ( in_array( "technicien-2016", $kino_userdata["participation"] ) 
+        	 if ( in_array( "technicien-kab", $kino_userdata["participation"] ) 
         	 || !empty($kino_is_staff ) ) {
         	 		
         	 		echo '<div class="talents"><div>';
@@ -823,7 +823,7 @@ body {
         	 		
         	 		echo '</div></div>';        	 		
         	 		  
-        	 	} // end Technicien-2016
+        	 	} // end technicien-kab
         	 
         	 
         	 // Baseline - Is staff?

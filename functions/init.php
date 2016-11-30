@@ -38,8 +38,8 @@ function kino_register_styles() {
 		wp_dequeue_style( 'kleo-style' );
 		wp_deregister_style( 'kleo-style' );
 		
-		wp_dequeue_style( 'kleo-app-css' );
-		wp_deregister_style( 'kleo-app-css' );
+//		wp_dequeue_style( 'kleo-app-css' );
+//		wp_deregister_style( 'kleo-app-css' );
 		
 		wp_dequeue_style( 'kleo-colors' );
 		wp_deregister_style( 'kleo-colors' );

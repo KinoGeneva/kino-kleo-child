@@ -142,7 +142,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					echo '<td>'; 
         					
         						// Réalisateur ?
-        						if ( in_array( "realisateur-2016", $kino_user_role )) {
+        						if ( in_array( "realisateur-kab", $kino_user_role )) {
         							echo '<span class="kp-pointlist">Réalisateur-trice';
         								// niveau?
         										$kino_niveau = bp_get_profile_field_data( array(
@@ -156,7 +156,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							
         						}
         						// Technicien ?
-        						if ( in_array( "technicien-2016", $kino_user_role )) {
+        						if ( in_array( "technicien-kab", $kino_user_role )) {
         							echo '<span class="kp-pointlist">Artisan-ne / technicien-ne';
         									$kino_niveau = bp_get_profile_field_data( array(
         											'field'   => 1075,
@@ -169,7 +169,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							echo '</span>';
         						}
         						// Comédien ?
-        						if ( in_array( "comedien-2016", $kino_user_role )) {
+        						if ( in_array( "comedien-kab", $kino_user_role )) {
         							echo '<span class="kp-pointlist">Comédien-ne';
         							
         										// niveau?

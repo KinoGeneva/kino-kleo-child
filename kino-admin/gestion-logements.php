@@ -199,15 +199,15 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         								echo '<td>'; 
         								
         									// Réalisateur ?
-        									if ( in_array( "realisateur-2016", $item["participation"] )) {
+        									if ( in_array( "realisateur-kab", $item["participation"] )) {
         										echo '<span class="kp-pointlist">Réalisateur-trice</span>';
         									}
         									// Technicien ?
-        									if ( in_array( "technicien-2016", $item["participation"] )) {
+        									if ( in_array( "technicien-kab", $item["participation"] )) {
         										echo '<span class="kp-pointlist">Artisan-ne / technicien-ne</span>';
         									}
         									// Comédien ?
-        									if ( in_array( "comedien-2016", $item["participation"] )) {
+        									if ( in_array( "comedien-kab", $item["participation"] )) {
         										echo '<span class="kp-pointlist">Comédien-ne</span>';
         									}
         									// Bénévole? - benevole-complete

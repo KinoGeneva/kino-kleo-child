@@ -446,7 +446,7 @@
  			************/ 
  			
  			
- 			if (!in_array( "realisateur-2016", $kino_user_role )) {
+ 			if (!in_array( "realisateur-kab", $kino_user_role )) {
  					
  					/*
  					 * https://bitbucket.org/ms-studio/kinogeneva/issues/51/kino-kabaret-2016-sessions

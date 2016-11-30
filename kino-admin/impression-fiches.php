@@ -314,21 +314,21 @@ html #main .print-profile {
         	 
         	 // Role
         	 
-        	 if ( in_array( "realisateur-2016", $kino_userdata["participation"] )
-        	 	|| in_array( "technicien-2016", $kino_userdata["participation"] )
-        	 	|| in_array( "comedien-2016", $kino_userdata["participation"] ) ) {
+        	 if ( in_array( "realisateur-kab", $kino_userdata["participation"] )
+        	 	|| in_array( "technicien-kab", $kino_userdata["participation"] )
+        	 	|| in_array( "comedien-kab", $kino_userdata["participation"] ) ) {
         	 
         	 	echo '<h3 class="kp-h3">';
         	 		
-        	 		if ( in_array( "realisateur-2016", $kino_userdata["participation"] )) {
+        	 		if ( in_array( "realisateur-kab", $kino_userdata["participation"] )) {
         	 			echo '<span class="kp-pointlist">Réalisateur-trice</span>';
         	 		}
         	 		
-        	 		if ( in_array( "technicien-2016", $kino_userdata["participation"] )) {
+        	 		if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
         	 			echo '<span class="kp-pointlist">Artisan-ne / technicien-ne</span>';
         	 		}
         	 		
-        	 		if ( in_array( "comedien-2016", $kino_userdata["participation"] )) {
+        	 		if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
         	 			echo '<span class="kp-pointlist">Comédien-ne</span>';
         	 		}
         	 	
@@ -371,7 +371,7 @@ html #main .print-profile {
         	 
         	 // Section Artisan / technicien
         	 
-        	 if ( in_array( "technicien-2016", $kino_userdata["participation"] )) {
+        	 if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
         	 	
         	 		echo '<h4 class="kp-h4">Artisan-ne / technicien-ne</h4>';
         	 		
@@ -448,7 +448,7 @@ html #main .print-profile {
         	 		echo '</p>';
         	 		
         	 		
-        	 	} // end Technicien-2016
+        	 	} // end technicien-kab
         	 
         	 // Equipement à disposition
         	
@@ -471,7 +471,7 @@ html #main .print-profile {
         		
         	 // Section Comédien
         	 
-        	 if ( in_array( "comedien-2016", $kino_userdata["participation"] )) {
+        	 if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
         	 	
         	 		echo '<h4 class="kp-h4">Comédien-ne</h4>';
         	 		
