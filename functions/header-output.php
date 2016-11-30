@@ -21,6 +21,23 @@ function kino_wp_head(){
     
     */
     
+    /*
+    Hide stuff from BuddyPress Profile Navigation :
+    */
+    
+    ?>
+    
+    .bp-user #activity-personal-li,
+    .bp-user #notifications-personal-li,
+    .bp-user #groups-personal-li,
+    .bp-user #forums-personal-li,
+    .bp-user #invite-anyone-personal-li,
+    .bp-user #docs-personal-li {
+    	display: none;
+    }
+    
+    <?php
+    
     if ( !is_user_logged_in() ) {
     	
     	// Hide Membres & My account
@@ -64,7 +81,7 @@ function kino_wp_head(){
     	
     	
     	<?php 
-    }
+    } // end Code for non-Editors and non-Admin
     
     echo '</style>';
 

@@ -2,24 +2,19 @@
 	
 	// some jQuery corrections for the BuddyPress Profile Edit Page
 	
-	
 	// Load Field Numbers:
-	
 	$kino_fields = kino_test_fields();
 	
 	// $userid = bp_loggedin_user_id();
 	$userid = bp_displayed_user_id();
 	
 	// Load User Role testing
-	
 	$kino_user_role = kino_user_participation( $userid, $kino_fields );
 	
-
  ?>
  
  <script>
  jQuery(document).ready(function($){	
- 		
  		
  		// le champ Presentez-vous = limiter à 500 signes = 100 mots
  		
@@ -76,7 +71,6 @@
  			 			// Disabled, not working well with BuddyPress checkbox groups
  			 			// https://bitbucket.org/ms-studio/kinogeneva/issues/71/bug-aide-b-n-vole
  			 			
-
  			 		
  			 			// image = must test by JS if empty
  			 			// **********************************
@@ -214,12 +208,12 @@
  			
  			/*************************************
  				 * CONDITIONAL CODE 
- 				 * for Profile Group 15 (= Kino Kabaret 2016)
+ 				 * for Profile Group 17 (= Kino Kabaret 2017)
  			******************************
  				*/
  			
  			
- 			if ( bp_get_current_profile_group_id() == 15 ) {
+ 			if ( bp_get_current_profile_group_id() == 17 ) {
  				
  				if ( current_user_can('subscriber') ) {
  							
@@ -273,7 +267,6 @@
 				 			
 				 				?>
 				 						
-				 					
 				 					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> label[for="field_<?php echo $kino_fields['role-kabaret-real']; ?>"]').hide();
 				 					
 				 				<?php
@@ -397,11 +390,11 @@
  </script>
  <?php 
  
- 		// Conditional code for Kino Kabaret 2016
+ 		// Conditional code for Kino Kabaret 2017
 
  		// NOTE: We use inline CSS to prevent delay
  		
- 		if ( bp_get_current_profile_group_id() == 15 ) {
+ 		if ( bp_get_current_profile_group_id() == 17 ) {
  			
  			/*
  			 * WHY use javascript ??? 
