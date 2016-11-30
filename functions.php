@@ -177,26 +177,6 @@ function kino_title_filter( $args ) {
 
 
 
-/* Redirect after Avatar Upload */
-
-// add_action( 'xprofile_avatar_uploaded', 'kino_avatar_uploaded' );
-
-// function kino_avatar_uploaded() {
-	
-//	$kino_notifications = kino_edit_profile_notifications( bp_loggedin_user_id() );
-//	
-//	bp_core_add_message( $kino_notifications );
-// 	bp_core_redirect( bp_core_get_userlink( bp_loggedin_user_id() ) ); // echo bp_core_get_userlink( bp_loggedin_user_id() );
-// }
-
-
-/* ACF options pages */
-
-if( function_exists('acf_add_options_page') ) {
-	
-	acf_add_options_page();
-	
-}
 
 
 
