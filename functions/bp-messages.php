@@ -27,6 +27,9 @@ function custom_buddypress_activation_message( $message, $user, $user_email, $ke
     // Email contents
     $message =  "Merci d’avoir créé un compte sur la plateforme KinoGeneva. Vous devez activer votre compte en cliquant sur le lien suivant:
 $activate_url
+
+Votre inscription sera considérée comme valide uniquement lorsque vous aurez rempli les onglets: Profil Kinoïte, Identité, les onglets qui vous concernent: Réalisateur, Technicien et/ou Comédien, ainsi que Kino Kabaret 2017. Veuillez noter que le lien ci-dessus ne fonctionne qu’une fois. Par la suite veuillez vous rendre sur le site kinogeneva.ch et cliquer sur “login”.
+
 ";	
 		return $message;
 }
@@ -327,7 +330,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
 				
 				// Cette personne vient de compléter la section "Compétence Réalisateur"!
 				
-				$kino_notification_email .= " Votre candidature en tant que réalisateur-trice est soumise au comité de sélection et vous serez notifié-e par e-mail des résultats le 8 janvier 2016.";
+				$kino_notification_email .= " Votre candidature en tant que réalisateur-trice est soumise au comité de sélection et vous serez notifié-e par e-mail des résultats.";
 			
 			} else {
 				
