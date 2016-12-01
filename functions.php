@@ -135,7 +135,7 @@ function kino_title_filter( $args ) {
 		
 		$title_username = ' <span class="user-nicename">@'. bp_get_displayed_user_mentionname() .'</span>';
 		
-		$args['title'] .= $title_username;
+		// $args['title'] .= $title_username;
 		
 		
 		// ajouter les boutons:
