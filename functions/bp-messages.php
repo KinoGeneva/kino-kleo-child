@@ -155,7 +155,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  				 		  } // end troubleshooting
  				 		  
  				 		} else if ( in_array( $userid, $ids_group_real_platform_rejected ) ) {
- 				 			  // do nothing
+ 				 			  // rejected: do nothing
  				 		} else {
  				 				// New candidate!
  				 				// move to group: real-platform-pending
@@ -415,7 +415,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
 					$headers[] = 'Bcc: Manu <ms@ms-studio.net>';
 					$kino_notification_email .= '
 					
-					(Debug: message envoyé depuis le serveur test kinogeneva.4o4.ch, page '.$_SERVER[REQUEST_URI].', à '. date( 'H:i:s', time() ) .')';
+					(Debug: message envoyé depuis le serveur test, page '.$_SERVER[REQUEST_URI].', à '. date( 'H:i:s', time() ) .')';
 				
 				}
 				
