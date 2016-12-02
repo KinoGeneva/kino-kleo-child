@@ -1,3 +1,4 @@
+# test
 # Kinogeneva WordPress theme
 
 Un thème WordPress pour le site kinogeneva.ch
