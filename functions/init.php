@@ -23,15 +23,15 @@ function kino_register_styles() {
 	 *
 	*/
 	
-	$host = $_SERVER['HTTP_HOST'];
-	if ( $host == 'kinogeneva.4o4.ch' ) {
-	    wp_enqueue_style( 
-	    		'test-style', 
-	    		get_stylesheet_directory_uri() . '/css/test/00-testing.css', // main.css
-	    		false, // dependencies
-	    		null // version
-	    ); 
-	}
+//	$host = $_SERVER['HTTP_HOST'];
+//	if ( $host == 'kinogeneva.4o4.ch' ) {
+//	    wp_enqueue_style( 
+//	    		'test-style', 
+//	    		get_stylesheet_directory_uri() . '/css/test/00-testing.css', // main.css
+//	    		false, // dependencies
+//	    		null // version
+//	    ); 
+//	}
 		
 		/* Remove uneccessary styles loaded by parent theme */
 		
