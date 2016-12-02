@@ -18,7 +18,7 @@
             <?php endif; ?>
         </div>
 
-        <form action="<?php echo wp_login_url(apply_filters('kleo_modal_login_redirect', '')  ); ?>" id="login_form" name="login_form" method="post" class="kleo-form-signin">
+        <form action="<?php echo wp_login_url(site_url( '/inscription-kino/ ' )); ?>" id="login_form" name="login_form" method="post" class="kleo-form-signin">
             <?php wp_nonce_field( 'kleo-ajax-login-nonce', 'security' ); ?>
             <input type="text" id="username" autofocus required name="log" class="form-control" value="" placeholder="<?php _e( "Username", 'kleo_framework' );?>">
             <input type="password" id="password" required value="" name="pwd" class="form-control" placeholder="<?php _e( "Password", 'kleo_framework' );?>">

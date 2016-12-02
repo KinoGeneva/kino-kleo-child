@@ -71,49 +71,12 @@ add_action( 'login_head', 'kino_login_screen' );
 
 /* Login redirection
  * Voir discussion: https://bitbucket.org/ms-studio/kinogeneva/issues/26/
+ * UPDATE: il est finalement plus efficace de rediriger vers /inscription-kino/ via la fonctionalité incluse dans les options KLEO, sous Miscellaneous
 ***************************************/
 
-add_filter('login_redirect','kino_login_redirection',10,3);
-// NOTE = this overrides the redirect url string!
-
-function kino_login_redirection( $redirect_to, $request, $user ) {
-
-		global $bp;
-		//is there a user to check?
-		global $user;
-		
-		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			
-			if (function_exists('kino_user_participation')) {
-
-				$kino_fields = kino_test_fields();
-				$kino_user_role = kino_user_participation( $user->ID, $kino_fields );
-				
-				return bp_core_get_user_domain($user->ID);
-				
-				// Déjà inscrit au Kabaret?
-//				if ( in_array( "kabaret-2017", $kino_user_role ) ) {
-//					
-//					// Aller à la section identité
-//					return bp_core_get_user_domain($user->ID).'/profile/edit/group/10/';
-//				
-//				} 
-				
-			} else {
-			
-				// Pas de test?
-				return $redirect_to;
-			}
-			
-		} else { // user not defined
-			
-			// redirect them to the default place
-			return $redirect_to;
-			
-		}
-
-}
-
+/* Login redirection for modal window
+ * Voir discussion: https://bitbucket.org/ms-studio/kinogeneva/issues/112/
+***************************************/
 
 
 // Filter for kleo_title_section
@@ -131,7 +94,7 @@ function kino_title_filter( $args ) {
 		
 		$args['title'] = $member_avatar . $title_content ;
 		
-		// ajouter le @username...
+		// ajouter le @username... ou pas.
 		
 		$title_username = ' <span class="user-nicename">@'. bp_get_displayed_user_mentionname() .'</span>';
 		
