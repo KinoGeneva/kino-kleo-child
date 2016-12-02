@@ -66,7 +66,6 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
 }
 
 
-
 /* Partie 2: */
 
 // changer message: msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
@@ -98,23 +97,9 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  	
  	$kino_user_role = kino_user_participation( $userid, $kino_fields );
  	
- 	// For Debugging:
- 	
-// 	echo '<pre>';
-// 	var_dump($kino_user_role);
-// 	echo '</pre>';
- 	
-// 	$kino_dispo_kab = bp_get_profile_field_data( array(
-// 			'field'   => 1122, // trouver ID du champ!
-// 			'user_id' => $userid
-// 	) );
-// 	
-// 	echo '<pre>';
-// 		var_dump($kino_dispo_kab);
-// 		echo '</pre>';
- 	
+ 	// load user info
+ 	$user = get_user_by( 'id', $userid );
 
- 	
  	/*
  		 * Before performing tests, (re)organise groups for Réalisateurs
  		 *
@@ -261,7 +246,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  			break;
  		}
  		
- 		/*Q0 : taking part in Kino 2016? */
+ 		/*Q0 : taking part in Kino Kabaret? */
  		
  	  if( !in_array( "kabaret-2017", $kino_user_role ) ) { 
  	    
@@ -402,9 +387,6 @@ Pour toutes les informations pratiques et le programme du Kino Kabaret, voir: <a
 
 Pour toute question relative à votre inscription, n’hésitez pas à contacter Alex à l’adresse <a href="mailto:onvafairedesfilms@kinogeneva.ch?subject=Kino%20Geneva" style="color:#c11119;">onvafairedesfilms@kinogeneva.ch</a>';
 				
-				// load user info
-				$user = get_user_by( 'id', $userid );
-				
 				$host = $_SERVER['HTTP_HOST'];
 				
 				if ( $host == 'kinogeneva.ch' ) {
@@ -424,7 +406,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
 				
 				 wp_mail( 
 				 	$to,  // $to
-				 	'[KinoGeneva] Confirmation', // $subject
+				 	'[KinoGeneva] Confirmation pour '.$user->display_name, // $subject
 				 	$kino_notification_email, 
 				 	$headers 
 				 );
