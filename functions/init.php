@@ -67,12 +67,14 @@ add_action( 'wp_enqueue_scripts', 'kino_register_scripts', 25 );
 
 
 /**
- * Load the Kinogeneva textdomain.
+ * NOTE: le chargement des textdomain se passe
+ * dans le plugin Kinogeneva-Translations
  */
-function kino_child_theme_setup() {
-    load_child_theme_textdomain( 'kinogeneva', get_stylesheet_directory() . '/languages/kinogeneva' );
-}
-add_action( 'after_setup_theme', 'kino_child_theme_setup' );
+ 
+//function kino_child_theme_setup() {
+//    load_child_theme_textdomain( 'kinogeneva', get_stylesheet_directory() . '/languages/kinogeneva' );
+//}
+//add_action( 'after_setup_theme', 'kino_child_theme_setup' );
 
 
 
