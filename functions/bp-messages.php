@@ -25,12 +25,13 @@ function custom_buddypress_activation_message( $message, $user, $user_email, $ke
     $activate_url = esc_url( $activate_url );
     
     // Email contents
-    $message =  "Merci d’avoir créé un compte sur la plateforme KinoGeneva. Vous devez activer votre compte en cliquant sur le lien suivant:
-$activate_url
-
-Votre inscription sera considérée comme valide uniquement lorsque vous aurez rempli les onglets: Profil Kinoïte, Identité, les onglets qui vous concernent: Réalisateur, Technicien et/ou Comédien, ainsi que Kino Kabaret 2017. Veuillez noter que le lien ci-dessus ne fonctionne qu’une fois. Par la suite veuillez vous rendre sur le site kinogeneva.ch et cliquer sur “login”.
-
-";	
+    $message =  "Merci de vous être enregistré sur la plateforme KinoGeneva.
+    
+    Pour compléter l'activation de votre compte, veuillez cliquer sur le lien ci-dessous. Votre inscription sera considérée comme valide uniquement lorsque vous aurez rempli les onglets: Profil Kinoïte, Identité, les onglets qui vous concernent: Réalisateur, Technicien et/ou Comédien, ainsi que Kino Kabaret 2017.
+    
+    Veuillez noter que le lien ne fonctionne qu’une fois. Par la suite veuillez vous rendre sur le site kinogeneva.ch et cliquer sur “login”.
+    
+    $activate_url";
 		return $message;
 }
 
