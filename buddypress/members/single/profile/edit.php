@@ -116,9 +116,12 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 
  	?>
 	
-
+	<?php //modif du texte d'enregistrement, un msg diff. sur le dernier onglet
+	?>
+	
 	<div class="submit clearfix">
-		<input type="submit" name="profile-group-edit-submit" id="profile-group-edit-submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?> " />
+		<input type="submit" name="profile-group-edit-submit" id="profile-group-edit-submit" value="<?php if($currenttab === '17') {
+			esc_attr_e( 'Finish', 'kinogeneva' );} else {esc_attr_e( 'Save Changes', 'kinogeneva' ); } ?>"/>
 	</div>
 
 	<input type="hidden" name="field_ids" id="field_ids" value="<?php bp_the_profile_group_field_ids(); ?>" />
