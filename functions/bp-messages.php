@@ -36,6 +36,11 @@
  		***/
  			
  			if ( in_array( "realisateur", $kino_user_role ) ) {
+ 			
+ 			/* signifie: 
+ 			 * la personne a coché le "profile-role" Réal.
+ 			 * cf bp-user-fields.php - l.43
+ 			*/
  						
  						// build arrays:
  						$ids_group_real_platform = get_objects_in_term( 
@@ -62,11 +67,7 @@
  				 		  if ( in_array( "realisateur-kab", $kino_user_role ) ) {
  				 		  	// platform + kino = all OK
  				 		  } else {
- 				 		  	// platform ONLY: probably mistake : add to email list!
- 				 		  	
-// 				 		  	   kino_add_to_mailpoet_list( $userid, 
-// 				 		  	   	$kino_fields['mailpoet-real-platform-only'] 
-// 				 		  	   );
+ 				 		  	// platform ONLY: probably mistake !
  				 		  	
  				 		  } // end troubleshooting
  				 		  
@@ -82,6 +83,12 @@
  		
  		
  		if ( in_array( "realisateur-kab", $kino_user_role ) ) {
+ 			
+ 			/* signifie: 
+ 				 * la personne a coché le 'role-kabaret' Réal.
+ 				 * cf bp-user-fields.php - l.175
+ 				*/
+ 			
  							
  							// build arrays:
  							$ids_group_real_kabaret = get_objects_in_term( 
