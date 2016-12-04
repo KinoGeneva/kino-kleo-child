@@ -94,6 +94,7 @@
  			 					    // has link = do nothing
  			 					    // alert('has link');
  			 					    } else {
+										//$(this).children('input[type=file]').attr('data-validation', 'required');
 // 			 					    	$(this).children('input[type=file]').attr({
 // 			 					    	    'data-validation':'mime',  // required - cf http://formvalidator.net/#file-validators
 // 			 					    	    'data-validation-allowing':'jpg' // rather PDF etc!!
