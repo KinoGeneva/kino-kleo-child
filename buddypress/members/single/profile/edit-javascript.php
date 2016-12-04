@@ -27,13 +27,13 @@
  ?>
  <style>
  	
- 	#button-nav li {
+ /*	#button-nav li {
  		display:  none; 		
  	}
  	
  	#button-nav li.current {
  			display:  block; 		
- 		}
+ 		}*/
  
  </style>
  
@@ -41,13 +41,14 @@
  jQuery(document).ready(function($){	
  		
  		
+ 		/* Méthode pour désactiver les liens des onglets
+ 		**************************************************
+ 		* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
+ 		* Proposition 2: desactiver le HREF.
+ 		*/
  		
- 		
- 		
- 		
- 		
- 		
- 		
+ 		$("#button-nav li a").removeAttr("href");
+ 
  		// le champ Presentez-vous = limiter à 500 signes = 100 mots
  		
  			$("#profile-edit-form #field_31").attr("maxlength", "500"); 

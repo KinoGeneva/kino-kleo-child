@@ -190,13 +190,10 @@ function kino_get_the_profile_group_edit_form_action() {
 		 
 		 
 		 // Exception pour le dernier groupe:
-		 
-		 if ( $current_group_id == 17 ) {
-		 
+//		 if ( $current_group_id == 17 ) {
 		 	// $kino_form_action = bp_displayed_user_domain() . $bp->profile->slug ;
 		 	// NON, ça ne fonctionne pas, car les changements ne seront pas enregistrés.
-		 
-		 }
+//		 }
 		 
 		 // (could add #buddypress to jump in place)
 				 
