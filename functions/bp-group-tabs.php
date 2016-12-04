@@ -151,7 +151,14 @@ function kino_get_the_profile_group_edit_form_action() {
 			
 					$j = $i+1;
 					if ( $j < $count) { 
-						$next_group_id = '/edit/group/' . $groups[ $j ]->id .'/';
+						
+						//04.12.2016 #118 - rediriger vers page courant si id=17
+						if($current_group_id==17) {
+							$next_group_id = '/edit/group/17/';
+						}
+						else {
+							$next_group_id = '/edit/group/' . $groups[ $j ]->id .'/';
+						}
 					} else {
 					
 					// $next_group_id = '/change-avatar/'; 
