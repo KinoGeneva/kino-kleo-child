@@ -129,6 +129,12 @@ add_filter( 'bp_after_has_profile_parse_args', 'kino_hide_some_profile_fields' )
 
 function kino_the_profile_group_edit_form_action() {
 	echo kino_get_the_profile_group_edit_form_action();
+	
+	/*
+	 * Note: le lien généré sera ajouté dans le champ "form action=" du formulaire.
+	 * Si c'est un lien autre qu'une page d'édition, les changements ne sont pas enregistrés.
+	*/
+	
 }
 
 function kino_get_the_profile_group_edit_form_action() {
@@ -181,6 +187,16 @@ function kino_get_the_profile_group_edit_form_action() {
 		 */
 		 
 		 $kino_form_action = bp_displayed_user_domain() . $bp->profile->slug . $next_group_id ;
+		 
+		 
+		 // Exception pour le dernier groupe:
+		 
+		 if ( $current_group_id == 17 ) {
+		 
+		 	// $kino_form_action = bp_displayed_user_domain() . $bp->profile->slug ;
+		 	// NON, ça ne fonctionne pas, car les changements ne seront pas enregistrés.
+		 
+		 }
 		 
 		 // (could add #buddypress to jump in place)
 				 
