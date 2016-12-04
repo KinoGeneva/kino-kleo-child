@@ -194,7 +194,7 @@
  		
  		kino_add_to_usergroup( $userid, $kino_fields['group-kino-pending'] );
  		
- 		$kino_notification_email .= "Votre inscription au Kino Kabaret est bien prise en compte.";
+ 		$kino_notification_email .= "Votre inscription au Kino Kabaret a bien été prise en compte.";
  			
  	  /* Q1 : is the ID part complete? */
  	
@@ -250,9 +250,7 @@
 				
 				// Cette personne vient de compléter la section "Compétence Réalisateur"!
 				
-				$kino_notification_email .= " Votre candidature en tant que réalisateur-trice est soumise au comité de sélection et vous serez notifié-e par e-mail des résultats.
-				
-				La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). Pour les réalisateur-trices étranger-ères inscrits avant le 18/12/2016 minuit, nous vous ferons part du choix de la direction artistique le 21 décembre. Pour tous les autres réalisateurs-trices (date limite d’inscription le 29/12/2016 minuit) la sélection finale sera communiquée le 31 décembre 2016.";
+				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). Pour les réalisateur-trices étranger-ères inscrits avant le 18/12/2016 minuit, nous vous ferons part du choix de la direction artistique le 21 décembre. Pour tous les autres réalisateurs-trices (date limite d’inscription le 29/12/2016 minuit) la sélection finale sera communiquée le 31 décembre 2016.";
 			
 			} else {
 				
@@ -323,7 +321,7 @@ Nous nous réjouissons de vous accueillir dans notre nouveau KinoLab à la Fonde
 
 Pour toutes les informations pratiques et le programme du Kino Kabaret 2017, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
 
-Pour toute question relative à votre inscription, n’hésitez pas à contacter Alex à l’adresse <a href="mailto:onvafairedesfilms@kinogeneva.ch?subject=Kino%20Geneva" style="color:#c11119;">onvafairedesfilms@kinogeneva.ch</a>';
+Pour toute question relative à votre inscription, n’hésitez pas à contacter Alex à l’adresse ci-dessous.';
 				
 				$host = $_SERVER['HTTP_HOST'];
 				
