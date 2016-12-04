@@ -124,12 +124,8 @@ jQuery(document).ready(function($){
  			 		 * for Profile Group 1 (= Profil Kinoïte)
  			 		 ******************************
  			 		*/
- 			//04.12.2016 #125 => passage d'abord par le tab 18, le tab 1 a été supprimé
- 			
-				
- 			
- 			//04.12.2016 issue #125 => les champs ont été déplacés dans le tab 18
- 			if ( bp_get_current_profile_group_id() == 18 ) {
+ 			//04.12.2016 issue #125 => les champs ont été déplacés dans le tab 19
+ 			if ( bp_get_current_profile_group_id() == 19 ) {
  				if ( current_user_can('subscriber') ) {
 				 			
 				 				// Une fois coché, on désactive l'option Réalisateur: 
@@ -197,7 +193,7 @@ jQuery(document).ready(function($){
 				 			} 
 				 			
 		 			} // if subscriber
-		 	} // if edit group id = 18
+		 	} // if edit group id = 19
 		 	
 		 	
 		 	/*************************************
