@@ -14,6 +14,21 @@
  ?>
  
  <script>
+//onglet identité: test sur le champ photo #114 => on efface le nom du fichier du champ s'il ne contient pas l'extension voulue
+jQuery(document).ready(function($){
+	$("#profile-edit-form #field_859").change(function() {		 
+		if(($(this).val().indexOf('jpg') >=0) || ($(this).val().indexOf('JPG') >=0) || ($(this).val().indexOf('jpeg') >=0) || ($(this).val().indexOf('JPEG') >=0)){
+			//ok
+		}
+		else {
+			$(this).val('');
+		}
+	});
+});
+
+</script> 
+ 
+ <script>
  jQuery(document).ready(function($){	
  		
  		// le champ Presentez-vous = limiter à 500 signes = 100 mots
