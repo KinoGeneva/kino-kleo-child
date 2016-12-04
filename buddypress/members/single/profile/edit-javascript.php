@@ -1,6 +1,11 @@
 <?php 
 	
-	// some jQuery corrections for the BuddyPress Profile Edit Page
+	/*
+	* Some jQuery corrections for the BuddyPress Profile Edit Page
+	* 
+	* Documentation:
+	* https://bitbucket.org/ms-studio/kinogeneva/wiki/Fonctionnement-Champs-Profil.wiki#!modifications-des-champs-par-javascript
+	*/
 	
 	// Load Field Numbers:
 	$kino_fields = kino_test_fields();
@@ -11,10 +16,37 @@
 	// Load User Role testing
 	$kino_user_role = kino_user_participation( $userid, $kino_fields );
 	
+	
+	
+	/* Méthode pour désactiver les liens des onglets
+	**************************************************
+	* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
+	* Proposition 1: masquer les onglets, sauf l'actuel.
+	*/
+	
  ?>
+ <style>
+ 	
+ 	#button-nav li {
+ 		display:  none; 		
+ 	}
+ 	
+ 	#button-nav li.current {
+ 			display:  block; 		
+ 		}
+ 
+ </style>
  
  <script>
  jQuery(document).ready(function($){	
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
  		
  		// le champ Presentez-vous = limiter à 500 signes = 100 mots
  		
