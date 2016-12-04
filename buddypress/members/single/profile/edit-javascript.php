@@ -47,7 +47,7 @@
  		* Proposition 2: desactiver le HREF.
  		*/
  		
- 		$("#button-nav li a").removeAttr("href");
+ 		$("#button-nav li a").removeAttr("href").css({'cursor': 'default', 'pointer-events' : 'none'});
  
  		// le champ Presentez-vous = limiter à 500 signes = 100 mots
  		
