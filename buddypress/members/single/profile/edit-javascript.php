@@ -125,7 +125,7 @@ jQuery(document).ready(function($){
  			 		 ******************************
  			 		*/
  			//04.12.2016 issue #125 => les champs ont été déplacés dans le tab 19
- 			if ( bp_get_current_profile_group_id() == 19 ) {
+ 			if ( bp_get_current_profile_group_id() == 19 ) { 
  				if ( current_user_can('subscriber') ) {
 				 			
 				 				// Une fois coché, on désactive l'option Réalisateur: 
