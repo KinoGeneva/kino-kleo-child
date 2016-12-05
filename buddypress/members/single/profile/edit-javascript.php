@@ -1,6 +1,11 @@
 <?php 
 	
-	// some jQuery corrections for the BuddyPress Profile Edit Page
+	/*
+	* Some jQuery corrections for the BuddyPress Profile Edit Page
+	* 
+	* Documentation:
+	* https://bitbucket.org/ms-studio/kinogeneva/wiki/Fonctionnement-Champs-Profil.wiki#!modifications-des-champs-par-javascript
+	*/
 	
 	// Load Field Numbers:
 	$kino_fields = kino_test_fields();
@@ -11,7 +16,26 @@
 	// Load User Role testing
 	$kino_user_role = kino_user_participation( $userid, $kino_fields );
 	
+	
+	
+	/* Méthode pour désactiver les liens des onglets
+	**************************************************
+	* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
+	* Proposition 1: masquer les onglets, sauf l'actuel.
+	*/
+	
  ?>
+ <style>
+ 	
+ /*	#button-nav li {
+ 		display:  none; 		
+ 	}
+ 	
+ 	#button-nav li.current {
+ 			display:  block; 		
+ 		}*/
+ 
+ </style>
  
  <script>
 //onglet identité: test sur le champ photo #114 => on efface le nom du fichier du champ s'il ne contient pas l'extension voulue
@@ -31,6 +55,15 @@ jQuery(document).ready(function($){
  <script>
  jQuery(document).ready(function($){	
  		
+ 		
+ 		/* Méthode pour désactiver les liens des onglets
+ 		**************************************************
+ 		* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
+ 		* Proposition 2: desactiver le HREF.
+ 		*/
+ 		
+ 		$("#button-nav li a").removeAttr("href").css({'cursor': 'default', 'pointer-events' : 'none'});
+ 
  		// le champ Presentez-vous = limiter à 500 signes = 100 mots
  		
  			$("#profile-edit-form #field_31").attr("maxlength", "500"); 

@@ -172,7 +172,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 			
 			// ***************
 			
-			// Test des rôles pour le Kabaret 2016
+			// Test des rôles pour le Kabaret
 			$kab_particiation_boxes = bp_get_profile_field_data( array(
 					'field'   => $kino_fields['role-kabaret'],
 					'user_id' => $userid
@@ -184,13 +184,13 @@ function kino_user_participation( $userid, $kino_fields ) {
 					$value = mb_substr($value, 0, 4);
 				
 				  if ( $value == "Réal" ) {
-				  	$kup[] = "realisateur-2017";
+				  	$kup[] = "realisateur-kab";
 				  }
 				  if ( $value == "Comé" ) {
-				  	$kup[] = "comedien-2017";
+				  	$kup[] = "comedien-kab";
 				  }
 				  if ( $value == "Arti" ) {
-				  	$kup[] = "technicien-2017";
+				  	$kup[] = "technicien-kab";
 				  }
 				} // end foreach
 			} //
@@ -296,12 +296,12 @@ function kino_user_participation_role( $userid, $kino_fields ) {
 	}
 	$kup = array();
 	
-	// Test des rôles pour le Kabaret 2016
+	// Test des rôles pour le Kabaret 2017
 	$kab_particiation_boxes = bp_get_profile_field_data( array(
 			'field'   => $kino_fields['role-kabaret'],
 			'user_id' => $userid
 	) );
-	// test field 135 = participation en tant que
+	// test = participation en tant que
 	if ($kab_particiation_boxes) {
 		foreach ($kab_particiation_boxes as $key => $value) {
 		

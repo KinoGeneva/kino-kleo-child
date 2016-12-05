@@ -319,10 +319,12 @@ body.buddypress .kleo-quick-contact-wrapper {
 	padding-top: 6px;
 	padding-bottom: 6px;
 	border-radius: 0px;
+	cursor: default;
 }
 
 #buddypress #profile-edit-form ul.button-nav a:hover {
-	background: #e5e5e5;
+	/*background: #e5e5e5;*/
+	color: #bbbbbb;
 }
 
 #buddypress #profile-edit-form ul.button-nav li.current a {

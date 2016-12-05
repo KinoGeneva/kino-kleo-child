@@ -1,78 +1,5 @@
 <?php 
 
-// Function: replace email message sent by BuddyPress:
-
-/*
-
-On reçoit un message qui dit actuellement “Merci pour votre inscription! Pour activer votre compte, veuillez cliquer sur le lien suivant:”
-
-Le remplacer par “Merci d’avoir créé un compte sur la plateforme KinoGeneva. Vous devez activer votre compte en cliquant sur le lien suivant:”
-
-Note: le code se trouve dans buddypress/bp-core/bp-core-filters.php
-
-// $message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message, $user, $user_email, $key, $meta );
-
-// exemples: http://websistent.com/custom-buddypress-activation-email/
-
-*/
-
-add_filter( 'bp_core_activation_signup_user_notification_message', 'custom_buddypress_activation_message', 10, 5 );
- 
-function custom_buddypress_activation_message( $message, $user, $user_email, $key, $meta ) {
-    
-    // Set up activation link
-    $activate_url = bp_get_activation_page() . "?key=$key";
-    $activate_url = esc_url( $activate_url );
-    
-    // Email contents
-    $message =  "Merci de vous être enregistré sur la plateforme KinoGeneva.
-    
-    Pour compléter l'activation de votre compte, veuillez cliquer sur le lien ci-dessous. Votre inscription sera considérée comme valide uniquement lorsque vous aurez rempli les onglets: Profil Kinoïte, Identité, les onglets qui vous concernent: Réalisateur, Technicien et/ou Comédien, ainsi que Kino Kabaret 2017.
-    
-    Veuillez noter que le lien ne fonctionne qu’une fois. Par la suite veuillez vous rendre sur le site kinogeneva.ch et cliquer sur “login”.
-    
-    $activate_url";
-		return $message;
-}
-
-
-/*
- * Issue du Username avec Espace:
- * https://bitbucket.org/ms-studio/kinogeneva/issues/69/identifiant
- * solution:
- * http://wordpress.stackexchange.com/questions/66204/showing-the-users-username-in-registration-email-or-activation-page-with-buddyp 
-*/
-
-add_filter('bp_core_signup_send_validation_email_message', 'kino_add_username_to_activation_email',10,3);
-
-function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
-
-    $userinfo = get_userdata($u_id);
-
-    $username = $userinfo->user_login;
-    
-    //$msg .= sprintf( __("After successful activation, you can log in using your username (%1\$s) along with password you choose during registration process.", 'buddypress'), $username);
-    // $msg .= sprintf( __("Après l’activation, vous pouvez à tout moment vous connecter au site par le lien http://kinogeneva.ch/wp-login.php avec votre nom d'utilisateur (%1\$s) et le mot de passe que vous avez défini.", 'buddypress'), $username);
-    
-    if (!empty($username)) {
-    
-    	$msg .= "Pour vous connecter par la suite, utilisez le lien https://kinogeneva.ch/wp-login.php (ou le menu login) avec votre nom d'utilisateur (".$username.") et le mot de passe que vous avez défini.";
-    
-    } else {
-    	$msg .= "Pour vous connecter par la suite, utilisez le lien https://kinogeneva.ch/wp-login.php (ou le menu login) avec votre identifiant et votre mot de passe.";
-    }
-    // Pour vous connecter par la suite, utilisez le menu login avec votre identifiant et votre mot de passe.
-    // Voir https://bitbucket.org/ms-studio/kinogeneva/issues/70/message-lien-d-activation
-    return $msg;
-}
-
-
-/* Partie 2: */
-
-// changer message: msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
-
-// needs to be changed in PoMo files
-
 /*
  * Message Dashboard Edit Profile
  
@@ -109,6 +36,11 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  		***/
  			
  			if ( in_array( "realisateur", $kino_user_role ) ) {
+ 			
+ 			/* signifie: 
+ 			 * la personne a coché le "profile-role" Réal.
+ 			 * cf bp-user-fields.php - l.43
+ 			*/
  						
  						// build arrays:
  						$ids_group_real_platform = get_objects_in_term( 
@@ -135,11 +67,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  				 		  if ( in_array( "realisateur-kab", $kino_user_role ) ) {
  				 		  	// platform + kino = all OK
  				 		  } else {
- 				 		  	// platform ONLY: probably mistake : add to email list!
- 				 		  	
-// 				 		  	   kino_add_to_mailpoet_list( $userid, 
-// 				 		  	   	$kino_fields['mailpoet-real-platform-only'] 
-// 				 		  	   );
+ 				 		  	// platform ONLY: probably mistake !
  				 		  	
  				 		  } // end troubleshooting
  				 		  
@@ -155,6 +83,12 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  		
  		
  		if ( in_array( "realisateur-kab", $kino_user_role ) ) {
+ 			
+ 			/* signifie: 
+ 				 * la personne a coché le 'role-kabaret' Réal.
+ 				 * cf bp-user-fields.php - l.175
+ 				*/
+ 			
  							
  							// build arrays:
  							$ids_group_real_kabaret = get_objects_in_term( 
@@ -260,7 +194,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
  		
  		kino_add_to_usergroup( $userid, $kino_fields['group-kino-pending'] );
  		
- 		$kino_notification_email .= "Votre inscription au Kino Kabaret est bien prise en compte.";
+ 		$kino_notification_email .= "Votre inscription au Kino Kabaret a bien été prise en compte.";
  			
  	  /* Q1 : is the ID part complete? */
  	
@@ -316,7 +250,7 @@ function kino_add_username_to_activation_email($msg, $u_id, $activation_url) {
 				
 				// Cette personne vient de compléter la section "Compétence Réalisateur"!
 				
-				$kino_notification_email .= " Votre candidature en tant que réalisateur-trice est soumise au comité de sélection et vous serez notifié-e par e-mail des résultats.";
+				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). Pour les réalisateur-trices étranger-ères inscrits avant le 18/12/2016 minuit, nous vous ferons part du choix de la direction artistique le 21 décembre. Pour tous les autres réalisateurs-trices (date limite d’inscription le 29/12/2016 minuit) la sélection finale sera communiquée le 31 décembre 2016.";
 			
 			} else {
 				
@@ -382,11 +316,12 @@ PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avat
 				
 				$kino_notification_email .= '
 				
-Le paiement des frais de participation s’effectue en liquide et sur place, au lieu central.
+Nous nous réjouissons de vous accueillir dans notre nouveau KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le dimanche 8 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h.
 
-Pour toutes les informations pratiques et le programme du Kino Kabaret, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
 
-Pour toute question relative à votre inscription, n’hésitez pas à contacter Alex à l’adresse <a href="mailto:onvafairedesfilms@kinogeneva.ch?subject=Kino%20Geneva" style="color:#c11119;">onvafairedesfilms@kinogeneva.ch</a>';
+Pour toutes les informations pratiques et le programme du Kino Kabaret 2017, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
+
+Pour toute question relative à votre inscription, n’hésitez pas à contacter Alex à l’adresse ci-dessous.';
 				
 				$host = $_SERVER['HTTP_HOST'];
 				
