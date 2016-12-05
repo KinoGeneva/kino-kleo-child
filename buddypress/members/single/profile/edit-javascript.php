@@ -38,7 +38,7 @@
  </style>
  
  <script>
-//onglet identité: test sur le champ photo #114 => on efface le nom du fichier du champ s'il ne contient pas l'extension voulue
+//onglet identité: test sur le champ photo #114 => on efface le nom du fichier du champ s'il ne contient pas l'extension voulue 
 jQuery(document).ready(function($){
 	$("#profile-edit-form #field_859").change(function() {		 
 		if(($(this).val().indexOf('jpg') >=0) || ($(this).val().indexOf('JPG') >=0) || ($(this).val().indexOf('jpeg') >=0) || ($(this).val().indexOf('JPEG') >=0)){
