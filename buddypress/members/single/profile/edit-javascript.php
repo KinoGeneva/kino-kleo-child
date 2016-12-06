@@ -77,8 +77,6 @@ jQuery(document).ready(function($){
  			<?php
  			
  			// Une fois les conditions générales acceptées, on ne peut plus les modifier!
- 			// make #check_acc_field_1070 read-only if checked
- 			//$('#profile-edit-form #check_acc_field_1070').prop('checked').prop('disabled', true);
  			
  			?>
  				
@@ -119,7 +117,6 @@ jQuery(document).ready(function($){
  			 			// Disabled, not working well with BuddyPress checkbox groups
  			 			// https://bitbucket.org/ms-studio/kinogeneva/issues/71/bug-aide-b-n-vole
  			 			
- 			 		
  			 			// image = must test by JS if empty
  			 			// **********************************
  			 				
@@ -338,16 +335,21 @@ jQuery(document).ready(function($){
 					$("input#field_<?php echo $kino_fields['role-kabaret-real']; ?>").click(function() {
 					    if($(this).is(":checked")) // "this" refers to the element that fired the event
 					    {
-					        // alert('home is checked');
+					        // show fields
+					        
 					        $('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').show();
 					        $('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').show();
 					        $('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').show();
+					        
 					        // require validation
 					        $("#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?> select").attr('data-validation', 'required');
 					        $("#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?> select").attr('data-validation', 'required');
 					        $("#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?> select").attr('data-validation', 'required');
 					        
 					    } else {
+					    		
+					    		// hide fields
+					    		
 					    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').hide();
 					    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').hide();
 					    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').hide();
@@ -489,7 +491,8 @@ jQuery(document).ready(function($){
  			
  			if (!in_array( "realisateur-kab", $kino_user_role )) {
  					
- 					/*
+ 					/* 
+ 					 * Hide the session fields
  					 * https://bitbucket.org/ms-studio/kinogeneva/issues/51/kino-kabaret-2016-sessions
  					 *
  					 * WHY use javascript ???
@@ -508,7 +511,7 @@ jQuery(document).ready(function($){
  					<?php
  				}
  			
- 		} // end profile group #15
+ 		} // end profile group #17
  
  echo '</style>';
  
