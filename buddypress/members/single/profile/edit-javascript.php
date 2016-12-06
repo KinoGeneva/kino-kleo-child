@@ -55,12 +55,15 @@ jQuery(document).ready(function($){
  <script>
  jQuery(document).ready(function($){	
  		
+ 		<?php
  		
  		/* Méthode pour désactiver les liens des onglets
  		**************************************************
  		* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
  		* Proposition 2: desactiver le HREF.
  		*/
+ 		
+ 		?>
  		
  		$("#button-nav li a").removeAttr("href").css({'cursor': 'default', 'pointer-events' : 'none'});
  
@@ -151,7 +154,7 @@ jQuery(document).ready(function($){
  			
  		    	/*************************************
  			 		 * CONDITIONAL CODE 
- 			 		 * for Profile Group 1 (= Profil Kinoïte)
+ 			 		 * for Profil Kinoïte
  			 		 ******************************
  			 		*/
  			//04.12.2016 issue #125 => les champs ont été déplacés dans le tab 19
@@ -223,8 +226,63 @@ jQuery(document).ready(function($){
 				 			} 
 				 			
 		 			} // if subscriber
-		 	} // if edit group id = 19
+		 	} // if edit group id = 19 (Profil Kinoïte)
 		 	
+		 	
+		 	/*************************************
+		 				 * CONDITIONAL CODE 
+		 				 * for Profile Group 10 (= Identité)
+		 			******************************
+		 				*/
+		
+		 if ( bp_get_current_profile_group_id() == 10 ) {
+		 
+		 		
+		 		// champ "Prénom Nom"
+		 			// 
+		 			// https://bitbucket.org/ms-studio/kinogeneva/issues/45/ 
+		 			// On teste si le champ "Prénom Nom" contient le nom d'utilsateur  		
+		 			
+		 			$kino_fullname = bp_get_profile_field_data( array(
+		 					'field'   => '1',
+		 					'user_id' => $userid
+		 			) );
+		 			
+		 			$kino_user_info = get_userdata( $userid );
+		 			$kino_wp_login = $kino_user_info->user_login;
+		 			
+		 			// echo "// $kino_fullname = ". $kino_fullname . " -  $kino_wp_login = " . $kino_wp_login ;
+		 			
+		 			if ( $kino_fullname == $kino_wp_login ) {
+		 			
+		 					// clear the field with Jquery!
+		 					?>
+		 					$("input#field_1").val('');
+		 					<?php
+		 					
+		 			}
+		 		
+		 
+		 		// conditional part for CV field
+		 			
+		 			if (in_array( "realisateur", $kino_user_role )) {
+		 			
+		 				// test if file exists
+		 				?>
+		 				
+		 				$('div.field_858.field_type_file').each(function() {
+		 						    if ($(this).children('a').length) {
+		 						    // has link = file exists = do nothing
+		 						    } else {
+		 						    	$("div.field_858 input[type=file]").attr('data-validation', 'required');
+		 						    	$("div.field_858 label[for=field_858]").text("C.V. (obligatoire)");
+		 						    }
+		 						});
+		 				
+		 				<?php
+		 			}
+		 
+		 }
 		 	
 		 	/*************************************
 		 			 * CONDITIONAL CODE 
@@ -363,52 +421,9 @@ jQuery(document).ready(function($){
 					<?php
 				
 				
- 		} // END if edit group ID = 15
+ 		} // END if edit group ID 17 - Kino Kabaret 2017
  		
- 		
-   		// conditional part for CV field
-   		
-   		if (in_array( "realisateur", $kino_user_role )) {
-   		
-   			// test if file exists
-   			?>
-   			
-   			$('div.field_858.field_type_file').each(function() {
-   					    if ($(this).children('a').length) {
-   					    // has link = file exists = do nothing
-   					    } else {
-   					    	$("div.field_858 input[type=file]").attr('data-validation', 'required');
-   					    	$("div.field_858 label[for=field_858]").text("C.V. (obligatoire)");
-   					    }
-   					});
-   			
-   			<?php
-   		}
-   		
-   		
-   		// champ "Prénom Nom"
-   		// 
-   		// https://bitbucket.org/ms-studio/kinogeneva/issues/45/ 
-   		// On teste si le champ "Prénom Nom" contient le nom d'utilsateur  		
-   		
-   		$kino_fullname = bp_get_profile_field_data( array(
-   				'field'   => '1',
-   				'user_id' => $userid
-   		) );
-   		
-   		$kino_user_info = get_userdata( $userid );
-   		$kino_wp_login = $kino_user_info->user_login;
-   		
-   		// echo "// $kino_fullname = ". $kino_fullname . " -  $kino_wp_login = " . $kino_wp_login ;
-   		
-   		if ( $kino_fullname == $kino_wp_login ) {
-   		
-   				// clear the field with Jquery!
-   				?>
-   				$("input#field_1").val('');
-   				<?php
-   				
-   		}
+ 
    		
    		/*
    		 * Mixpanel Link Tracking Code:
@@ -440,14 +455,13 @@ jQuery(document).ready(function($){
  </script>
  <?php 
  
- 		// Conditional code for Kino Kabaret 2017
-
+ 		// Conditional CSS styles for Kino Kabaret 2017
  		// NOTE: We use inline CSS to prevent delay
  		
  		if ( bp_get_current_profile_group_id() == 17 ) {
  			
  			/*
- 			 * WHY use javascript ??? 
+ 			 * WHY use CSS ??? 
  			 * Because we cannot hide a SINGLE checkbox in a list with PHP
  			 *
  			********/
@@ -495,7 +509,7 @@ jQuery(document).ready(function($){
  					 * Hide the session fields
  					 * https://bitbucket.org/ms-studio/kinogeneva/issues/51/kino-kabaret-2016-sessions
  					 *
- 					 * WHY use javascript ???
+ 					 * WHY use CSS ???
  					 * because we must be able to show the fields if user clicks "Role: Réalisateur-trice"
  					 *
  					*************/
@@ -512,7 +526,6 @@ jQuery(document).ready(function($){
  				}
  			
  		} // end profile group #17
- 
- echo '</style>';
+
  
   ?>
