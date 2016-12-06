@@ -16,6 +16,7 @@
 	// Load User Role testing
 	$kino_user_role = kino_user_participation( $userid, $kino_fields );
 	
+	// Note: returns Kino Kabaret role only
 	
 	
 	/* Méthode pour désactiver les liens des onglets
@@ -318,9 +319,107 @@ jQuery(document).ready(function($){
  			
  			if ( bp_get_current_profile_group_id() == 17 ) {
  				
+ 				/*
+ 				 * Cf https://bitbucket.org/ms-studio/kinogeneva/issues/116/
+ 				
+ 				 * Kab.Dispo.Oblig:  Mettre "Mes disponibilités (obligatoires)" en rouge si aucune date n'est cochée (le caractère obligatoire du champ ne fonctionne pas)
+ 				
+ 				 * Kab.Role.Oblig:  Rendre obligatoire "je m'inscris au kino kabaret en tant que"
+ 				
+ 				 * Kab.Dispo.Oblig 
+ 				   Méthode : 
+ 				   - On teste le groupe de champ. = defined in $kino_fields['dispo'] = 1917
+ 				   - Si le groupe est entièrement vide, on affiche l'avertissement par Javascript.
+ 				   Ceci étant, on ne force pas la validation, pour éviter des bugs.
+ 				*/
+ 				
+ 				$kino_field_dispo = bp_get_profile_field_data( array(
+ 				 		'field'   => $kino_fields['dispo'],
+ 				 		'user_id' => $userid
+ 				 ) );
+ 				
+ 				if ( empty( $kino_field_dispo ) ) {
+ 					
+ 					// rien sélectionné : 
+ 					// afficher avertissement! avec #profile-edit-form .editfield.has-error
+ 					// rendre le groupe obligatoire
+ 					
+ 					?>
+ 					
+ 					$("#profile-edit-form div.field_<?php echo $kino_fields['dispo']; ?> ").addClass('has-error');
+ 					
+ 					$("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").attr('data-validation', 'checkbox_group');
+ 					
+ 					$("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").attr('data-validation-qty', 'min1');
+ 					
+ 					// When checking any box, remove the obligation
+ 					
+ 					$("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> input").click(function() {
+ 					    if($(this).is(":checked")) // "this" refers to the element that fired the event
+ 					    {
+ 					        
+ 					        // remove color:
+ 					        	$("#profile-edit-form div.field_<?php echo $kino_fields['dispo']; ?> ").removeClass('has-error');
+ 					        
+ 					        
+ 					        // remove requirement!
+ 					        
+ 					        $("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").removeAttr('data-validation');
+ 					        $("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").removeAttr('data-validation-qty');
+
+ 					    } 
+ 					});
+ 					
+ 					<?php
+ 				
+ 				} // if empty($kino_field_dispo)
+ 				
+ 				/*
+ 				 * Kab.Role.Oblig
+ 				 * = 1872 defined in $kino_fields['role-kabaret']
+ 				*/
+ 				
+ 				$kino_role_kab = bp_get_profile_field_data( array(
+ 				 				 		'field'   => $kino_fields['role-kabaret'],
+ 				 				 		'user_id' => $userid
+ 				 				 ) );
+ 				 				
+ 				if ( empty( $kino_role_kab ) ) {
+ 					
+ 					// rien sélectionné : 
+ 					
+ 					?>
+ 					
+ 					// Colorize:
+ 					$("#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> ").addClass('has-error');
+ 					
+ 					$("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").attr('data-validation', 'checkbox_group');
+ 					
+ 					$("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").attr('data-validation-qty', 'min1');
+ 					
+ 					// When checking any box, remove the obligation
+ 					
+ 					$("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> input").click(function() {
+ 					    if($(this).is(":checked")) // "this" refers to the element that fired the event
+ 					    {		
+ 					    			// De-Colorize:
+ 					    			$("#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> ").removeClass('has-error');
+ 					        
+ 					        // remove requirement!
+ 					        
+ 					        $("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").removeAttr('data-validation');
+ 					        $("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").removeAttr('data-validation-qty');
+
+ 					    } 
+ 					});
+ 					
+ 					<?php
+ 				
+ 				} // if empty($kino_field_dispo)
+ 				
+ 				// Désactiver l'option "Réalisateur", une fois la demande soumise
+ 				
  				if ( current_user_can('subscriber') ) {
- 							
- 							// Désactiver l'option "Réalisateur", une fois la demande soumise
  							
  							$kabaret_disable_real_checkbox = false;
  							
