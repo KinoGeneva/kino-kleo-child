@@ -38,6 +38,19 @@ function kino_wp_head(){
     
     <?php
     
+    if ( !current_user_can( 'publish_pages' ) ) {
+    
+    ?>
+    
+    .bp-user #settings-personal-li {
+    	display: none;
+    }
+    
+    <?php
+    
+    }
+
+    
     if ( !is_user_logged_in() ) {
     	
     	// Hide Membres & My account
