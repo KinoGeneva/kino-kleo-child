@@ -319,103 +319,100 @@ jQuery(document).ready(function($){
  			
  			if ( bp_get_current_profile_group_id() == 17 ) {
  				
- 				/*
- 				 * Cf https://bitbucket.org/ms-studio/kinogeneva/issues/116/
- 				
- 				 * Kab.Dispo.Oblig:  Mettre "Mes disponibilités (obligatoires)" en rouge si aucune date n'est cochée (le caractère obligatoire du champ ne fonctionne pas)
- 				
- 				 * Kab.Role.Oblig:  Rendre obligatoire "je m'inscris au kino kabaret en tant que"
- 				
- 				 * Kab.Dispo.Oblig 
- 				   Méthode : 
- 				   - On teste le groupe de champ. = defined in $kino_fields['dispo'] = 1917
- 				   - Si le groupe est entièrement vide, on affiche l'avertissement par Javascript.
- 				   Ceci étant, on ne force pas la validation, pour éviter des bugs.
- 				*/
- 				
- 				$kino_field_dispo = bp_get_profile_field_data( array(
- 				 		'field'   => $kino_fields['dispo'],
- 				 		'user_id' => $userid
- 				 ) );
- 				
- 				if ( empty( $kino_field_dispo ) ) {
- 					
- 					// rien sélectionné : 
- 					// afficher avertissement! avec #profile-edit-form .editfield.has-error
- 					// rendre le groupe obligatoire
- 					
- 					?>
- 					
- 					$("#profile-edit-form div.field_<?php echo $kino_fields['dispo']; ?> ").addClass('has-error');
- 					
- 					$("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").attr('data-validation', 'checkbox_group');
- 					
- 					$("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").attr('data-validation-qty', 'min1');
- 					
- 					// When checking any box, remove the obligation
- 					
- 					$("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> input").click(function() {
- 					    if($(this).is(":checked")) // "this" refers to the element that fired the event
- 					    {
- 					        
- 					        // remove color:
- 					        	$("#profile-edit-form div.field_<?php echo $kino_fields['dispo']; ?> ").removeClass('has-error');
- 					        
- 					        
- 					        // remove requirement!
- 					        
- 					        $("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").removeAttr('data-validation');
- 					        $("#profile-edit-form div#field_<?php echo $kino_fields['dispo']; ?> label:first-of-type input").removeAttr('data-validation-qty');
-
- 					    } 
- 					});
- 					
- 					<?php
- 				
- 				} // if empty($kino_field_dispo)
- 				
- 				/*
+ 				/**
+ 				 * D'abord, on teste si le profil est complet.
+ 				 * Si c'est le cas, on désactive tous les champs!
+ 				 *
+ 				 *
+ 				 * Sinon, diverses opérations:
+ 				 * Kab.Dispo.Oblig
  				 * Kab.Role.Oblig
- 				 * = 1872 defined in $kino_fields['role-kabaret']
  				*/
  				
- 				$kino_role_kab = bp_get_profile_field_data( array(
- 				 				 		'field'   => $kino_fields['role-kabaret'],
- 				 				 		'user_id' => $userid
- 				 				 ) );
- 				 				
- 				if ( empty( $kino_role_kab ) ) {
- 					
- 					// rien sélectionné : 
+ 					$ids_group_kino_complete = get_objects_in_term( 
+ 							$kino_fields['group-kino-complete'], 
+ 							'user-group' 
+ 						);
+ 						
+ 				if ( in_array( $userid, $ids_group_kino_complete ) ) {
  					
  					?>
  					
- 					// Colorize:
- 					$("#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> ").addClass('has-error');
+ 					// désactiver l'édition de tous les champs!
  					
- 					$("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").attr('data-validation', 'checkbox_group');
+ 					$('#profile-edit-form input[type="checkbox"]').prop('disabled', true);
+					
+					$('#profile-edit-form .field_type_selectbox select').prop('disabled', true);
+					
+					$('#profile-edit-form .field_type_textbox input[type="text"]').prop('disabled', true);
+					
+					$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
  					
- 					$("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").attr('data-validation-qty', 'min1');
- 					
- 					// When checking any box, remove the obligation
- 					
- 					$("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> input").click(function() {
- 					    if($(this).is(":checked")) // "this" refers to the element that fired the event
- 					    {		
- 					    			// De-Colorize:
- 					    			$("#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> ").removeClass('has-error');
- 					        
- 					        // remove requirement!
- 					        
- 					        $("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").removeAttr('data-validation');
- 					        $("#profile-edit-form div#field_<?php echo $kino_fields['role-kabaret']; ?> label input").removeAttr('data-validation-qty');
-
- 					    } 
- 					});
- 					
- 					<?php
+ 					<?php			
  				
- 				} // if empty($kino_field_dispo)
+ 				}	else {
+ 				
+ 					/**
+ 						 * Profil non complet: diverses opérations:
+ 						 * Kab.Dispo.Oblig
+ 						 * Kab.Role.Oblig
+ 						*/
+ 						
+ 						/*
+ 							 * Cf https://bitbucket.org/ms-studio/kinogeneva/issues/116/
+ 							
+ 							 * Kab.Dispo.Oblig:  Mettre "Mes disponibilités (obligatoires)" en rouge si aucune date n'est cochée (le caractère obligatoire du champ ne fonctionne pas)
+ 							
+ 							 * Kab.Role.Oblig:  Rendre obligatoire "je m'inscris au kino kabaret en tant que"
+ 							
+ 							 * Kab.Dispo.Oblig 
+ 							   Méthode : 
+ 							   - On teste le groupe de champ. = defined in $kino_fields['dispo'] = 1917
+ 							   - Si le groupe est entièrement vide, on affiche l'avertissement par Javascript.
+ 							   Ceci étant, on ne force pas la validation, pour éviter des bugs.
+ 							*/
+ 							
+ 							$kino_field_dispo = bp_get_profile_field_data( array(
+ 							 		'field'   => $kino_fields['dispo'],
+ 							 		'user_id' => $userid
+ 							 ) );
+ 							
+ 							if ( empty( $kino_field_dispo ) ) {
+ 								
+ 								// rien sélectionné : 
+ 								// afficher avertissement!
+ 								// + rendre le groupe obligatoire
+ 								
+ 								kino_validate_chekbox( $kino_fields['dispo'] );
+ 							
+ 							} // if empty($kino_field_dispo)
+ 							
+ 							
+ 							/*
+ 								 * Kab.Role.Oblig
+ 								 * = 1872 defined in $kino_fields['role-kabaret']
+ 								*/
+ 								
+ 								$kino_role_kab = bp_get_profile_field_data( array(
+ 								 				 		'field'   => $kino_fields['role-kabaret'],
+ 								 				 		'user_id' => $userid
+ 								 				 ) );
+ 								 				
+ 								if ( empty( $kino_role_kab ) ) {
+ 									
+ 									// rien sélectionné : 
+ 									
+ 									kino_validate_chekbox( $kino_fields['role-kabaret'] );
+ 								
+ 								} // if empty($kino_field_dispo)
+ 								
+ 								
+ 				
+ 				} // fin test si profil complet
+ 				
+ 				
+ 				
+ 			
  				
  				// Désactiver l'option "Réalisateur", une fois la demande soumise
  				
@@ -518,8 +515,8 @@ jQuery(document).ready(function($){
 					});
 					
 					<?php
-				
-				
+
+
  		} // END if edit group ID 17 - Kino Kabaret 2017
  		
  
