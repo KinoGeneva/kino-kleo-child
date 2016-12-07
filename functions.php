@@ -51,6 +51,8 @@ require_once('functions/bp-group-tabs.php');
 
 require_once('functions/bp-messages.php');
 
+require_once('functions/bp-field-validation.php');
+
 
 /* Forcer éditeur texte par défaut
 ***************************************/
