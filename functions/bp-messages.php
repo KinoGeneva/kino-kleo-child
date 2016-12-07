@@ -329,6 +329,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
 				
 					$to = $user->user_email;
 					$headers[] = 'Bcc: Manu <ms@ms-studio.net>';
+					$headers[] = 'Bcc: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
 				
 				} else {
 				
