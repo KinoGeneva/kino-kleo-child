@@ -134,7 +134,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 						// Profil Cabaret 2016 complet? 
 						
 						$kino_dispo_kab = bp_get_profile_field_data( array(
-								'field'   => $kino_fields['profil-kabaret-complete'], // trouver ID du champ!
+								'field'   => $kino_fields['profil-kabaret-complete'], // trouver ID du champ! (test effectué sur possibilité hébergement)
 								'user_id' => $userid
 						) );
 						if ( $kino_dispo_kab ) {
