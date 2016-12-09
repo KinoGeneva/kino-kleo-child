@@ -241,8 +241,9 @@ function kino_get_field_group_conditions( $groups ) {
   	}
   	
   	if (!in_array( "kabaret-2017", $kino_user_role )) {
-  		// bénévole pour kabaret ? 
+  		// pas inscrit au kabaret ?
   		if (!in_array( "benevole-kabaret", $kino_user_role )) {
+  			// pas bénévole ?
   			$forbidden_groups[] = "Kino Kabaret 2016";
   		}
   	}
@@ -251,7 +252,7 @@ function kino_get_field_group_conditions( $groups ) {
   	if (!current_user_can( 'publish_pages' )) {
   		  		
   		if (!in_array( "kabaret-2017", $kino_user_role )) {
-  			//
+  			// pas inscrit au kabaret ?
   			$forbidden_groups[] = "Kino Kabaret 2017";
   		}
   	
