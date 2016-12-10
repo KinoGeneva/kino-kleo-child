@@ -343,6 +343,8 @@ jQuery(document).ready(function($){
  						
  				if ( in_array( $userid, $ids_group_kino_complete ) ) {
  					
+ 					if ( current_user_can('subscriber') ) {
+ 					
  					?>
  					
  					// désactiver l'édition de tous les champs!
@@ -355,7 +357,9 @@ jQuery(document).ready(function($){
 					
 					$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
  					
- 					<?php			
+ 					<?php		
+ 					
+ 					} // end if current_user_can('subscriber')
  				
  				}	else {
  				
