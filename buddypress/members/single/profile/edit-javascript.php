@@ -63,10 +63,17 @@ jQuery(document).ready(function($){
  		* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
  		* Proposition 2: desactiver le HREF.
  		*/
+ 		if ( current_user_can('subscriber') ) {
  		
+		?>
+		 		
+		 		$("#button-nav li a").removeAttr("href").css({'cursor': 'default', 'pointer-events' : 'none'});
+ 		<? 
+ 		
+ 		} // test 'subscriber'
+ 		 
  		?>
- 		
- 		$("#button-nav li a").removeAttr("href").css({'cursor': 'default', 'pointer-events' : 'none'});
+
  
  		// le champ Presentez-vous = limiter à 500 signes = 100 mots
  		

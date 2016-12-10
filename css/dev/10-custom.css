@@ -322,6 +322,12 @@ body.buddypress .kleo-quick-contact-wrapper {
 	cursor: default;
 }
 
+/* Pour les admin, on réactive le curseur */
+
+body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
+	cursor: pointer;
+}
+
 #buddypress #profile-edit-form ul.button-nav a:hover {
 	/*background: #e5e5e5;*/
 	color: #bbbbbb;
