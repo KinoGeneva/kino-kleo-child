@@ -38,6 +38,10 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 					'user-group' 
 				);
 				
+//				echo '<pre>$ids_of_benevoles:';
+//				var_dump($ids_of_benevoles);
+//				echo '</pre>';
+				
 				// enlever les champs zéro: 
 				$ids_of_benevoles = array_filter($ids_of_benevoles);
         
