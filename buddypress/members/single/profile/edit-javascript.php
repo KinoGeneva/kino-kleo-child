@@ -203,7 +203,7 @@ jQuery(document).ready(function($){
 				 				
 				 				} else if ( in_array( $userid, $ids_group_real_platform_pending ) ) {
 				 				
-//				 							 $kino_disable_real_checkbox = true;
+				 							$kino_disable_real_checkbox = true;
 				 							
 				 							$kino_real_notification = 'Votre statut de réalisateur-trice <b>sur la plateforme</b> est <b>en attente de validation</b>.';
 				 				
@@ -217,11 +217,18 @@ jQuery(document).ready(function($){
 				 			
 				 			
 				 			if ( $kino_disable_real_checkbox == true ) {
-				 				
-				 				?>
-				 					// Dans "Profil Kinoïte", option Réalisateur-trice:
 				 					
-				 					$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> label[for="field_<?php echo $kino_fields['profile-role-real']; ?>"]').hide();
+				 						// Dans "Profil Kinoïte", option Réalisateur-trice:
+				 				?>
+				 						
+				 						// ATTENTION BUG NAVIGATEUR: si on fait DISABLED sur une liste de checkbox, 
+				 						// elles vont être vidées lors de la soumission!
+				 						
+				 						// Etrangement, ce n'est pas le cas pour des cases à cocher uniques.
+				 						
+				 						// Ce qui fonctionne:  faire display: none
+				 						
+				 					$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> label[for="field_<?php echo $kino_fields['profile-role-real']; ?>"]').css({display: "none"});
 				 					
 				 					<?php
 				 			}
@@ -232,6 +239,38 @@ jQuery(document).ready(function($){
 				 						$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> p.description').html('<?php echo $kino_real_notification; ?>');
 				 						<?php
 				 			} 
+				 			
+				 			// Disable Kino Kabaret Checkbox if Checked...
+				 			
+				 			// test if KinoKabaret checked
+				 			$ids_of_kino_pending = get_objects_in_term( 
+				 					$kino_fields['group-kino-pending'] , 
+				 					'user-group' 
+				 				);
+				 				
+				 		if ( in_array( $userid, $ids_of_kino_pending ) ) {
+				 				
+				 					?>
+				 					$('#profile-edit-form input#check_acc_field_<?php echo $kino_fields['kabaret']; ?>').prop('disabled', true);
+				 					
+				 					<?php
+				 			}
+				 			
+				 			// Disable Bénévole Checkbox if Checked...
+				 			
+				 			$ids_of_benevoles = get_objects_in_term( 
+				 				$kino_fields['group-benevoles-kabaret'] , 
+				 				'user-group' 
+				 			);
+				 			
+				 			if ( in_array( $userid, $ids_of_benevoles ) ) {
+				 				
+				 					?>
+		 							$('#profile-edit-form input#check_acc_field_<?php echo $kino_fields['benevole']; ?>').prop('disabled', true);
+		 							
+		 							<?php
+				 			}
+				 			
 				 			
 		 			} // if subscriber
 		 	} // if edit group id = 19 (Profil Kinoïte)
