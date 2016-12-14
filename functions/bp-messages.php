@@ -174,7 +174,7 @@
  	
  	do {
  		 
- 		// Q -1: is user in group "Participants Kino 2016 (profil complet)"?
+ 		// Q -1: is user in group "Participants Kino (profil complet)"?
  		
  		if ( in_array( $userid, $ids_group_kino_complete ) ) { 
 			// already complete, do nothing
@@ -190,7 +190,7 @@
  	    
  	    break; }
  		
- 		// if we continue = the user joins the Kabaret 2016
+ 		// if we continue = the user joins the Kabaret
  		
  		kino_add_to_usergroup( $userid, $kino_fields['group-kino-pending'] );
  		
