@@ -38,6 +38,17 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 					'user-group' 
 				);
 				
+				// tester aussi si la personne participe au Kabaret 2017 :
+				
+				$ids_of_participants = get_objects_in_term( 
+					$kino_fields['group-kino-pending'] , 
+					'user-group' 
+				);
+				
+				// ne garder que les bénévoles qui participent au Kabaret
+				
+				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_participants );
+				
 //				echo '<pre>$ids_of_benevoles:';
 //				var_dump($ids_of_benevoles);
 //				echo '</pre>';
