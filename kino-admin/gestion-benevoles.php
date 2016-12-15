@@ -45,9 +45,18 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 					'user-group' 
 				);
 				
+				// tester aussi si le profil est complet
+				
+				$ids_of_complete = get_objects_in_term( 
+					$kino_fields['group-kino-complete'] , 
+					'user-group' 
+				);
+				
 				// ne garder que les bénévoles qui participent au Kabaret
 				
-				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_participants );
+//				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_participants );
+				
+				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_complete );
 				
 //				echo '<pre>$ids_of_benevoles:';
 //				var_dump($ids_of_benevoles);
