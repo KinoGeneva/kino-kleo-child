@@ -33,6 +33,11 @@ jQuery(document).ready(function($){
 
   // Restrict presentation length
 
+
+//onglet profil kinoïte, #138: alerte si kino 2017 n'est pas coché
+$('#field_1832').on('beforeValidation', function(value, lang, config) {
+	alert("Vous n'avez pas coché la case \"Je m‘inscris au Kino Kabaret 2017\".");
+    })
 });
 </script>
 
