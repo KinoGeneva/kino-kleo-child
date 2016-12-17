@@ -139,6 +139,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           			<th>Rôle Kino</th>
           			<th>Fonction?</th>
           			<th>Choix admin</th>
+          			<th>Activités Kino?</th>
           			<th>Adresse</th>
         		    <th>Email / Tel.</th>
           		</tr>
@@ -222,6 +223,17 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         											echo '<span class="kp-pointlist">'.$value.'</span>';
         										}
         							}
+        							echo '</td>';
+        							
+        							
+        							//Activités Kino
+        							echo '<td>';
+        							if ( $item["benevole-kabaret"] ) {
+        										foreach ( $item["benevole-kabaret"] as $key => $value) {
+        											echo '<span class="kp-pointlist">'.$value.'</span>';
+        										}
+        							}
+        							
         							echo '</td>';
         							
         							// ******************

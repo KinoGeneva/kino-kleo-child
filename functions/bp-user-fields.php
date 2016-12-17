@@ -437,6 +437,10 @@ function kino_user_fields_logement( $user, $kino_fields ) {
             'field'   => $kino_fields["benevole-fonction"],
             'user_id' => $kino_userid
         ) ),
+        "benevole-kabaret" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["benevole-kabaret"],
+            'user_id' => $kino_userid
+        ) ),
         "benevole-charge-admin" =>  bp_get_profile_field_data( array(
             'field'   => $kino_fields["benevole-charge-admin"],
             'user_id' => $kino_userid
