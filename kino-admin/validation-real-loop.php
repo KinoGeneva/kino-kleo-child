@@ -182,7 +182,8 @@
       			 
       			 		echo '<td>';
       			 			echo '<a class="admin-action pending-accept" data-action="kabaret-accept">accepter</a>';
-      			 			echo '<a class="admin-action pending-reject" data-action="kabaret-reject">refuser</a>'; 
+      			 			echo '<a class="admin-action pending-reject" data-action="kabaret-reject">refuser</a>';
+      			 			echo '<a class="admin-action pending-other" data-action="kabaret-cancel">annulation</a>';
       			 		echo '</td>'; 
       			 		
       			 } else if ( $kino_show_validation == 'kabaret-plus' ) {
@@ -192,6 +193,7 @@
       			 			echo '<a class="admin-action pending-other" data-action="kabaret-bien">bien</a>';
       			 			echo '<a class="admin-action pending-accept" data-action="kabaret-accept">accepter</a>';
       			 			echo '<a class="admin-action pending-reject" data-action="kabaret-reject">refuser</a>'; 
+      			 			echo '<a class="admin-action pending-other" data-action="kabaret-cancel">annulation</a>';
       			 		echo '</td>'; 
       			 		
       			 } else if ( $kino_show_validation == 'plateforme' ) {
@@ -199,6 +201,7 @@
       			 		echo '<td>';
       			 			echo '<a class="admin-action pending-accept" data-action="platform-accept">accepter</a>';
       			 			echo '<a class="admin-action pending-reject" data-action="platform-reject">refuser</a>';
+      			 			echo '<a class="admin-action pending-other" data-action="kabaret-cancel">annulation</a>';
       			 		echo '</td>'; 
       			 
       			 }
