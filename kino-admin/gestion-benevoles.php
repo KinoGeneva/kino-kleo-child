@@ -148,9 +148,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         		<?php
         		
         				$metronom = 1;
-        		
+						$email_benevoles = '';
         				foreach ($kinoites_benevoles as $key => $item) {
-        				
+        				$email_benevoles.=$item['user-email'] .';';
 //        							 Add to Mailpoet List
 //        							kino_add_to_mailpoet_list( 
 //        								$item["user-id"], 
@@ -248,6 +248,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					
         				} // end foreach
         		echo '</tbody></table>';
+        		echo '<a href="mailto:onvafairedesfilms@kinogeneva.ch?bcc='.$email_benevoles.'">écrire à tous les bénévoles</a>';
         }
 
         
