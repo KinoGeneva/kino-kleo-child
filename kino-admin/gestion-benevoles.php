@@ -130,7 +130,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	echo '<p>Liste des kinoïtes bénévoles ayant coché "l’organisation du Kino Kabaret".';
         	
         	?>
-        	<table class="table table-hover table-bordered table-condensed">
+        	<table id="gestion-benevoles" class="table table-hover table-bordered table-condensed">
         		<thead>
           		<tr>
           			<th>#</th>
@@ -259,3 +259,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
     <?php  ?>
 </article>
 <!-- End  Article -->
+
+<?php 
+
+// 
+
+kino_js_tablesort("gestion-benevoles");
+
+

@@ -53,6 +53,10 @@ require_once('functions/bp-messages.php');
 
 require_once('functions/bp-field-validation.php');
 
+/* Admin Pages
+******************************/
+
+require_once('functions/js-tablesort.php');
 
 /* Forcer éditeur texte par défaut
 ***************************************/
