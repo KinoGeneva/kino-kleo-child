@@ -248,7 +248,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					
         				} // end foreach
         		echo '</tbody></table>';
-        		echo '<a href="mailto:onvafairedesfilms@kinogeneva.ch?bcc='.$email_benevoles.'">écrire à tous les bénévoles</a>';
+        		
+        		echo '<a class="btn btn-default" href="mailto:onvafairedesfilms@kinogeneva.ch?bcc='.$email_benevoles.'">écrire à tous les bénévoles</a>';
+        		
+        		echo '<h3>Liste des emails:</h3>';
+        		echo '<pre>'.$email_benevoles.'</pre>';
         }
 
         
