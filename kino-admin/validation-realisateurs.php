@@ -107,8 +107,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         $ids_real_platform_rejected = array_filter($ids_real_platform_rejected);
         $ids_real_kabaret_rejected = array_filter($ids_real_kabaret_rejected);
         
-         $ids_real_platform_canceled = array_filter($ids_real_platform_rejected);
-        $ids_real_kabaret_canceled = array_filter($ids_real_kabaret_rejected);
+        $ids_real_platform_canceled = array_filter($ids_real_platform_canceled);
+        $ids_real_kabaret_canceled = array_filter($ids_real_kabaret_canceled);
         
         $ids_candidats_moyens = array_filter($ids_candidats_moyens);
         $ids_candidats_biens = array_filter($ids_candidats_biens);
