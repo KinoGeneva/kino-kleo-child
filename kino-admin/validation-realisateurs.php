@@ -25,7 +25,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
          
          “En attente: Réalisateurs Plateforme ONLY”
          
-         “En attente: Réalisateurs Kino Kabaret 2016”
+         “En attente: Réalisateurs Kino Kabaret 2017”
         
         ****/
         
@@ -158,7 +158,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
  				
  				//***************************************
  				
- 				// “En attente: Réalisateurs Kino Kabaret 2016”
+ 				// “En attente: Réalisateurs Kino Kabaret 2017”
  				if (!empty($ids_real_kabaret_pending)) {
 	 				$user_query = new WP_User_Query( array( 
 	 					'include' => $ids_real_kabaret_pending, 
@@ -168,7 +168,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	 				if ( ! empty( $user_query->results ) ) {
 	 					$metronom = 1;
 	 					$kino_show_validation = 'kabaret-plus';
-	 					echo '<h2>En attente: Réalisateurs Kino Kabaret 2016 ('.count($user_query->results).')</h2>';
+	 					echo '<h2>En attente: Réalisateurs Kino Kabaret 2017 ('.count($user_query->results).')</h2>';
 	 					echo kino_table_header($kino_show_validation);
 	 					foreach ( $user_query->results as $user ) {
 	 						include('validation-real-loop.php');
