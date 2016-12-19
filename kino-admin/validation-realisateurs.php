@@ -25,7 +25,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
          
          “En attente: Réalisateurs Plateforme ONLY”
          
-         “En attente: Réalisateurs Kino Kabaret 2016”
+         “En attente: Réalisateurs Kino Kabaret 2017”
         
         ****/
         
@@ -50,6 +50,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	'user-group' 
         );
         
+         $ids_real_platform_canceled = get_objects_in_term( 
+        	$kino_fields['group-real-platform-canceled'] , 
+        	'user-group' 
+        );
+        
         // *********
         
         $ids_real_kabaret_pending = get_objects_in_term( 
@@ -64,6 +69,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         $ids_real_kabaret_rejected = get_objects_in_term( 
         	$kino_fields['group-real-kabaret-rejected'] , 
+        	'user-group' 
+        );
+        
+         $ids_real_kabaret_canceled = get_objects_in_term( 
+        	$kino_fields['group-real-kabaret-canceled'] , 
         	'user-group' 
         );
         
@@ -96,6 +106,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         $ids_real_platform_rejected = array_filter($ids_real_platform_rejected);
         $ids_real_kabaret_rejected = array_filter($ids_real_kabaret_rejected);
+        
+         $ids_real_platform_canceled = array_filter($ids_real_platform_rejected);
+        $ids_real_kabaret_canceled = array_filter($ids_real_kabaret_rejected);
         
         $ids_candidats_moyens = array_filter($ids_candidats_moyens);
         $ids_candidats_biens = array_filter($ids_candidats_biens);
@@ -158,7 +171,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
  				
  				//***************************************
  				
- 				// “En attente: Réalisateurs Kino Kabaret 2016”
+ 				// “En attente: Réalisateurs Kino Kabaret 2017”
  				if (!empty($ids_real_kabaret_pending)) {
 	 				$user_query = new WP_User_Query( array( 
 	 					'include' => $ids_real_kabaret_pending, 
@@ -168,7 +181,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	 				if ( ! empty( $user_query->results ) ) {
 	 					$metronom = 1;
 	 					$kino_show_validation = 'kabaret-plus';
-	 					echo '<h2>En attente: Réalisateurs Kino Kabaret 2016 ('.count($user_query->results).')</h2>';
+	 					echo '<h2>En attente: Réalisateurs Kino Kabaret 2017 ('.count($user_query->results).')</h2>';
 	 					echo kino_table_header($kino_show_validation);
 	 					foreach ( $user_query->results as $user ) {
 	 						include('validation-real-loop.php');
@@ -288,7 +301,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	if ( ! empty( $user_query->results ) ) {
 				   	$metronom = 1;
 				   	$kino_show_validation = 'false';
-				   	echo '<h2 id="real-kabaret-accepted-h2">Réalisateurs Kino Kabaret 2016: Acceptés ('.count($user_query->results).')</h2>';
+				   	echo '<h2 id="real-kabaret-accepted-h2">Réalisateurs Kino Kabaret 2017: Acceptés ('.count($user_query->results).')</h2>';
 				   	echo '<div id="real-kabaret-accepted">';
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
@@ -297,6 +310,39 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	  echo '</tbody></table></div>';
 				 	}
 				 }
+				 
+				 //***************************************
+				  // Annulation: Réalisateurs Kabaret ”
+				 
+				 if (!empty($ids_real_kabaret_canceled)) {
+				 	$user_query = new WP_User_Query( array( 
+				 		'include' => $ids_real_kabaret_canceled, 
+				 		'orderby' => 'registered',
+				 		'order' => 'DESC'
+				 	) );
+				 	if ( ! empty( $user_query->results ) ) {
+				   	$metronom = 1;
+				   	$kino_show_validation = 'false';
+				   	echo '<h2>Réalisateurs Kino Kabaret 2017: Annulation ('.count($user_query->results).')</h2>';
+				   	echo '<div id="real-kabaret-canceled">';
+				   	echo kino_table_header($kino_show_validation);
+				   	foreach ( $user_query->results as $user ) {
+				   		include('validation-real-loop.php');
+				   		// add users to mailpoet list:
+//				   		kino_add_to_mailpoet_list( $user->ID, 
+//				   				$kino_fields['mailpoet-real-kabaret-rejected'] 
+//				   			);
+				   	}
+				 	  echo '</tbody></table></div>';
+				 	}
+				 	
+				 	// add users to mailpoet list:
+//				 	 	kino_add_to_mailpoet_list_array( $ids_real_kabaret_canceled, 
+//				 	 		$kino_fields['mailpoet-real-kabaret-canceled'] 
+//				 	 	);
+				 	
+				 } // test !empty
+				 
 				 
 				 //***************************************
 				 // “Refusés: Réalisateurs Kabaret ”
@@ -310,7 +356,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	if ( ! empty( $user_query->results ) ) {
 				   	$metronom = 1;
 				   	$kino_show_validation = 'false';
-				   	echo '<h2>Réalisateurs Kino Kabaret 2016: Refusés ('.count($user_query->results).')</h2>';
+				   	echo '<h2>Réalisateurs Kino Kabaret 2017: Refusés ('.count($user_query->results).')</h2>';
 				   	echo '<div id="real-kabaret-rejected">';
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {

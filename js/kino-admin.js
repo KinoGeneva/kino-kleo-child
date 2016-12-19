@@ -39,9 +39,13 @@ jQuery(document).ready(function($){
                              	$item.detach();
                              } else if ( state == 'kabaret-reject' ) {
                              	$item.detach();
+                             } else if ( state == 'kabaret-cancel' ) {
+                             	$item.detach();
                              } else if ( state == 'platform-accept' ) {
                              	 $item.detach();
                              } else if ( state == 'platform-reject' ) {
+                             	 $item.detach();
+                             } else if ( state == 'platform-cancel' ) {
                              	 $item.detach();
                              } else if ( state == 'kabaret-moyen' ) {
                              	 $item.detach();
