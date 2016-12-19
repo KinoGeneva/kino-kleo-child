@@ -138,7 +138,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
  				echo '<p>Sélection <b><a href="#candid-moyen">Candidats Moyens</a></b>: '.count($ids_candidats_moyens).' / ';
  				echo '<b><a href="#candid-bien">Candidats Bien</a></b>: '.count($ids_candidats_biens).'</p>';
  				
- 				echo '<p>Réalisateurs validés pour <b><a href="#real-kabaret-accepted-h2">Kabaret</a></b>: '.count($ids_real_kabaret_accepted).'</p>';
+ 				echo '<p>Réalisateurs pour Kabaret: ';
+ 				echo '<b><a href="#real-kabaret-accepted-h2">validés</a></b>: '.count($ids_real_kabaret_accepted);
+ 				echo ' / annulés: '.count($ids_real_kabaret_canceled);
+ 				echo ' / refusés: '.count($ids_real_kabaret_rejected).'</p>';
+ 				
  				echo '<p>Réalisateurs validés pour <b>Plateforme</b>: '.count($ids_real_platform_accepted).'</p>';
  				
  				// http://kinogeneva.ch/kino-admin/validation-realisateurs-plateforme/
