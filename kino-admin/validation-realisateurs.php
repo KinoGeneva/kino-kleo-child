@@ -147,9 +147,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
  				
  				// http://kinogeneva.ch/kino-admin/validation-realisateurs-plateforme/
  				
- 				echo '<p><b>Voir aussi: <a href="'.$url.'/kino-admin/validation-realisateurs-plateforme/">Validation Réalisateurs Plateforme</a>.</b></p>';
+ 				// echo '<p><b>Voir aussi: <a href="'.$url.'/kino-admin/validation-realisateurs-plateforme/">Validation Réalisateurs Plateforme</a>.</b></p>';
  				
- 				echo '<p><b>Voir aussi: <a href="'.$url.'/kino-admin/sessions/">Les quatre sessions</a>.</b></p>';
+ 				// echo '<p><b>Voir aussi: <a href="'.$url.'/kino-admin/sessions/">Les quatre sessions</a>.</b></p>';
  				
  				// **************
  				
