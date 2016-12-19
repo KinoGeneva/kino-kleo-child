@@ -201,7 +201,7 @@
       			 		echo '<td>';
       			 			echo '<a class="admin-action pending-accept" data-action="platform-accept">accepter</a>';
       			 			echo '<a class="admin-action pending-reject" data-action="platform-reject">refuser</a>';
-      			 			echo '<a class="admin-action pending-other" data-action="kabaret-cancel">annulation</a>';
+      			 			echo '<a class="admin-action pending-other" data-action="platform-cancel">annulation</a>';
       			 		echo '</td>'; 
       			 
       			 }
