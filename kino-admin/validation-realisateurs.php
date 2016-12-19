@@ -31,7 +31,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         $kino_debug_mode = 'off';
         	
-        $url = site_url();
+        $url = home_url();
         	
         $kino_fields = kino_test_fields();
         
