@@ -111,11 +111,17 @@ function kino_user_participation( $userid, $kino_fields ) {
 					$kino_fields['group-real-platform-rejected'], 
 					'user-group' 
 				);
+				$ids_group_real_plaform_canceled = get_objects_in_term( 
+					$kino_fields['group-real-platform-canceled'], 
+					'user-group' 
+				);
 				
 				if ( in_array( $userid, $ids_group_real_plaform_valid ) ) {
 				  $kup[] = "real-platform-valid";
 				} else if ( in_array( $userid, $ids_group_real_plaform_rejected ) ) {
 				  $kup[] = "real-platform-rejected";
+				} else if ( in_array( $userid, $ids_group_real_plaform_canceled ) ) {
+				  $kup[] = "real-platform-canceled";
 				} else if ( in_array( $userid, $ids_group_real_plaform_pending ) ) {
 					$kup[] = "real-platform-pending";
 				}
@@ -214,9 +220,15 @@ function kino_user_participation( $userid, $kino_fields ) {
 						$kino_fields['group-real-kabaret-rejected'], 
 						'user-group' 
 					);
+				$ids_group_real_kab_canceled= get_objects_in_term( 
+						$kino_fields['group-real-kabaret-canceled'], 
+						'user-group' 
+					);
 					
 					if ( in_array( $userid, $ids_group_real_kab_valid ) ) {
 					  $kup[] = "real-kab-valid";
+					} else if ( in_array( $userid, $ids_group_real_kab_canceled ) ) {
+					  $kup[] = "real-kab-canceled";
 					} else if ( in_array( $userid, $ids_group_real_kab_rejected ) ) {
 					  $kup[] = "real-kab-rejected";
 					} else if ( in_array( $userid, $ids_group_real_kab_pending ) ) {
