@@ -288,7 +288,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	if ( ! empty( $user_query->results ) ) {
 				   	$metronom = 1;
 				   	$kino_show_validation = 'false';
-				   	echo '<h2 id="real-kabaret-accepted-h2">Réalisateurs Kino Kabaret 2016: Acceptés ('.count($user_query->results).')</h2>';
+				   	echo '<h2 id="real-kabaret-accepted-h2">Réalisateurs Kino Kabaret 2017: Acceptés ('.count($user_query->results).')</h2>';
 				   	echo '<div id="real-kabaret-accepted">';
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
@@ -310,7 +310,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	if ( ! empty( $user_query->results ) ) {
 				   	$metronom = 1;
 				   	$kino_show_validation = 'false';
-				   	echo '<h2>Réalisateurs Kino Kabaret 2016: Refusés ('.count($user_query->results).')</h2>';
+				   	echo '<h2>Réalisateurs Kino Kabaret 2017: Refusés ('.count($user_query->results).')</h2>';
 				   	echo '<div id="real-kabaret-rejected">';
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
