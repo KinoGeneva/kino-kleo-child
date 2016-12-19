@@ -130,7 +130,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	echo '<p>Liste des kinoïtes bénévoles ayant coché "l’organisation du Kino Kabaret".';
         	
         	?>
-        	<table class="table table-hover table-bordered table-condensed">
+        	<table id="gestion-benevoles" class="table table-hover table-bordered table-condensed">
         		<thead>
           		<tr>
           			<th>#</th>
@@ -248,7 +248,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					
         				} // end foreach
         		echo '</tbody></table>';
-        		echo '<a href="mailto:onvafairedesfilms@kinogeneva.ch?bcc='.$email_benevoles.'">écrire à tous les bénévoles</a>';
+        		
+        		echo '<a class="btn btn-default" href="mailto:onvafairedesfilms@kinogeneva.ch?bcc='.$email_benevoles.'">écrire à tous les bénévoles</a>';
+        		
+        		echo '<h3>Liste des emails:</h3>';
+        		echo '<pre>'.$email_benevoles.'</pre>';
         }
 
         
@@ -259,3 +263,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
     <?php  ?>
 </article>
 <!-- End  Article -->
+
+<?php 
+
+// 
+
+kino_js_tablesort("gestion-benevoles");
+
+

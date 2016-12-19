@@ -53,10 +53,40 @@ function kino_register_scripts() {
 	if ( is_single() ) { 
 		if ( 'kino-admin' == get_post_type() ) {
 					
-					wp_enqueue_script( 'kino-admin-ajax', get_stylesheet_directory_uri() . '/js/kino-admin.js', array('jquery') );
+					wp_enqueue_script( 
+						'kino-admin-ajax', // Name of the script
+						get_stylesheet_directory_uri() . '/js/kino-admin.js', 
+						array('jquery') // dependencies
+					);
 					
 					wp_localize_script( 'kino-admin-ajax', 'kino_ajax_object',
 						array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+						
+					// tablesorter plugin
+					wp_enqueue_script( 
+						'kino-admin-tablesorter', // Name of the script
+						get_stylesheet_directory_uri() . '/js/lib/tablesorter/dist/js/jquery.tablesorter.min.js', 
+						array('jquery'), // dependencies
+						'2.28.3', // version
+						false // footer?
+					);
+					
+					// tablesorter widget file - loaded after the plugin
+					
+					wp_enqueue_script( 
+						'kino-admin-tablesorter-widgets', // Name of the script
+						get_stylesheet_directory_uri() . '/js/lib/tablesorter/dist/js/jquery.tablesorter.widgets.min.js', 
+						array('jquery'), // dependencies
+						'2.28.3', // version
+						false // footer?
+					);
+					
+					wp_enqueue_style( 
+							'kino-tablesorter-bootstrap', 
+							get_stylesheet_directory_uri() . '/js/lib/tablesorter/dist/css/theme.bootstrap.min.css', 
+							false, // dependencies
+							'2.28.3' // version
+					); 
 					
 					
 		}
