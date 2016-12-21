@@ -435,4 +435,6 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 <!-- End  Article -->
 <?php 
 kino_js_tablesort("real-kab-2017");
+
 ?>
+
