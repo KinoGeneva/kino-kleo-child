@@ -151,6 +151,14 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 						$email_benevoles = '';
         				foreach ($kinoites_benevoles as $key => $item) {
         				$email_benevoles.=$item['user-email'] .';';
+        				
+        				//Add to Mailpoet List si id trouvé
+						if(getMailpoetId($item["user-id"])){
+							kino_add_to_mailpoet_list( 
+								getMailpoetId($item["user-id"]), 
+								$kino_fields['mailpoet-benevoles'] 
+							);
+						}
 //        							 Add to Mailpoet List
 //        							kino_add_to_mailpoet_list( 
 //        								$item["user-id"], 

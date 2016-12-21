@@ -71,9 +71,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         // Quel est le total d'utilisateurs?
         
-        echo '<h3>Total des utilisateurs hors Kabaret: '.count($user_query->results).'</h3>';
+        echo '<h3>Total des utilisateurs incomplet - participation au Kabaret: '.count($user_query->results).'</h3>';
         
-        echo '<p><b>Note: </b> Ce tableau liste tous les utilisateurs qui ne sont PAS dans le groupe "Participants Kino 2016 : profil complet". Il inclut donc les usagers ayant coché la participation, mais dont le profil n’est pas encore complet.</p>';
+        echo '<p><b>Note: </b> Ce tableau liste tous les utilisateurs qui ne sont PAS dans le groupe "Participants Kino 2017 : profil complet". Il inclut donc les usagers ayant coché la participation, mais dont le profil n’est pas encore complet.</p>';
         
         echo '<p><b>Voir aussi la <a href="'.$url.'/kino-admin/participants-kabaret/">liste des participants au Kabaret</a>.</b></p>';
         
@@ -93,9 +93,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			<tr>
         				<th>#</th>
         				<th>Nom</th>
-        		    <th>Email</th>
-        		    <th>Kab 2016?</th>
-        		    <th>Inscription</th>
+						<th>Email</th>
+						<th>Kab 2017?</th>
+						<th>Inscription</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -112,7 +112,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					echo '<td><a href="'.$url.'/members/'.$user->user_nicename.'/" target="_blank">'.$user->user_login.'</a> ('.$user->display_name.')</td>';
         					
         					// Email
-        			echo '<td><a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
+							echo '<td><a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
         			
 		        			// Participe au Kabaret 2016?
 		        			$kino_test = bp_get_profile_field_data( array(
@@ -120,21 +120,25 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 		        					'user_id' => $user->ID
 		        			) );
 		        			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) ) {
-		        						echo '<td class="success">OUI</td>';
-		        						// Ajouter à Mailpoet: profil incomplet
-//		        						kino_add_to_mailpoet_list( 
-//		        						 	$user->ID, 
-//		        						 	$kino_fields['mailpoet-participant-kabaret-incomplet'] 
-//		        						 	);
-		        						// increment counter:
-		        						$count_participants_kabaret++;
+        						echo '<td class="success">OUI</td>';
+        						
+        						// increment counter:
+        						$count_participants_kabaret++;
 		        			} else {
-		        						echo '<td>NON</td>';
+        						echo '<td>NON</td>';
 		        			}
 		        			
 		        			
 		        			// Registration date
 		        			echo '<td>'. $user->user_registered .'</td>';
+		        			
+		        			//Add to Mailpoet List si id trouvé
+							if(getMailpoetId($user->ID)){
+								kino_add_to_mailpoet_list( 
+									getMailpoetId($user->ID), 
+									$kino_fields['mailpoet-participant-kabaret-incomplet'] 
+								);
+							}
         			
         		echo '</tr>';
         		

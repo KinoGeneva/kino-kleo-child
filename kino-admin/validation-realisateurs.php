@@ -84,9 +84,6 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         // Additional sorting
         
-        // $kino_fields['group-candidats-vus-moyens'] = 100 ; //
-        // $kino_fields['group-candidats-vus-biens'] = 99 ; //
-        
         $ids_candidats_moyens = get_objects_in_term( 
         	$kino_fields['group-candidats-vus-moyens'] , 
         	'user-group' 
@@ -189,10 +186,14 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	 					echo kino_table_header($kino_show_validation);
 	 					foreach ( $user_query->results as $user ) {
 	 						include('validation-real-loop.php');
-	 						// add users to mailpoet list:
-//				   		kino_add_to_mailpoet_list( $user->ID, 
-//				   				$kino_fields['mailpoet-real-kabaret-pending'] 
-//				   			);
+	 						//Add to Mailpoet List si id trouvé
+							if(getMailpoetId($user->ID)){
+								kino_add_to_mailpoet_list( 
+									getMailpoetId($user->ID), 
+									$kino_fields['mailpoet-real-kabaret-pending'] 
+								);
+							}
+	 						
 //	 						// s'assurer que le champ Réalisateur Kabaret est coché
 //	 						kino_check_real_kabaret_checkbox( $user->ID, $kino_fields );
 	 					}
@@ -215,6 +216,14 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
  							echo kino_table_header($kino_show_validation);
  							foreach ( $user_query->results as $user ) {
  								include('validation-real-loop.php');
+ 								//Remove to Mailpoet List si id trouvé
+								if(getMailpoetId($user->ID)){
+									kino_remove_from_mailpoet_list( 
+										getMailpoetId($user->ID), 
+										$kino_fields['mailpoet-real-kabaret-pending'] 
+									);
+								}
+
  								// s'assurer que le champ Réalisateur Kabaret est coché
 // 								kino_check_real_kabaret_checkbox( $user->ID, $kino_fields );
  							}
@@ -237,10 +246,14 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
  								echo kino_table_header($kino_show_validation);
  								foreach ( $user_query->results as $user ) {
  									include('validation-real-loop.php');
- 									// add users to mailpoet list:
-//						   		kino_add_to_mailpoet_list( $user->ID, 
-//						   				$kino_fields['mailpoet-real-kabaret-pending'] 
-//						   			);
+ 									//Remove to Mailpoet List si id trouvé
+									if(getMailpoetId($user->ID)){
+										kino_remove_from_mailpoet_list( 
+											getMailpoetId($user->ID), 
+											$kino_fields['mailpoet-real-kabaret-pending'] 
+										);
+									}
+ 									
 						   		// s'assurer que le champ Réalisateur Kabaret est coché
 						   		// kino_check_real_kabaret_checkbox( $user->ID, $kino_fields );
  								}
@@ -304,12 +317,27 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	) );
 				 	if ( ! empty( $user_query->results ) ) {
 				   	$metronom = 1;
-				   	$kino_show_validation = 'false';
+				   	$kino_show_validation = 'accepted';
 				   	echo '<h2 id="real-kabaret-accepted-h2">Réalisateurs Kino Kabaret 2017: Acceptés ('.count($user_query->results).')</h2>';
 				   	echo '<div id="real-kabaret-accepted">';
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
 				   		include('validation-real-loop.php');
+				   		//Add to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_add_to_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-kabaret'] 
+							);
+						}
+						//Remove to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_remove_from_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-kabaret-pending'] 
+							);
+						}
+						
 				   	}
 				 	  echo '</tbody></table></div>';
 				 	}
@@ -332,19 +360,30 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
 				   		include('validation-real-loop.php');
-				   		// add users to mailpoet list:
-//				   		kino_add_to_mailpoet_list( $user->ID, 
-//				   				$kino_fields['mailpoet-real-kabaret-rejected'] 
-//				   			);
+				   		//Remove to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_remove_from_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-kabaret-pending'] 
+							);
+						}
+						//Remove to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_remove_from_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-kabaret'] 
+							);
+						}
+						//Remove to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_remove_from_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-rejected'] 
+							);
+						}
 				   	}
 				 	  echo '</tbody></table></div>';
-				 	}
-				 	
-				 	// add users to mailpoet list:
-//				 	 	kino_add_to_mailpoet_list_array( $ids_real_kabaret_canceled, 
-//				 	 		$kino_fields['mailpoet-real-kabaret-canceled'] 
-//				 	 	);
-				 	
+				 	}	 	
 				 } // test !empty
 				 
 				 
@@ -365,18 +404,23 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
 				   		include('validation-real-loop.php');
-				   		// add users to mailpoet list:
-//				   		kino_add_to_mailpoet_list( $user->ID, 
-//				   				$kino_fields['mailpoet-real-kabaret-rejected'] 
-//				   			);
+				   		//Add to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_add_to_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-kabaret-rejected'] 
+							);
+						}
+						//Remove to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_remove_from_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-kabaret-pending'] 
+							);
+						}
 				   	}
 				 	  echo '</tbody></table></div>';
 				 	}
-				 	
-				 	// add users to mailpoet list:
-//				 	 	kino_add_to_mailpoet_list_array( $ids_real_kabaret_rejected, 
-//				 	 		$kino_fields['mailpoet-real-kabaret-rejected'] 
-//				 	 	);
 				 	
 				 } // test !empty
 

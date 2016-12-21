@@ -42,11 +42,6 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	'user-group' 
         );
         
-//        $ids_of_kino_participants = get_objects_in_term( 
-//        	$kino_fields['group-kino-complete'] , 
-//        	'user-group' 
-//        );
-        
         $ids_of_kino_participants = array_filter($ids_of_kino_participants);
         $ids_of_kino_complete = array_filter($ids_of_kino_complete);
         
@@ -58,9 +53,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         echo ' ('.$kino_complete_percentage.'%)</p>';
         
-        echo '<p><b>Note: </b> Ce tableau liste tous les '.count( $ids_of_kino_participants ) .' utilisateurs qui ont coché la participation au Kabaret 2016.</p>';
+        echo '<p><b>Note: </b> Ce tableau liste tous les '.count( $ids_of_kino_participants ) .' utilisateurs qui ont coché la participation au Kabaret 2017.</p>';
         	
-        echo '<p><b>Voir aussi les <a href="'.$url.'/kino-admin/membres-hors-kabaret/">membres hors-Kabaret</a>.</b></p>';
+        echo '<p><b>Voir aussi les <a href="'.$url.'/kino-admin/membres-hors-kabaret/">membres au profil non complet</a>.</b></p>';
         // Voir Participants Kabaret pour une vue plus détaillée	
         	
         $user_fields = array( 
@@ -96,10 +91,10 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         				<th>#</th>
         				<th>ID</th>
         				<th>Nom/Email</th>
-        		    <th>Rôle Kabaret</th>
-        		    <th>Réal?</th>
-        		    <th>Profil complet?</th>
-        		    <th>Inscription</th>
+						<th>Rôle Kabaret</th>
+						<th>Réal?</th>
+						<th>Profil complet?</th>
+						<th>Inscription</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -112,7 +107,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			<th><?php echo $metronom++; ?></th>
         			<?php 
         					$kino_userid = $user->ID;
-        					$kino_user_role = kino_user_participation( 
+        					$kino_user_role = kino_user_participation(
         						$user->ID, 
         						$kino_fields
         					);
@@ -216,29 +211,30 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
             			if ( in_array( $user->ID, $ids_of_kino_complete ) ) {          				            				
             			  echo '<td class="success">Complet';
             			  
-//            			  $user_timestamp_complete = get_user_meta( $user->ID, 'kino_timestamp_complete', true );
-//            			  
-//            			  if ($user_timestamp_complete) {
-//            			  	echo $user_timestamp_complete;
-//            			  } else {
-//            			  	echo ' timestamp missing!';
-//            			  }
+							 //Add to Mailpoet List si id trouvé
+							if(getMailpoetId($user->ID)){
+								kino_add_to_mailpoet_list( 
+									getMailpoetId($user->ID), 
+									$kino_fields['mailpoet-participant-kabaret'] 
+								);
+							}
+	//            			  $user_timestamp_complete = get_user_meta( $user->ID, 'kino_timestamp_complete', true );
+	//            			  
+	//            			  if ($user_timestamp_complete) {
+	//            			  	echo $user_timestamp_complete;
+	//            			  } else {
+	//            			  	echo ' timestamp missing!';
+	//            			  }
             			              			  
-            			  echo '</td>';
-            			} else {
-            				echo '<td></td>';	
-            			}
+							echo '</td>';
+						} else {
+							echo '<td></td>';	
+						}
             			
             			
             			// Registration date
             			$shortdate = substr( $user->user_registered, 0, 10 );
             			echo '<td>'. $shortdate .'</td>';
-            			
-            			// Ajouter à Mailpoet: Participants Kabaret
-//            			kino_add_to_mailpoet_list( 
-//  			        	 	$user->ID, 
-//  			        	 	$kino_fields['mailpoet-participant-kabaret'] 
-//  			        	);
         			
         		echo '</tr>';
         		
@@ -246,11 +242,6 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	
         	echo '</tbody></table>';
         
-        	// Ajouter à Mailpoet: Participants Kabaret
-//        	kino_add_to_mailpoet_list( 
-//        	 	$ids_of_kino_complete, 
-//        	 	$kino_fields['mailpoet-participant-kabaret'] 
-//        	 	);
         
         } // test !empty
         

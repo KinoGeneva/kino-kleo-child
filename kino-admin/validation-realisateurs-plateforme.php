@@ -134,16 +134,20 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	) );
 				 	if ( ! empty( $user_query->results ) ) {
 				   	$metronom = 1;
-				   	$kino_show_validation = 'false';
+				   	$kino_show_validation = 'accepted';
 				   	echo '<h2>Réalisateurs Plateforme: Acceptés ('.count($user_query->results).')</h2>';
 				   	echo '<div id="real-platform-accepted">';
 				   		echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
 				   		include('validation-real-loop.php');
-				   		// Add to list
-//				   		kino_add_to_mailpoet_list( $user->ID, 
-//					   		$kino_fields['mailpoet-real-platform'] 
-//					   	);
+				   		//Add to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_add_to_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-platform'] 
+							);
+						}
+				   		
 				   	}
 				 	  echo '</tbody></table></div>';
 				 	}
@@ -160,20 +164,25 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				 	) );
 				 	if ( ! empty( $user_query->results ) ) {
 				   	$metronom = 1;
+				   	
 				   	$kino_show_validation = 'false';
 				   	echo '<h2>Réalisateurs Plateforme: Refusés ('.count($user_query->results).')</h2>';
 				   	echo '<div id="real-platform-rejected">';
 				   	echo kino_table_header($kino_show_validation);
 				   	foreach ( $user_query->results as $user ) {
 				   		include('validation-real-loop.php');
+				   		
+				   		//Add to Mailpoet List si id trouvé
+						if(getMailpoetId($user->ID)){
+							kino_add_to_mailpoet_list( 
+								getMailpoetId($user->ID), 
+								$kino_fields['mailpoet-real-platform-rejected'] 
+							);
+						}
 				   	}
 				 	  echo '</tbody></table></div>';
 				 	}
 				 	
-				 	// add users to mailpoet list:
-//					 	kino_add_to_mailpoet_list( $ids_real_platform_rejected, 
-//					 		$kino_fields['mailpoet-real-platform-rejected'] 
-//					 	);
 				 } // test !empty
 
 				
