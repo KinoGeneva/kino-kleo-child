@@ -183,7 +183,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	 					$metronom = 1;
 	 					$kino_show_validation = 'kabaret-plus';
 	 					echo '<h2>En attente: Réalisateurs Kino Kabaret 2017 ('.count($user_query->results).')</h2>';
-	 					echo kino_table_header($kino_show_validation);
+	 					echo kino_table_header($kino_show_validation, 'real-kab-2017');
 	 					foreach ( $user_query->results as $user ) {
 	 						include('validation-real-loop.php');
 	 						//Add to Mailpoet List si id trouvé
@@ -433,3 +433,6 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
     <?php  ?>
 </article>
 <!-- End  Article -->
+<?php 
+kino_js_tablesort("real-kab-2017");
+?>
