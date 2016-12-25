@@ -185,7 +185,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         if ( !empty($kinoites_cherchent_logement) ) {
         	echo '<h2>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=cherche-logement">qui cherchent un logement</a> ('.count($kinoites_cherchent_logement).'):</h2>';
         	?>
-        	<table class="table table-hover table-bordered table-condensed">
+        	<table id="cherche-logement" class="table table-hover table-bordered table-condensed">
         		<thead>
         			<tr>
         				<th>#</th>
@@ -556,7 +556,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	echo '<h2>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=offre-logement">qui offrent un logement</a> ('.count($kinoites_offrent_logement).'):</h2>';
         	
         	?>
-        	<table class="table table-hover table-bordered table-condensed">
+        	<table id="offre-logement" class="table table-hover table-bordered table-condensed">
         		<thead>
 	        		<tr>
 	        			<th>#</th>
@@ -622,3 +622,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
     <?php  ?>
 </article>
 <!-- End  Article -->
+<?php
+kino_js_tablesort("cherche-logement");
+kino_js_tablesort("offre-logement");
+?>
