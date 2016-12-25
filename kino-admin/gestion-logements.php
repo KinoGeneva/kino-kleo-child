@@ -128,6 +128,52 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			// Add info to array 
         			$kinoites_offrent_logement[] = kino_user_fields_logement( $user, $kino_fields );
         			
+        			// Ajout du code qui génère automatiquement les logements
+        			
+        			$kino_term_logement = term_exists('logement-'.$kino_userid, 'user-logement');
+        			if ( $kino_term_logement !== 0 && $kino_term_logement !== null ) {
+        			  // term exists
+        			} else {
+        			
+        						$logement_descr = bp_get_profile_field_data( array(
+        								'field'   => $kino_fields['offre-logement-remarque'],
+        								'user_id' => $kino_userid
+        						) );
+        						$logement_addr = bp_get_profile_field_data( array(
+        								'field'   => $kino_fields["rue"],
+        								'user_id' => $kino_userid
+        						) );
+        						$logement_addr .= ', '.bp_get_profile_field_data( array(
+        								'field'   => $kino_fields["ville"],
+        								'user_id' => $kino_userid
+        						) );
+        						$logement_addr .= '. Tel: '.bp_get_profile_field_data( array(
+        								'field'   => $kino_fields["tel"],
+        								'user_id' => $kino_userid
+        						) );
+        						
+        						$nktl = wp_insert_term(
+        						  'Chez '.$user->display_name, // the term = "chez ..."
+        						  'user-logement', // the taxonomy
+        						  array(
+        						    'description'=> $logement_descr,
+        						    'slug' => 'logement-'.$kino_userid,
+        						  )
+        						);
+        						if ( ! is_wp_error( $nktl ) ) {
+        						    // Get term_id, set default as 0 if not set
+        						    $term_id = isset( $nktl['term_id'] ) ? $nktl['term_id'] : 0;
+        						    // we can add metadata!
+        						    // update_term_meta( $term_id, 'kino_nombre_couchages', $logement_descr );
+        						    update_term_meta( $term_id, 'kino_adresse_logement', $logement_addr );
+        						} else {
+        						     // Trouble in Paradise:
+        						     // echo $nktl->get_error_message();
+        						}
+        			} // end Creating New Term
+        			
+        			// Fin du code qui génère automatiquement les logements
+        			
         	} // End foreach
         } // End testing User_Query
         	
