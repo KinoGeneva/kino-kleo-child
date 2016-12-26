@@ -860,3 +860,7 @@ table.calendar th {
 
 /* @end */
 
+/* page edition profil onglet comédien*/
+#buddypress .standard-form .field_2018 p.description {
+	font-size: 100%;
+}
