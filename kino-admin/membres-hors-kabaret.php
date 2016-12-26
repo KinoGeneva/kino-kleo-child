@@ -88,7 +88,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	$count_participants_kabaret = 0;
         	
         	?>
-        	<table class="table table-hover table-bordered table-condensed">
+        	<table id="hors-kabaret" class="table table-hover table-bordered table-condensed">
         		<thead>
         			<tr>
         				<th>#</th>
@@ -156,3 +156,6 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
     <?php  ?>
 </article>
 <!-- End  Article -->
+<?php
+kino_js_tablesort("hors-kabaret");
+?>
