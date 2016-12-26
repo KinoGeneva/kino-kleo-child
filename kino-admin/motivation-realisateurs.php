@@ -244,7 +244,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				if (!empty($kino_pending_real_kab) ) {
 						
 						echo '<div>';
-						echo '<h2>Réalisateurs-trices en attente : Kabaret 2016 ('.count($kino_pending_real_kab).')</h2>';
+						echo '<h2>Réalisateurs-trices en attente : Kabaret 2017 ('.count($kino_pending_real_kab).')</h2>';
 						echo '<div class="kino-admin-view">';
 				
 						foreach ($kino_pending_real_kab as $key => $item) {
