@@ -220,8 +220,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         								echo '<td><a href="'.$url.'/wp-admin/user-edit.php?user_id='.$item["user-id"].'#user-logement" target="_blank">'.$item["user-name"].'</a></td>';
         								
         								
-        								// Enregistrement
-        								echo '<td>'.$item["user-registered"].'</td>';
+        								//date d'inscription
+										$user_timestamp_complete = get_user_meta( $item["user-id"], 'kino_timestamp_complete_2017', true );
+										echo '<td>'. $user_timestamp_complete .'</td>';
         								
         								// Real?
         								
