@@ -289,7 +289,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				if (!empty($kino_valid_real_kab) ) {
 						
 						echo '<div>';
-						echo '<h2>Réalisateurs-trices validés : Kabaret 2016 ('.count($kino_valid_real_kab).')</h2>';
+						echo '<h2>Réalisateurs-trices validés : Kabaret 2017 ('.count($kino_valid_real_kab).')</h2>';
 						echo '<div class="kino-admin-view">';
 				
 						foreach ($kino_valid_real_kab as $key => $item) {
