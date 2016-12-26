@@ -142,6 +142,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           			<th>Activités Kino?</th>
           			<th>Adresse</th>
         		    <th>Email / Tel.</th>
+        		    <th>Inscrit le</th>
           		</tr>
           	</thead>
           	<tbody>
@@ -251,7 +252,12 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							
         							// Email
         							?><td><a href="mailto:<?php echo $item["user-email"] ?>?Subject=Kino%20Kabaret" target="_top"><?php echo $item["user-email"] ?></a> - <?php echo $item["tel"] ?></td>
-        					<?php		
+        							
+        					<?php
+        					
+									//date d'inscription
+									$user_timestamp_complete = get_user_meta( $item["user-id"], 'kino_timestamp_complete', true );
+									echo '<td>'. $user_timestamp_complete .'</td>';
         					echo '</tr>';
         					
         				} // end foreach
