@@ -256,7 +256,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					<?php
         					
 									//date d'inscription
-									$user_timestamp_complete = get_user_meta( $item["user-id"], 'kino_timestamp_complete', true );
+									$user_timestamp_complete = get_user_meta( $item["user-id"], 'kino_timestamp_complete_2017', true );
 									echo '<td>'. $user_timestamp_complete .'</td>';
         					echo '</tr>';
         					
