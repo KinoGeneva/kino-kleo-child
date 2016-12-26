@@ -475,14 +475,14 @@ body {
         );
         
         // order by: last_name
-        
+        /*
         if (empty($ids_of_kino_participants)) {
         	// il faut filtrer, sinon la page sera trop énorme!
         	$ids_of_kino_participants = get_objects_in_term( 
         		$kino_fields['group-kino-complete'], 
         		'user-group' 
         	);
-        }
+        }*/
         
         $user_query = new WP_User_Query( array( 
         	'include' => $ids_of_kino_participants, // IDs incluses
