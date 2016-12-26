@@ -491,7 +491,7 @@ body {
         	'orderby'  => 'login', // was: last_name
         	'meta_query' => array(
   	        array(
-  	            'key' => 'kino_timestamp_complete',
+  	            'key' => 'kino_timestamp_complete_2017',
   	            'value' => $kinodate_offset,
   	            'type' => 'CHAR',
   	            'compare' => '>'
@@ -828,7 +828,7 @@ body {
         	 
         	 // Baseline - Is staff?
         	 
-        	 echo '<div class="baseline">Kino Kabaret de Genève 2016';
+        	 echo '<div class="baseline">Kino Kabaret de Genève 2017';
         	 
         	 	if ( !empty($kino_is_staff ) ) {
         	 		echo ' – <span class="staff">staff</staff>';
