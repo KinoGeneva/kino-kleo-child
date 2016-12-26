@@ -78,6 +78,35 @@
 								do_action( 'bp_profile_field_item' );
 
 						endwhile; ?>
+						
+					<?php //bp-widget competence-comedien: ajout de la vidéo
+				if(strstr(bp_get_the_profile_group_name(), 'Comédien')){
+					//echo 'id:'. bp_displayed_user_id();
+
+					//get the media
+					$args = array(
+						'author' => bp_displayed_user_id(),
+						'post_status' => 'inherit',
+						'post_type' => 'attachment',
+					);
+					$user_video_query = new WP_Query( $args );
+					
+					// The Loop
+					if ( $user_video_query->have_posts() ) {
+						echo '<dl><dt>Vidéo de présentation</dt>';
+						while ( $user_video_query->have_posts() ) {
+							$user_video_query->the_post();
+							//echo wp_get_attachment_url() ;
+							echo '<dd>' . do_shortcode('[video src="'. wp_get_attachment_url()  .'"]') . '</dd>';
+						}
+						echo '</dl>';
+						/* Restore original Post Data */
+						wp_reset_postdata();
+					} else {
+						echo 'pas de vidéo';
+					}
+				}
+				?>				
 					
 					</div><!-- end bp-profile-loop -->
 			</div><!-- end bp-widget -->
