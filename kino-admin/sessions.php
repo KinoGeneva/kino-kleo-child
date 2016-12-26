@@ -30,6 +30,29 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	'user-group' 
         );
         
+        //sessions
+		$ids_real_session1 = array();
+        $ids_real_session1 = get_objects_in_term( 
+        	$kino_fields['group-session-un'] , 
+        	'user-group' 
+        );
+        //print_r($ids_real_session1);
+        $ids_real_session2 = array();
+        $ids_real_session2 = get_objects_in_term( 
+        	$kino_fields['group-session-deux'] , 
+        	'user-group' 
+        );
+        $ids_real_session3 = array();
+        $ids_real_session3 = get_objects_in_term( 
+        	$kino_fields['group-session-trois'] , 
+        	'user-group' 
+        );
+        $ids_real_sessions8 = array();
+        $ids_real_sessions8 = get_objects_in_term( 
+        	$kino_fields['group-session-superhuit'] , 
+        	'user-group' 
+        );
+        
         $ids_real_kabaret_accepted = array_filter($ids_real_kabaret_accepted);
         
         // user query
@@ -46,16 +69,37 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			
         			// infos about WP_user object
         			$id = $user->ID ;
-        			
+        			/*
         			// test session info
         			$kino_session_attrib = bp_get_profile_field_data( array(
         					'field'   => $kino_fields['session-attribuee'],
         					'user_id' => $id
         			) );
         			$kino_session_short = mb_substr($kino_session_attrib, 0, 9);
+        			*/
         			
-        			if ( $kino_session_short == 'session 1' ) {
-        				
+        			if ( in_array( $id , $ids_real_session1) ) {
+						$kino_session_un_title = 'session 1';  				            				
+			          	$kinoites_session_un[] = kino_user_fields_superlight( $user, $kino_fields );
+			         }
+			         else if ( in_array( $id , $ids_real_session2) ) {
+						$kino_session_deux_title = 'session 2';  				            				
+			          	$kinoites_session_deux[] = kino_user_fields_superlight( $user, $kino_fields );
+			         }
+			         else if ( in_array( $id , $ids_real_session3) ) {
+						$kino_session_trois_title = 'session 3';  				            				
+			          	$kinoites_session_trois[] = kino_user_fields_superlight( $user, $kino_fields );
+			         }
+			         else if ( in_array( $id , $ids_real_sessions8) ) {
+						$kino_session_superhuit_title = 'session super huit';  				            				
+			          	$kinoites_session_superhuit[] = kino_user_fields_superlight( $user, $kino_fields );
+			         }
+			         else {
+						$kino_session_sans_title = "sans session";
+						$kinoites_session_sans[] = kino_user_fields_superlight( $user, $kino_fields );
+					}	
+        		
+        			/*if ( $kino_session_short == 'session 1' ) {
         				$kino_session_un_title = $kino_session_attrib;
         				$kinoites_session_un[] = kino_user_fields_superlight( $user, $kino_fields );
         				
@@ -74,11 +118,14 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         				$kino_session_superhuit_title = $kino_session_attrib;
         				$kinoites_session_superhuit[] = kino_user_fields_superlight( $user, $kino_fields );
         			
-        			} // end session testing
+        			} else {
+						$kino_session_superhuit_title = "sans session";
+						$kinoites_session_sans[] = kino_user_fields_superlight( $user, $kino_fields );
+					}*/
+        			// end session testing
         			
         	} // End foreach
         } // End testing User_Query
-        	
         //***************************************
         
         $kino_session_table_header = '<table class="table table-hover table-bordered table-condensed">
@@ -132,9 +179,16 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         		}
         	echo '</tbody></table>';
         }
-        
-        
-        
+        //sans session
+        if ( !empty($kinoites_session_sans) ) {
+        	echo '<h2>'.count($kinoites_session_sans).' réalisateurs-trices sans session attribuée:</h2>';
+          echo $kino_session_table_header;
+        	$metronom = 1;
+        		foreach ($kinoites_session_sans as $key => $item) {
+        				include('sessions-loop.php');
+        		}
+        	echo '</tbody></table>';
+        }
          ?>
         
     </div><!--end article-content-->
