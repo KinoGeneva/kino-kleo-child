@@ -471,14 +471,14 @@ body {
         );
         
         // order by: last_name
-        
+        /*
         if (empty($ids_of_kino_participants)) {
         	// il faut filtrer, sinon la page sera trop énorme!
         	$ids_of_kino_participants = get_objects_in_term( 
         		$kino_fields['group-kino-complete'], 
         		'user-group' 
         	);
-        }
+        }*/
         
         $user_query = new WP_User_Query( array( 
         	'include' => $ids_of_kino_participants, // IDs incluses
@@ -487,7 +487,7 @@ body {
         	'orderby'  => 'last_name',
         	'meta_query' => array(
         	        array(
-        	            'key' => 'kino_timestamp_complete',
+        	            'key' => 'kino_timestamp_complete_2017',
         	            'value' => $kinodate_offset,
         	            'type' => 'CHAR',
         	            'compare' => '>'
