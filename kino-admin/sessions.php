@@ -208,18 +208,18 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         } // End testing User_Query
         //***************************************
         
-        $kino_session_table_header = '<table class="table table-hover table-bordered table-condensed">
+        $kino_session_table_header = '<table class="table table-hover table-bordered table-condensed pending-form">
         	<thead>
         		<tr>
         			<th>#</th>
         			<th>Nom</th>
-        	    <th>Email</th>
+					<th>Email</th>
+					<th>Session</th>
         		</tr>
         	</thead>
         	<tbody>';
         
         // OUTPUT!
-        
         if ( !empty($kinoites_session_un) ) {
         	echo '<h2>'.count($kinoites_session_un).' réalisateurs-trices en '.$kino_session_un_title.':</h2>';
 	        echo $kino_session_table_header;
