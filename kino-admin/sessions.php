@@ -214,7 +214,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			<th>#</th>
         			<th>Nom</th>
 					<th>Email</th>
-					<th>Session</th>
+					<th>Changement de session</th>
         		</tr>
         	</thead>
         	<tbody>';
