@@ -81,46 +81,18 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			if ( in_array( $id , $ids_real_session1) ) {
 						$kino_session_un_title = 'session 1';  				            				
 			          	$kinoites_session_un[] = kino_user_fields_superlight( $user, $kino_fields );
-		          		//Add to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
-								$kino_fields['mailpoet-session-un'] 
-							);
-						}
 			         }
 			         if ( in_array( $id , $ids_real_session2) ) {
 						$kino_session_deux_title = 'session 2';  				            				
 			          	$kinoites_session_deux[] = kino_user_fields_superlight( $user, $kino_fields );
-			          	//Add to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
-								$kino_fields['mailpoet-session-deux'] 
-							);
-						}
 			         }
 			         if ( in_array( $id , $ids_real_session3) ) {
 						$kino_session_trois_title = 'session 3';  				            				
 			          	$kinoites_session_trois[] = kino_user_fields_superlight( $user, $kino_fields );
-			          	//Add to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
-								$kino_fields['mailpoet-session-trois'] 
-							);
-						}
 			         }
 			         if ( in_array( $id , $ids_real_sessions8) ) {
 						$kino_session_superhuit_title = 'session super huit';  				            				
 			          	$kinoites_session_superhuit[] = kino_user_fields_superlight( $user, $kino_fields );
-			          	//Add to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
-								$kino_fields['mailpoet-session-superhuit'] 
-							);
-						}
 			         }
 			         if ( !in_array( $id , $ids_real_sessions8) &&  !in_array( $id , $ids_real_session1) &&  !in_array( $id , $ids_real_session2) &&  !in_array( $id , $ids_real_session3)){
 						$kino_session_sans_title = "sans session";
