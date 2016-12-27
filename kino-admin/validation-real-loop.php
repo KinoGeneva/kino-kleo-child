@@ -174,7 +174,7 @@
       			
       			// Registration date
       			$shortdate = substr( $user->user_registered, 0, 10 );
-      			$user_timestamp_complete = get_user_meta( $item["user-id"], 'kino_timestamp_complete_2017', true );
+      			$user_timestamp_complete = get_user_meta( $user->ID, 'kino_timestamp_complete_2017', true );
       			echo '<td>'. $shortdate .'<br/>
       			'. $user_timestamp_complete .'</td>';
       			
