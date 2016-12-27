@@ -81,11 +81,24 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			if ( in_array( $id , $ids_real_session1) ) {
 						$kino_session_un_title = 'session 1';  				            				
 			          	$kinoites_session_un[] = kino_user_fields_superlight( $user, $kino_fields );
-		          		//Add to Mailpoet List si id trouvé
+		          		//Add and remove to Mailpoet List si id trouvé
 						if(getMailpoetId($id)){
+							$mailpoet_id = getMailpoetId($id);
 							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
+								$mailpoet_id, 
 								$kino_fields['mailpoet-session-un'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-deux'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-trois'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-superhuit'] 
 							);
 						}
 			         }
@@ -94,9 +107,22 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 			          	$kinoites_session_deux[] = kino_user_fields_superlight( $user, $kino_fields );
 			          	//Add to Mailpoet List si id trouvé
 						if(getMailpoetId($id)){
+							$mailpoet_id = getMailpoetId($id);
 							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
+								$mailpoet_id, 
 								$kino_fields['mailpoet-session-deux'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-un'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-trois'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-superhuit'] 
 							);
 						}
 			         }
@@ -105,9 +131,22 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 			          	$kinoites_session_trois[] = kino_user_fields_superlight( $user, $kino_fields );
 			          	//Add to Mailpoet List si id trouvé
 						if(getMailpoetId($id)){
+							$mailpoet_id = getMailpoetId($id);
 							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
+								$mailpoet_id, 
 								$kino_fields['mailpoet-session-trois'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-un'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-deux'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-superhuit'] 
 							);
 						}
 			         }
@@ -116,9 +155,22 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 			          	$kinoites_session_superhuit[] = kino_user_fields_superlight( $user, $kino_fields );
 			          	//Add to Mailpoet List si id trouvé
 						if(getMailpoetId($id)){
+							$mailpoet_id = getMailpoetId($id);
 							kino_add_to_mailpoet_list( 
-								getMailpoetId($id), 
+								$mailpoet_id, 
 								$kino_fields['mailpoet-session-superhuit'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-un'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-deux'] 
+							);
+							kino_remove_from_mailpoet_list( 
+								$mailpoet_id,  
+								$kino_fields['mailpoet-session-trois'] 
 							);
 						}
 			         }
