@@ -377,7 +377,7 @@ function kino_user_fields_light( $kino_userid, $kino_fields ) {
 function kino_user_fields_superlight( $user, $kino_fields ) {
 	
 	$kino_userdata = array(
-	      "user-id" => $kino_userid,
+	      "user-id" => $user->ID,
 	      "user-name" => $user->display_name,
 	      "user-slug" => $user->user_nicename,
 	      "user-email" => $user->user_email,
