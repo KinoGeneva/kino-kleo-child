@@ -55,8 +55,8 @@
           <div class="item-meta"><span class="kino-roles"><?php 
           
           	// Display Kino Roles
-          	
-          	$user_role = kino_user_participation_role( bp_get_member_user_id(), $kino_fields );
+          	$userid = bp_get_member_user_id();
+          	$user_role = kino_user_participation_role( $userid, $kino_fields );
           	
           	// Réalisateur ?
           	if ( in_array( "realisateur-kab", $user_role )) {
@@ -94,6 +94,44 @@
             * bp_member_profile_data( 'field=the field name' );
             */
             
+            if ( current_user_can( 'publish_pages' ) ) {
+            
+            	// we show everything for: Admin and Editor roles
+            	echo '<div class="item-meta">';
+            	
+            	$kino_profil_email = bp_get_profile_field_data( array(
+            			'field'   => $kino_fields['courriel'],
+            			'user_id' => $userid
+            	) );
+            	
+            	$kino_profil_tel = bp_get_profile_field_data( array(
+            			'field'   => $kino_fields['tel'],
+            			'user_id' => $userid
+            	) );
+            	
+//            	$kino_profil_email_visible = bp_get_the_profile_field_visibility_level_label( array(
+//            			'field'   => $kino_fields['courriel'],
+//            			'user_id' => $userid
+//            	) );
+            	
+            	            
+	            if ( $kino_profil_email != "" ) {
+	            
+	            	echo $kino_profil_email;
+	            		
+	            }
+	            
+	            if ( $kino_profil_tel != "" ) {
+	            
+	            	echo '<br><a href="tel:'.$kino_profil_tel.'">'.$kino_profil_tel.'</a>';
+	            		
+	            }
+            
+            	echo '</div>';
+            
+            } // test user
+
+
           ?>
         </div>
   

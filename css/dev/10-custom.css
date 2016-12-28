@@ -551,6 +551,19 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 
 /* @end */
 
+/* @group Members List */
+
+#buddypress #members-list .member-inner-list {
+ 	padding-top: 15px;
+ 	padding-bottom: 10px;
+}
+
+#buddypress #members-list .item-title {
+	padding-top: 0;	
+}
+
+/* @end */
+
 /* @group Validation des champs */
 
 #profile-edit-form .editfield.has-error,
