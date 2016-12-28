@@ -8,6 +8,10 @@
  * @package BuddyPress
  * @subpackage bp-legacy
  */
+ 
+ 
+ // Define fields
+ $kino_fields = kino_test_fields();
 
 ?>
 
@@ -51,7 +55,7 @@
           <div class="item-meta"><span class="kino-roles"><?php 
           
           	// Display Kino Roles
-          	$kino_fields = kino_test_fields();
+          	
           	$user_role = kino_user_participation_role( bp_get_member_user_id(), $kino_fields );
           	
           	// Réalisateur ?
@@ -89,6 +93,7 @@
             *
             * bp_member_profile_data( 'field=the field name' );
             */
+            
           ?>
         </div>
   
