@@ -10,6 +10,13 @@ body.login {
 	background-color: #fff;
 	}
 
+body.login h1 a {
+	background-image: url('../img/logo/KinoGeneva_Red_R1.jpg');
+	background-size: 192px 75px;
+	width: 192px;
+	height: 75px;
+}
+
 .login form {
  -moz-box-shadow: 0 1px 3px rgba(0,0,0,.3);
  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
@@ -23,4 +30,23 @@ body.login {
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.3);
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,.3);
 	border-top: 1px solid #e2e2e2;
+}
+
+.login #backtoblog a:hover, .login #nav a:hover, .login h1 a:hover {
+	color: #c11119;
+}
+
+.wp-core-ui .button-primary {
+	background: #c11119;
+	border-color: #950e14;
+	box-shadow: 0 1px #940d13;
+	color: #fff;
+	text-decoration: none;
+	text-shadow: none;
+	-moz-box-shadow: 0 1px #940d13;
+}
+
+.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover {
+	background: #ea1b24;
+	border-color: #c11119;
 }
