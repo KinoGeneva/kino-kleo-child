@@ -562,6 +562,9 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 	padding-top: 0;	
 }
 
+#buddypress #members-list .item-meta {
+	overflow-wrap: break-word;
+}
 /* @end */
 
 /* @group Validation des champs */
