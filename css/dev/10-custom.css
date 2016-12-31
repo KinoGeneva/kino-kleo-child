@@ -877,6 +877,8 @@ table.calendar th {
 /* @end */
 
 /* page edition profil onglet comédien*/
-#buddypress .standard-form .field_2018 p.description {
-	font-size: 100%;
+/* page edition profil onglet bénévole*/
+#buddypress .standard-form .field_2018 p.description,
+#buddypress .standard-form .field_2021 p.description  {
+	font-size: 120%;
 }
