@@ -90,7 +90,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			<tr>
         				<th>#</th>
         				<th>ID</th>
-        				<th>Nom/Email</th>
+        				<th>Nom</th>
+        				<th>Email</th>
 						<th>Rôle Kabaret</th>
 						<th>Réal?</th>
 						<th>Profil complet?</th>
@@ -124,10 +125,10 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					
         					echo '<a href="'.$url.'/members/'.$user->user_nicename.'/profile/" target="_blank">';
 		        					echo $user->user_nicename;
-        					echo '</a>';
+        					echo '</a></td>';
         					
         					// Email
-        			echo ' – <a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
+        			echo ' <td><a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
         					
         					// Rôle Kino?
         					
