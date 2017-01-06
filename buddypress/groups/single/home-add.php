@@ -295,6 +295,7 @@ $(document).ready(function(){
 	</div>
 </div>
 
+<div>
 <?php 
 
 		$images = get_field('medias', $fiche_projet_post_id);
@@ -311,7 +312,8 @@ $(document).ready(function(){
 				<?php endforeach; ?>
 
 		<?php endif; ?>
-
+</div>
+<div style="clear: both;">
 		<h3>Besoins</h3>
 		<h4>Équipe technique</h4>
 		<?php the_field('besoin_equipe', $fiche_projet_post_id); ?>
@@ -425,3 +427,4 @@ $(document).ready(function(){
 					echo '<h4>Besoins de transport: '. get_field('transport_jour_et_horaires', $fiche_projet_post_id) .'</h4>';
 				}
 		?>
+</div>
