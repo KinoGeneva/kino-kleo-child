@@ -291,10 +291,11 @@ $(document).ready(function(){
 			echo '</div>';
 		}
 		?>
-		<?php //the_field('lieux_de_tournage', $fiche_projet_post_id); ?>		
+		<?php //the_field('lieux_de_tournage', $fiche_projet_post_id); ?>	
+	</div>
+</div>
 
-		
-		<?php 
+<?php 
 
 		$images = get_field('medias', $fiche_projet_post_id);
 
@@ -310,11 +311,6 @@ $(document).ready(function(){
 				<?php endforeach; ?>
 
 		<?php endif; ?>
-		
-
-
-	</div>
-</div>
 
 		<h3>Besoins</h3>
 		<h4>Équipe technique</h4>
