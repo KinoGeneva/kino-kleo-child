@@ -43,6 +43,14 @@
 
 		<li class="kleo-masonry-item">
     	<div class="member-inner-list animated animate-when-almost-visible bottom-to-top">
+        <?php
+          	$userid = bp_get_member_user_id();
+          	//pastille si KK profil complet
+			 $ids_of_kino_complete = get_objects_in_term( $kino_fields['group-kino-complete'] , 'user-group' );
+			 if(in_array($userid, $ids_of_kino_complete)){
+				 echo '<img src="'. get_stylesheet_directory_uri() .'/img/badges/Star_small.png" style="float: right; margin-right: 10px;"/>';
+			 }
+			?>
         <div class="item-avatar rounded">
           <a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar(); ?></a>
           <?php do_action('bp_member_online_status', bp_get_member_user_id()); ?>
@@ -53,11 +61,9 @@
             <a href="<?php bp_member_permalink(); ?>"><?php bp_member_name(); ?></a>
           </div>
           <div class="item-meta"><span class="kino-roles"><?php 
-          
           	// Display Kino Roles
-          	$userid = bp_get_member_user_id();
           	$user_role = kino_user_participation_role( $userid, $kino_fields );
-          	
+
           	// Réalisateur ?
           	if ( in_array( "realisateur-kab", $user_role )) {
           		echo '<span class="kp-pointlist">Réalisateur-trice</span>';
