@@ -53,6 +53,9 @@ require_once('functions/bp-messages.php');
 
 require_once('functions/bp-field-validation.php');
 
+require_once('functions/bp-group-add.php');
+
+
 /* Admin Pages
 ******************************/
 
