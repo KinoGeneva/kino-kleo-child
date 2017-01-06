@@ -293,6 +293,26 @@ $(document).ready(function(){
 		?>
 		<?php //the_field('lieux_de_tournage', $fiche_projet_post_id); ?>		
 
+		
+		<?php 
+
+		$images = get_field('medias', $fiche_projet_post_id);
+
+		if( $images ): ?>
+		<h3>Galerie</h3>
+				<?php foreach( $images as $image ): ?>
+					<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
+						<a href="<?php echo $image['url']; ?>">
+							 <img src="<?php echo $image['sizes']['thumbnail']; ?>" alt="<?php echo $image['alt']; ?>" />
+						</a>
+						<br/><?php echo $image['caption']; ?>
+					</div>
+				<?php endforeach; ?>
+
+		<?php endif; ?>
+		
+
+
 	</div>
 </div>
 
