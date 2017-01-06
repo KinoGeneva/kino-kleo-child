@@ -124,7 +124,7 @@ add_action( 'bp_actions', 'remove_group_home_tab', 100 );
 
 //ajout d'un item "fiche-projet" au menu du groupe pour admin seulement
 function add_group_tab() {
-	if ( ! bp_is_group() || (!bp_group_is_admin()  && !is_super_admin() ) ){
+	if ( ! bp_is_group() || ! ( bp_is_current_action( 'admin' ) && bp_action_variable( 0 ) ) || (!bp_group_is_admin()  && !is_super_admin() ) ){
 		return;
 	}
 	$parent_nav_slug = bp_get_current_group_slug() ;
