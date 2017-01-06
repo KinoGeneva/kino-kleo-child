@@ -31,9 +31,9 @@ else {
 			'post_type'		=> 'post',
 			'post_status'		=> 'publish',
 			'comment_status' => 'closed',
-			'post_category' => array(284)
+			'post_category' => array(308)
 			),
-		'field_groups' => array(2981),
+		'field_groups' => array(3147,3164),
 		'updated_message'    => 'Le projet a été mis à jour',
 		'submit_value'		=> 'Mettre à jour la fiche projet',
 		'html_before_fields' => '
