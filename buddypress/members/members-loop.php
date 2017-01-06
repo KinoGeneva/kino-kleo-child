@@ -48,7 +48,7 @@
           	//pastille si KK profil complet
 			 $ids_of_kino_complete = get_objects_in_term( $kino_fields['group-kino-complete'] , 'user-group' );
 			 if(in_array($userid, $ids_of_kino_complete)){
-				 echo '<img src="'. get_stylesheet_directory_uri() .'/img/badges/Star_small.png" style="float: right; margin-right: 10px;"/>';
+				 echo '<img src="'. get_stylesheet_directory_uri() .'/img/badges/Star_small.png" style="float: right; margin-right: 10px;" alt="membre Kino" title="membre Kino"/>';
 			 }
 			?>
         <div class="item-avatar rounded">
