@@ -1,6 +1,9 @@
 /* On masque des éléments sur le site LIVE */
 
 
+#profile-edit-form #field_2038_2 {
+	display: none;
+}
 
 .pricing-table .pmpro-price .lead {
 	font-size: 24px!important;
