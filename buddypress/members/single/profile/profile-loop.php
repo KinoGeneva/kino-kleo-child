@@ -18,8 +18,9 @@
 	// 2) Liste des groupes autorisés (filtrés)
 	
 	$kino_allowed_groups = kino_get_field_group_conditions( $groups );
-	$kino_allowed_group_ids = array();
 	
+	$kino_allowed_group_ids = array();
+		
 	foreach( $kino_allowed_groups as $item ){ 
 	  $kino_allowed_group_ids[] = $item->id;
 	   			//echo $item->name;
@@ -29,6 +30,7 @@
 	// 3) Liste de champs autorisés:
 	
 	$kino_excluded_fields = kino_list_of_excluded_profile_fields();
+	
 	
 //	echo '<pre>Allowed ids:';
 //	var_dump($kino_allowed_group_ids);

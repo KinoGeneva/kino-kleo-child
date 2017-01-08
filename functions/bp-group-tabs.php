@@ -220,8 +220,13 @@ function kino_get_field_group_conditions( $groups ) {
   	
   	// Displayed User:
   	$kino_user_role = kino_user_participation( bp_displayed_user_id(), $kino_fields );
-
-  	
+		
+		// No need to show Conditions, they are filled at account creation...
+		
+		if ( bp_is_profile_edit() == false ) {
+			$forbidden_groups[] = "Conditions";
+		}
+		
   	if (!in_array( "realisateur", $kino_user_role )) {
   		if (!in_array( "realisateur-kab", $kino_user_role )) {
   			$forbidden_groups[] = "Compétence Réalisateur";
