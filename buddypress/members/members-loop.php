@@ -38,7 +38,7 @@ if ( strpos( $kino_query_string, 'include' ) !== false ) {
 		
 		$list_ids_of_participants = implode( ",", $ids_of_participants );
 		
-//		$kino_query_string .= '&include='.$list_ids_of_participants ;
+		$kino_query_string .= '&include='.$list_ids_of_participants ;
 		
 }
 
