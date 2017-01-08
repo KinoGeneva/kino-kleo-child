@@ -142,7 +142,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           			<th>Activités Kino?</th>
           			<th>Adresse</th>
         		    <th>Email / Tel.</th>
-        		    <th>Inscrit au Kabaret le</th>
+        		    <th>Inscription Kabaret</th>
+        		    <th>Inscription bénévole</th>
           		</tr>
           	</thead>
           	<tbody>
@@ -255,9 +256,25 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							
         					<?php
         					
-									//date d'inscription
-									$user_timestamp_complete = get_user_meta( $item["user-id"], 'kino_timestamp_complete_2017', true );
+									//date d'inscription kino
+									$user_timestamp_complete = get_user_meta( 
+										$item["user-id"], 
+										'kino_timestamp_complete_2017', 
+										true 
+									);
 									echo '<td>'. $user_timestamp_complete .'</td>';
+									
+									//date d'inscription bénévole
+
+									$timestamp_benevole = get_user_meta( 
+										$item["user-id"], 
+										'kino_timestamp_benevole_2017', 
+										true  
+									);
+									
+									 echo '<td>'. $timestamp_benevole .'</td>';
+									
+									// fin de la rangée
         					echo '</tr>';
         					
         				} // end foreach
