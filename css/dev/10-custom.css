@@ -565,8 +565,8 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 	display: none;
 }
 
-#buddypress > .bps_header,
-#buddypress > .bps-form {
+.directory #buddypress > .bps_header,
+.directory #buddypress > .bps-form {
 	display: none;
 }
 

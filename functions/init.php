@@ -91,7 +91,15 @@ function kino_register_scripts() {
 					
 		}
 	}
-
+	
+	wp_enqueue_script( 
+		'kino-javascript', // Name of the script
+		get_stylesheet_directory_uri() . '/js/kino.js', 
+		array('jquery'), // dependencies
+		'2.28.3', // version
+		true // footer?
+	);
+	
 }
 add_action( 'wp_enqueue_scripts', 'kino_register_scripts', 25 );
 
