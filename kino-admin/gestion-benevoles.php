@@ -262,6 +262,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 										'kino_timestamp_complete_2017', 
 										true 
 									);
+									$user_timestamp_complete = str_replace("T", " ", $user_timestamp_complete);
+									// supprimer secondes:
+									$user_timestamp_complete = substr($user_timestamp_complete, 0, 16);
 									echo '<td>'. $user_timestamp_complete .'</td>';
 									
 									//date d'inscription bénévole
@@ -271,7 +274,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 										'kino_timestamp_benevole_2017', 
 										true  
 									);
-									
+									$timestamp_benevole = str_replace("T", " ", $timestamp_benevole);
+									// supprimer secondes:
+									$user_timestamp_complete = substr($user_timestamp_complete, 0, 16);
 									 echo '<td>'. $timestamp_benevole .'</td>';
 									
 									// fin de la rangée

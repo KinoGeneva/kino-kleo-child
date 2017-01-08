@@ -44,6 +44,7 @@ function kino_js_tablesort($tableid){
 				
 				$("#<?php echo $tableid; ?>").tablesorter({
 						
+						dateFormat : "yyyymmdd",
 						// this will apply the bootstrap theme if "uitheme" widget is included
 						// the widgetOptions.uitheme is no longer required to be set
 						theme : "bootstrap",
