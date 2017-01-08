@@ -162,8 +162,8 @@ body {
  */
 
 .calendrier {
-	width: 140mm;
-	margin-left: 15mm;
+	width: 156mm;
+	margin-left: 8.5mm;
 	margin-top: 5mm;
 	margin-bottom: 5mm;
 }
@@ -743,17 +743,18 @@ body {
         	 echo '<div class="calendrier-list">';
         	 
         	 $kabaret_dates = array(
-	        	 	'18' => 'Lu',
-	        	 	'19' => 'Ma',
-	        	 	'20' => 'Me',
-	        	 	'21' => 'Je',
-	        	 	'22' => 'Ve',
-	        	 	'23' => 'Sa',
-	        	 	'24' => 'Di',
-	        	 	'25' => 'Lu',
-	        	 	'26' => 'Ma',
-	        	 	'27' => 'Me',
-	        	 	'28' => 'Je'
+					'8' => 'Di',
+	        	 	'9' => 'Lu',
+	        	 	'10' => 'Ma',
+	        	 	'11' => 'Me',
+	        	 	'12' => 'Je',
+	        	 	'13' => 'Ve',
+	        	 	'14' => 'Sa',
+	        	 	'15' => 'Di',
+	        	 	'16' => 'Lu',
+	        	 	'17' => 'Ma',
+	        	 	'18' => 'Me',
+	        	 	'19' => 'Je'
         	 );
         	 	
 //        	 echo '<pre> dispo: ';
@@ -764,7 +765,7 @@ body {
         	 		
         	 		$date_dispo_class = '';
         	 		
-        	 		if ( in_array( $key." janvier", $kino_userdata["dispo"] )) {
+        	 		if ( in_array( $value ." ". $key ." janvier", $kino_userdata["dispo"] )) {
         	 			$date_dispo_class = ' calendrier-dispo';
         	 		}
         	 		
