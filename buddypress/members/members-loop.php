@@ -13,11 +13,40 @@
  // Define fields
  $kino_fields = kino_test_fields();
 
+// Filter users:
+// Show only participants of KinoGenenva 2017
+// Use group-kino-complete 
+// Pass a user_id or string of comma separated user_ids to return on these users.
+
+$kino_query_string = bp_ajax_querystring( 'members' );
+
+$kino_query_string .= '&per_page=50';
+
+// Test if string has "include" parameter
+
+if ( strpos( $kino_query_string, 'include' ) !== false ) {
+    // 'true';
+    // keep string as is.
+} else {
+		
+		// Add "include" parameter to avoid non-participants
+	
+		$ids_of_participants = get_objects_in_term( 
+			$kino_fields['group-kino-complete'] , 
+			'user-group' 
+		);
+		
+		$list_ids_of_participants = implode( ",", $ids_of_participants );
+		
+//		$kino_query_string .= '&include='.$list_ids_of_participants ;
+		
+}
+
 ?>
 
 <?php do_action( 'bp_before_members_loop' ); ?>
 
-<?php if ( bp_has_members( bp_ajax_querystring( 'members' ). '&per_page=50' ) ) : ?>
+<?php if ( bp_has_members( $kino_query_string ) ) : ?>
 
 	<div id="pag-top" class="pagination">
 
