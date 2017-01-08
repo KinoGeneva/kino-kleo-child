@@ -15,12 +15,28 @@
 
 // Filter users:
 // Show only participants of KinoGenenva 2017
-// Use group-kino-complete 
-// Pass a user_id or string of comma separated user_ids to return on these users.
 
 $kino_query_string = bp_ajax_querystring( 'members' );
 
 $kino_query_string .= '&per_page=50';
+
+// Get all user IDs
+$all_user_ids = get_users(
+    array( 'fields' => 'ids')
+);
+
+$ids_of_participants = get_objects_in_term( 
+	$kino_fields['group-kino-complete'] , 
+	'user-group' 
+);
+
+// define non-participants: all MINUS particiants
+$non_participants = array_diff( $all_user_ids, $ids_of_participants );
+
+$list_non_participants = implode( ",", $non_participants );
+
+// Pass a user_id or string of comma separated user_ids to return on these users.
+$kino_query_string .= '&exclude='.$list_non_participants ;
 
 // Test if string has "include" parameter
 
@@ -29,18 +45,11 @@ if ( strpos( $kino_query_string, 'include' ) !== false ) {
     // keep string as is.
 } else {
 		
-		// Add "include" parameter to avoid non-participants
-	
-		$ids_of_participants = get_objects_in_term( 
-			$kino_fields['group-kino-complete'] , 
-			'user-group' 
-		);
-		
-		$list_ids_of_participants = implode( ",", $ids_of_participants );
-		
-		$kino_query_string .= '&include='.$list_ids_of_participants ;
-		
+		// Add parameter to avoid non-participants
+		// $kino_query_string .= '&include='.$list_ids_of_participants ;
 }
+
+// echo '<p>' . $kino_query_string . '</p>';
 
 ?>
 
