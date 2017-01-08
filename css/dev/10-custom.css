@@ -160,6 +160,11 @@
 	display: none;
 }
 
+/* masque les messages du forum de la liste des membre */
+#buddypress #members-list .update {
+	display: none;
+}
+
 .bp-profile-loop .field_photo img {
 	max-height: 250px;
 	width: auto;
@@ -565,6 +570,7 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 #buddypress #members-list .item-meta {
 	overflow-wrap: break-word;
 }
+
 /* @end */
 
 /* @group Validation des champs */
