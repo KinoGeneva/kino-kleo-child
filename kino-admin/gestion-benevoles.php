@@ -142,7 +142,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           			<th>Activités Kino?</th>
           			<th>Adresse</th>
         		    <th>Email / Tel.</th>
-        		    <th>Inscrit le</th>
+        		    <th>Inscrit au Kabaret le</th>
           		</tr>
           	</thead>
           	<tbody>
