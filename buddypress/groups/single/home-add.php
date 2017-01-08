@@ -174,104 +174,121 @@ $(document).ready(function(){
 		map = new_map( $(this) );
 
 	});
-
+	
+	//toogle menu
+	$('.besoins h4').next().hide();
+	$('.besoins h4').click(function() {
+		$(this).toggleClass('open');
+        $(this).next().toggle(200);
+        return false;
+        
+    });
 });
 
 })(jQuery);
 </script>
 <div class="row">
-	<div class="col-sm-6">
-		
-		<h3><?php bp_group_name(); ?></h3>
+	<div class="col-sm-8 projet">
 
-		<h4>Synopsis</h4>
-		<?php bp_group_description() ?>
-		
-		<h4>Réalisateur</h3>
-		<?php //echo bp_core_get_userlink( bp_get_group_creator_id(groups_get_current_group()) );?>
-		<?php echo bp_core_get_userlink(get_field('realisateur', $fiche_projet_post_id)['ID']); ?>
+		<h1><?php bp_group_name(); ?></h1>
 
-		<h4>Équipe</h4>
+		Un film de <span class="strong">
+		<?php 
+		$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
+		echo bp_core_get_user_displayname($id_real) .' | ';
+		the_field('duree', $fiche_projet_post_id); ?> | <?php the_field('genre', $fiche_projet_post_id); 
+		echo '</span>';
 
-		<?php
-		$projet_members= array();
-		if( have_rows('equipe', $fiche_projet_post_id) ){
-			while ( have_rows('equipe', $fiche_projet_post_id) )  {
-				the_row();
-				$projet_members[get_sub_field('role', $fiche_projet_post_id)][] = get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)['ID'];
-			}
-		}
-		?>
-
-
-		<?php
-		/*
-		#les rôles
-		$fields = array();
-		$fields = acf_get_fields_by_id( 3107 );
-		//print_r($fields);
-        if( $fields ) {
-			$members = array();
-			$projet_members = array();
-			foreach( $fields as $field ) {
-				$members = get_field($field['name'], $fiche_projet_post_id);
-				if($members) {
-					foreach($members as $member) {
-						if(stristr($field['name'],'autre')) {
-							$role = $field['name'];
-						}
-						else {
-							$role = $field['label'];
-						}
-						$projet_members[$role][] = $member['ID'];
-					}
-				}
-			}			
-		}*/
-		
-		#les membres de ce groupe
-		if ( bp_group_has_members(  ) ) {
-			while ( bp_group_members() ) {
-				bp_group_the_member();
-				bp_group_member_link();
-				foreach( $projet_members as $role => $ids) {
-					 if(in_array(bp_get_member_user_id(), $ids)) {
-						if(stristr($role,'autre')){
-							echo ' | ';
-							the_field('preciser_'. substr($role, -1, 1), $fiche_projet_post_id);
-						}
-						else {
-							  echo ' | '. $role;
-						}
-					}
-				}
-				echo '<br/>';   
-			}
-		}
-		?>
-
-		<h4>Titre définitif</h4>
-		<?php the_field('titre_definitif', $fiche_projet_post_id); ?>
-		<h4>Durée</h4>
-		<?php the_field('duree', $fiche_projet_post_id); ?>
-		<h4>Genre</h4>
-		<?php the_field('genre', $fiche_projet_post_id); ?>
-	</div>
-	<div class="col-sm-6">
-		<?php
 		//obtenir la session automatiquement
 		$sessions_terms = get_terms( array(
 			'taxonomy' => 'user-group',
 			'name__like' => 'session' ,
 			'fields' => 'names',
 		) );
-		$user_terms = wp_get_object_terms( get_current_user_id() , 'user-group', array('fields' => 'names'));
+		$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
 		
-		echo '<h3>'. current( ( array_intersect( $sessions_terms,$user_terms ) ) ) .'</h3>';
-		
+		echo '<h3 class="red">'. current( ( array_intersect( $sessions_terms,$user_terms ) ) ) .'</h3>';
 		?>
 		
-		<h4>tournage</h4>
+		<h3>Le réalisateur</h3>
+		<div class="item-avatar rounded">
+			  <?php echo get_avatar($id_real,80); ?>
+		</div>
+		<?php
+		echo '<h4 class="no-color">'. bp_core_get_userlink($id_real) .'</h4>'.
+		xprofile_get_field_data('e-mail', $id_real) .'<br/>'. xprofile_get_field_data('Téléphone', $id_real);
+		?>
+		
+		<div style="clear: both;"></div>
+		<hr/>
+		<h3>Synopsis</h3>
+		<?php bp_group_description() ?>
+
+		<hr/>
+		<h3>Équipe</h3>
+
+		<?php
+		#les membres selon la fiche projet : # plateforme (on stock l'identifiant) + # non plateforme (on stock le nom renseigné)
+		$projet_members= array();
+		if( have_rows('equipe', $fiche_projet_post_id) ){
+			while ( have_rows('equipe', $fiche_projet_post_id) )  {
+				the_row();
+				if(get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)){
+					$projet_member = get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)['ID'];
+				}
+				else if(get_sub_field('membre_hors_plateforme', $fiche_projet_post_id)){
+					$projet_member = get_sub_field('membre_hors_plateforme', $fiche_projet_post_id);
+				}
+				if($projet_member) {
+					$projet_members[get_sub_field('role', $fiche_projet_post_id)][] = $projet_member;
+				}
+			}
+		}
+		//print_r($projet_members);
+		
+		#les membres du projet qui sont membre du projet (du groupe buddypress)
+		$members_KK[] = array();
+		if ( bp_group_has_members(  ) ) {
+			while ( bp_group_members() ) {
+				bp_group_the_member();
+				$members_KK[bp_get_member_user_id()] = bp_get_group_member_link();
+			}
+		}
+		# affichage de tous les membres de l'équipe et de leurs rôles
+		$display_members = '';
+		foreach( $projet_members as $role => $members) {
+			$display_members.= '<b>'. $role .' | </b>';
+			foreach($members as $member){
+				if(array_key_exists($member, $members_KK)){
+					$display_members.= $members_KK[$member]; 
+				}
+				else {
+					$display_members.= $member;
+				}
+				$display_members.= '<br/>';
+			}
+		}
+		echo $display_members;
+		?>
+
+		<h4 class="red">membres de la communautés engagés sur le film</h4>
+					
+		<?php
+		if ( bp_group_has_members(  ) ) {
+			while ( bp_group_members() ) {
+				bp_group_the_member(); ?>
+				 <div class="item-avatar rounded">
+				  <a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar('type=full&width=40&height=40'); ?></a>
+				</div>
+				<?php
+			}
+		}
+		?>
+		<div style="clear: both"></div>
+
+		<hr/>
+		<h2>Tournage</h2>
+
 		<?php
 		if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ){
 			echo '<div class="acf-map">';
@@ -291,140 +308,198 @@ $(document).ready(function(){
 			echo '</div>';
 		}
 		?>
-		<?php //the_field('lieux_de_tournage', $fiche_projet_post_id); ?>	
-	</div>
-</div>
-
-<div>
-<?php 
-
-		$images = get_field('medias', $fiche_projet_post_id);
-
-		if( $images ): ?>
-		<h3>Galerie</h3>
-				<?php foreach( $images as $image ): ?>
-					<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
-						<a href="<?php echo $image['url']; ?>">
-							 <img src="<?php echo $image['sizes']['thumbnail']; ?>" alt="<?php echo $image['alt']; ?>" />
-						</a>
-						<br/><?php echo $image['caption']; ?>
-					</div>
-				<?php endforeach; ?>
-
-		<?php endif; ?>
-</div>
-<div style="clear: both;">
-		<h3>Besoins</h3>
-		<h4>Équipe technique</h4>
-		<?php the_field('besoin_equipe', $fiche_projet_post_id); ?>
-		
-		<h4>Comédiens</h4>
-		<ul>
+		<?php //the_field('lieux_de_tournage', $fiche_projet_post_id); ?>
+		<h3>Calendrier du tournage</h3>
+		<div class="red">
 			<?php
-		if( have_rows('besoin_comediens', $fiche_projet_post_id) ){
-			while ( have_rows('besoin_comediens', $fiche_projet_post_id) )  {
+		if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ){
+			while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) )  {
 				the_row();
-				echo '<li>';
-				echo 'Sexe: ';
-				the_sub_field('besoin_comedien_sexe', $fiche_projet_post_id);
-				echo '<br/>Talents particuliers: ';
-				the_sub_field('besoin_comedien_talents', $fiche_projet_post_id);
-				echo '<br/>Langues: ';
-				the_sub_field('besoin_comedien_langues_jouees', $fiche_projet_post_id);
-				echo '<br/>Couleurs des yeux: ';
-				the_sub_field('besoin_comedien_yeux', $fiche_projet_post_id);
-				echo '<br/>Teinte des cheveux: ';
-				the_sub_field('besoin_comedien_cheveux', $fiche_projet_post_id);
-				echo '<br/>Âge caméra: de ';
-				the_sub_field('besoin_comedien_age_minimum', $fiche_projet_post_id);
+				echo '<div class="boxcal">';
+				echo '<div class="day">
+				'. preg_replace('`[^0-9]`', '', get_sub_field('jours', $fiche_projet_post_id)) .'
+				</div>';
+				echo '<div class="strong">'. get_sub_field('jours', $fiche_projet_post_id) .', de ';
+				the_sub_field('tournage_debut', $fiche_projet_post_id);
 				echo ' à ';
-				the_sub_field('besoin_comedien_age_maximum', $fiche_projet_post_id);
-				echo '</li>';
+				the_sub_field('tournage_fin', $fiche_projet_post_id);
+				echo '</div>';
+				the_sub_field('adresse', $fiche_projet_post_id);
+				echo '<hr/></div>';
 			}
 		}
-/*
-		for($c=1; $c<5; $c++) {
-			if(get_field('besoin_comedien_'.$c, $fiche_projet_post_id)) {
+		?>
+		</div>
+	</div>
+	<div class="col-sm-4 besoins projet">
+
+		<h3 class="red">Besoins</h3>
+		
+		<?php
+		//link to group forum
+		$link_2_forum = '<div class="forumlink"><a href="'. bp_get_group_forum_permalink() .'">SUGGÉRER | POSTULER / FOURNIR</a></div>';
+		?>
+		
+		<?php
+		if(get_field('besoin_equipe', $fiche_projet_post_id)){
+			echo '<h4>Équipe</h4>
+			<div><ul>';
+			foreach(get_field('besoin_equipe', $fiche_projet_post_id) as $need){
+				echo '<li>'. $need .'</li>';
+			}
+			echo '</ul>'. $link_2_forum .'
+			</div>';
+		}
+		?>
+
+		<?php
+		if( have_rows('besoin_comediens', $fiche_projet_post_id) ){
+			echo '<h4>Casting</h4>
+			<div><ul>';
+			while ( have_rows('besoin_comediens', $fiche_projet_post_id) )  {
+				the_row();
+				$casting = array();
+				if(get_sub_field('besoin_comedien_sexe', $fiche_projet_post_id) && get_sub_field('besoin_comedien_sexe', $fiche_projet_post_id)!='Indifférent'){
+					$casting[] = get_sub_field('besoin_comedien_sexe', $fiche_projet_post_id);
+				}
+
+				if(get_sub_field('besoin_comedien_age_minimum', $fiche_projet_post_id) && get_sub_field('besoin_comedien_age_maximum', $fiche_projet_post_id)) {
+					$casting[] = 'âge caméra de '. get_sub_field('besoin_comedien_age_minimum', $fiche_projet_post_id) .' à '. get_sub_field('besoin_comedien_age_maximum', $fiche_projet_post_id) .' ans';
+				}
+				
+				if(get_sub_field('besoin_comedien_cheveux', $fiche_projet_post_id) && get_sub_field('besoin_comedien_cheveux', $fiche_projet_post_id)!='Indifférent'){
+					$casting[] = 'cheveux '. get_sub_field('besoin_comedien_cheveux', $fiche_projet_post_id);
+				}
+				
+				if(get_sub_field('besoin_comedien_yeux', $fiche_projet_post_id) && get_sub_field('besoin_comedien_yeux', $fiche_projet_post_id)!='Indifférent'){
+					$casting[] = 'Yeux '. get_sub_field('besoin_comedien_yeux', $fiche_projet_post_id);
+				}
+				
+				if(get_sub_field('besoin_comedien_langues_jouees', $fiche_projet_post_id)){
+					$casting[] = 'parlant '. implode(' + ', get_sub_field('besoin_comedien_langues_jouees', $fiche_projet_post_id));
+				}
+				
+				if(get_sub_field('besoin_comedien_talents', $fiche_projet_post_id)){
+					$casting[] = implode(', ', get_sub_field('besoin_comedien_talents', $fiche_projet_post_id));
+				}
+				
+				//display casting
 				echo '<li>';
-				echo 'Sexe: ';
-				the_field('sexe_'.$c, $fiche_projet_post_id);
-				echo '<br/>Talents particuliers: ';
-				the_field('talents_particuliers_'.$c, $fiche_projet_post_id);
-				echo '<br/>Langues: ';
-				the_field('langues_'.$c, $fiche_projet_post_id);
+				foreach($casting as $n => $need){
+					$need = strtolower($need);
+					if($n == 0){
+						echo ucfirst($need);
+					}
+					else {
+						echo $need;
+					}
+					if($n < (count($casting)-1)){
+						echo ', ';
+					}
+				}
 				echo '</li>';
 			}
-		}*/
+			echo '</ul>'. $link_2_forum .'</div>';
+		}
 		?>
-		</ul>
+
 		<?php
-		if(get_field('casting_et_direction_dacteur', $fiche_projet_post_id)) {
-			echo "<h4>Casting et direction d'acteur</h4>";
+		if(get_field('casting_et_direction_acteur', $fiche_projet_post_id)) {
+			echo "<h4>Casting et direction d'acteur</h4><div>$link_2_forum</div>";
 		}
 		?>
 		
 		<?php 
 		if(get_field('besoin_lieux_de_tournage', $fiche_projet_post_id)){
-			echo '<h4>Lieux de tournage</h4>';
+			echo '<h4>Lieux de tournage</h4><div>';
 			the_field('besoin_lieux_de_tournage', $fiche_projet_post_id);
+			$images = get_field('besoin_lieux_de_tournage_photos', $fiche_projet_post_id);
+
+			if( $images ) {
+				foreach( $images as $image ) {
+					echo '
+					<div class="image">
+						<a href="'. $image['url'] .'">
+							 <img src="'. $image['sizes']['thumbnail'] .'" alt="'. $image['alt'] .'" />
+						</a>
+					</div>';
+				}
+
+			}
+			echo '<div style="clear: both"></div>'. $link_2_forum .'</div>';
 		}
-		 ?>
+		?>
 		 
 		 <?php 
 		if(get_field('besoin_accessoires', $fiche_projet_post_id)){
-			echo '<h4>Accessoires</h4>';
+			echo '<h4>Accessoires</h4><div>';
 			the_field('besoin_accessoires', $fiche_projet_post_id);
+			echo $link_2_forum .'</div>';
 		}
 		 ?>
 		
 		 <?php 
 		if(get_field('besoin_costumes', $fiche_projet_post_id)){
-			echo '<h4>Costumes</h4>';
+			echo '<h4>Costumes</h4><div>';
 			the_field('besoin_costumes', $fiche_projet_post_id);
+			echo $link_2_forum .'</div>';
 		}
 		 ?>
 
 		
 			<?php
 			//besoin_maquillage
-			if(get_field('besoin_maquillage', $fiche_projet_post_id)) { 
+			if(get_field('besoin_maquillage', $fiche_projet_post_id)) {
 				echo '<h4>Maquillage</h4>
-					<ul>';
+				<div><ul>';
 				if(get_field('maquillage_1', $fiche_projet_post_id)) {
-					echo '<li>naturel: '. get_field('maquillage_1', $fiche_projet_post_id) .'<br/>';
-					echo 'Jour et horaire PAT: '. get_field('jour_et_horaire_pat_1', $fiche_projet_post_id) .'</li>';
+					echo '<li>'. get_field('maquillage_1', $fiche_projet_post_id) .' comédien(s) | naturel | PAT '. get_field('jour_et_horaire_pat_1', $fiche_projet_post_id) .'</li>';
 				}
 				if(get_field('maquillage_2', $fiche_projet_post_id)) {
-					echo '<li>soutenu: '. get_field('maquillage_2', $fiche_projet_post_id) .'<br/>';
-					echo 'Jour et horaire PAT: '. get_field('jour_et_horaire_pat_2', $fiche_projet_post_id) .'</li>';
+					echo '<li>'. get_field('maquillage_2', $fiche_projet_post_id) . ' comédien(s) | soutenu | PAT '. get_field('jour_et_horaire_pat_2', $fiche_projet_post_id) .'</li>';
 				}
 				if(get_field('maquillage_3', $fiche_projet_post_id)) {
-					echo '<li>veillir: '. get_field('maquillage_3', $fiche_projet_post_id) .'<br/>';
-					echo 'Jour et horaire PAT: '. get_field('jour_et_horaire_pat_3', $fiche_projet_post_id) .'</li>';
+					echo '<li>'. get_field('maquillage_3', $fiche_projet_post_id) .' comédien(s) | vieillir | PAT '. get_field('jour_et_horaire_pat_3', $fiche_projet_post_id) .'</li>';
 				}
 				if(get_field('maquillage_4', $fiche_projet_post_id)) {
-					echo '<li>Fx: '. get_field('maquillage_4', $fiche_projet_post_id) .'<br/>';
-					echo 'Jour et horaire PAT: '. get_field('jour_et_horaire_pat_4', $fiche_projet_post_id) .'</li>';
+					echo '<li>'. get_field('maquillage_4', $fiche_projet_post_id) .' comédien(s) | FX | PAT '. get_field('jour_et_horaire_pat_4', $fiche_projet_post_id) .'</li>';
 				}
-				echo '</ul> ';
+				echo '</ul>'. $link_2_forum .'</div>';
 			}
 			?>
-		
-		
-		<?php
-				if(get_field('besoin_coiffure', $fiche_projet_post_id)) {
-					echo '<h4>Coiffure</h4>
-			<ul>
-				<li>Nombre de comédiens: '. get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .'</li>
-				<li>Type de coiffure: '. get_field('type_de_coiffure', $fiche_projet_post_id) .'</li>
-				<li>Jour et horaires PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'</li>
-			</ul>';
-		}
-		?>
-		
-		<?php
-				if(get_field('besoins_transport', $fiche_projet_post_id)) {
-					echo '<h4>Besoins de transport: '. get_field('transport_jour_et_horaires', $fiche_projet_post_id) .'</h4>';
-				}
-		?>
+	
+			<?php
+			if(get_field('besoin_coiffure', $fiche_projet_post_id)) {
+				echo '<h4>Coiffure</h4>';
+				echo '<div>'. get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .' comédien(s) | coiffure type '. get_field('type_de_coiffure', $fiche_projet_post_id) .' | PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'<br/>'. $link_2_forum .'</div>';
+			}
+			?>
+			
+			<?php
+			//fil d'activité déplacé de home
+			// Load appropriate front template
+			bp_groups_front_template_part(); 
+			?>
+	</div>
+
 </div>
+
+<?php
+/*
+
+$images = get_field('medias', $fiche_projet_post_id);
+
+if( $images ): ?>
+<h3>Galerie</h3>
+		<?php foreach( $images as $image ): ?>
+			<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
+				<a href="<?php echo $image['url']; ?>">
+					 <img src="<?php echo $image['sizes']['thumbnail']; ?>" alt="<?php echo $image['alt']; ?>" />
+				</a>
+				<br/><?php echo $image['caption']; ?>
+			</div>
+		<?php endforeach; ?>
+
+<?php endif;
+*/
+?>

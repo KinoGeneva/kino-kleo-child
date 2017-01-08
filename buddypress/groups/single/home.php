@@ -86,18 +86,13 @@
 			if ( bp_is_group_home() ) :
 
 				if ( bp_group_is_visible() ) {
-					echo '<div class="row">
-					<div class="col-sm-9">';
+					
 					//on active le template personnalisé
 					bp_get_template_part( 'groups/single/home-add');
-					echo '</div>';
 					
-					echo '
-					<div class="col-sm-3">';
 					// Load appropriate front template
-					bp_groups_front_template_part();
-					echo '</div>
-					</div>';
+					//bp_groups_front_template_part();
+
 				} else {
 
 					/**

@@ -901,3 +901,114 @@ table.calendar th {
 .acf-map img {
    max-width: inherit !important;
  }
+ 
+/* petit bug d'affichage */
+.acf-gallery .acf-gallery-toolbar {
+	height: 48px;
+}
+ 
+/* fiche projet */
+
+
+.projet h1, .projet h2, .projet h3, .projet h4 {
+	text-transform: uppercase;
+}
+
+.projet h1 {
+	margin-bottom: 8px;
+}
+
+.projet h2 {
+	margin-bottom: 6px;
+}
+
+.projet h3 {
+	margin-bottom: 4px;
+}
+
+.projet h4 {
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.colonnes2 {
+	 -moz-columns:2;
+	 -webkit-columns:2;
+	columns:2;
+}
+
+.projet .red,
+#main .main-color .projet h3.red,
+#main .main-color .projet h4.red {
+	color: #c11119;
+}
+
+#main .main-color .besoins h4 {
+	color: #FFF;	
+}
+
+.besoins h4 {
+	background-color: #c11119;
+	padding: 8px;
+	font-size: 15px;
+	background-image: url(../../img/close.png);
+	background-repeat: no-repeat;
+	background-position: right;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+.besoins h4.open {
+	background-image: url(../../img/open.png);
+}
+
+.besoins ul {
+	list-style-position: inside;
+	padding: 0px;
+}
+
+.besoins .image img {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	width: 80px;
+	height: auto;
+}
+
+.besoins .forumlink {
+	font-weight: bold;
+	text-align: right;
+}
+
+.projet .day {
+	font-size: 70px;
+	line-height: 70px;
+	float: left;
+	margin-right: 20px;
+}
+
+.projet .no-color a {
+	color: #444444;
+}
+
+.projet .strong {
+	font-weight: bold;
+}
+
+.projet .avatar  {
+	float: left;
+	margin-right: 1%;
+	border-radius: 100% ;
+	border: 4px solid #E5E5E5;
+}
+
+.projet .item-avatar {
+	margin-right: 20px;
+	margin-top: 15px;
+}
+
+.projet .boxcal {
+	width: 50%;
+	padding-right: 2%;
+	float:left;
+}
