@@ -182,4 +182,10 @@
 
 <?php endif; ?>
 
+<script>
+	jQuery(document).ready(function($){	
+		jQuery("#buddypress > .bps_header").show();
+	});
+</script>
+
 <?php do_action( 'bp_after_members_loop' ); ?>

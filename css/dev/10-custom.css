@@ -561,6 +561,15 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 
 /* @group Members List */
 
+#buddypress #members-all a > span {
+	display: none;
+}
+
+#buddypress > .bps_header,
+#buddypress > .bps-form {
+	display: none;
+}
+
 #buddypress #members-list .member-inner-list {
  	padding-top: 15px;
  	padding-bottom: 10px;
