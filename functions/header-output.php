@@ -87,12 +87,6 @@ function kino_wp_head(){
     		display: none;
     	}
     	
-    	#group-create-nav {
-    	 display: none;
-    	}
-    	
-    	
-    	
     	<?php 
     } // end Code for non-Editors and non-Admin
     
