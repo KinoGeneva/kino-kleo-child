@@ -62,8 +62,20 @@
         <span class="member-count"><?php echo preg_replace('/\D/', '', bp_get_group_member_count());  ?></span>
 			</div>
 
+			<?php
+			#183, https://bitbucket.org/ms-studio/kinogeneva/issues/183/dans-laffichage-des-projets-afficher-le
+			//meta info, id du groupe et id de l'article associé
+			$group_id = bp_get_group_id(); 
+			$fiche_projet_post_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id');
+			$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
+			$display_real = '';
+			if(!empty($id_real)){
+				$display_real = ' de '. bp_core_get_user_displayname($id_real);
+			}
+			?>
+
 			<div class="item">
-				<div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a></div>
+				<div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a><?php echo  $display_real ?></div>
 				<div class="item-meta"><span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
 
 				<div class="item-desc"><?php bp_group_description_excerpt(); ?></div>
