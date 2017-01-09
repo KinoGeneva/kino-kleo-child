@@ -220,6 +220,13 @@ $(document).ready(function(){
 		?>
 		
 		<div style="clear: both;"></div>
+		
+		<div id="item-buttons" style="text-align: right;">
+
+		<?php do_action( 'bp_group_header_actions' ); ?>
+
+		</div><!-- #item-buttons -->
+		
 		<hr/>
 		<h3>Synopsis</h3>
 		<?php bp_group_description() ?>
@@ -285,7 +292,11 @@ $(document).ready(function(){
 		}
 		?>
 		<div style="clear: both"></div>
+		<div id="item-buttons" style="text-align: right;">
 
+		<?php do_action( 'bp_group_header_actions' ); ?>
+
+		</div><!-- #item-buttons -->
 		<hr/>
 		<h2>Tournage</h2>
 
