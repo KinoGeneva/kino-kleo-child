@@ -1,0 +1,91 @@
+body {
+-webkit-print-color-adjust: exact;
+font-family: 'Roboto Condensed', Roboto, sans-serif;
+font-weight: 400;
+color: #000;
+text-align: justify;
+}
+
+/*
+* Calcul largeur
+* A4: 210 mm
+* marge: 20 + 20
+* reste: 70
+*/
+
+.profile {
+width: 170mm;
+margin-left: auto;
+margin-right: auto;
+}
+
+h1, h2, h3, h4, hr {
+	text-transform: uppercase;
+	text-align: center;
+	clear: both;
+}
+
+h1 {
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+h2 {
+	font-size: 30px;
+	margin-bottom: 8px;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid #E5E5E5;
+}
+
+.red {
+	color: #ec1f3e;
+}
+
+.center {
+	text-align: center;
+}
+
+.boxcal {
+	width: 45%;
+	padding-right: 5%;
+	float:left;
+	margin-bottom: 20px;
+}
+
+.strong {
+	font-weight: bold;
+}
+
+@media print {
+
+.print-profile {
+   page-break-after: always;
+   page-break-inside: avoid;
+}
+
+.profile {
+	margin-left: 0mm;
+	margin-right: 0mm;
+}
+
+@page {
+  size: A4 portrait;
+  
+  /* this affects the margin in the printer settings */ 
+  /* Marges pour les planches de badges:
+   * 20 mm en haut, 17 (auto) en bas, 5 sur les côtés
+  */
+  
+  margin: 5mm 10mm auto 15mm;
+  padding: 0mm;
+  
+}
+
+.no-print {
+	display: none;
+}
+
+} /* end @media print*/	
