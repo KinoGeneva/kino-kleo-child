@@ -333,10 +333,10 @@ $(document).ready(function(){
 
 		</div><!-- #item-buttons -->
 		<hr/>
-		<h2>Tournage</h2>
-
+		
 		<?php
 		if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ){
+			echo '<h2>Tournage</h2>';
 			echo '<div class="acf-map">';
 			while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) )  {
 				the_row();
@@ -355,10 +355,11 @@ $(document).ready(function(){
 		}
 		?>
 		<?php //the_field('lieux_de_tournage', $fiche_projet_post_id); ?>
-		<h3>Calendrier du tournage</h3>
-		<div class="red">
+		
 			<?php
 		if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ){
+			echo '<h3>Calendrier du tournage</h3>
+			<div class="red">';
 			while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) )  {
 				the_row();
 				echo '<div class="boxcal">';
@@ -373,9 +374,10 @@ $(document).ready(function(){
 				the_sub_field('adresse', $fiche_projet_post_id);
 				echo '<hr/></div>';
 			}
+			echo '</div>';
 		}
 		?>
-		</div>
+		
 	</div>
 	<div class="col-sm-4 besoins projet">
 
