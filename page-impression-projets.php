@@ -92,7 +92,7 @@
 				echo ' à ';
 				the_sub_field('tournage_fin', $fiche_projet_post_id);
 				echo '</div>';
-				the_sub_field('adresse', $fiche_projet_post_id);
+				echo get_sub_field('adresse', $fiche_projet_post_id)['address'];
 				echo '</div>';
 			}
 		}
