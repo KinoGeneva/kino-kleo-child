@@ -57,17 +57,28 @@
 		<li <?php bp_group_class(); ?>>
     	<div class="group-inner-list animated animate-when-almost-visible bottom-to-top">
       
+	<?php
+	//afficher l'avatar du réal en place de l'avatar du groupe
+		$group_id = bp_get_group_id(); 
+		$fiche_projet_post_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id');
+		$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
+		
+		if(!empty($id_real)){
+			$avatar = get_avatar($id_real,80);
+		}
+		else {
+			$avatar = bp_get_group_avatar( 'type=full&width=80&height=80' );
+		}      
+      ?>
+      
       <div class="item-avatar rounded">
-				<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar( 'type=full&width=80&height=80' ); ?></a>
+				<a href="<?php bp_group_permalink(); ?>"><?php echo $avatar ?></a>
         <span class="member-count"><?php echo preg_replace('/\D/', '', bp_get_group_member_count());  ?></span>
 			</div>
 
 			<?php
 			#183, https://bitbucket.org/ms-studio/kinogeneva/issues/183/dans-laffichage-des-projets-afficher-le
 			//meta info, id du groupe et id de l'article associé
-			$group_id = bp_get_group_id(); 
-			$fiche_projet_post_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id');
-			$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
 			$display_real = '';
 			if(!empty($id_real)){
 				$display_real = ' de '. bp_core_get_user_displayname($id_real);
