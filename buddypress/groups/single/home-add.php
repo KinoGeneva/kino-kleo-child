@@ -311,9 +311,14 @@ $(document).ready(function(){
 		<h4 class="red">membres de la communautés engagés sur le film</h4>
 					
 		<?php
-		if ( bp_group_has_members(  ) ) {
-			while ( bp_group_members() ) {
-				bp_group_the_member(); ?>
+		$args = array(
+			'group_id' => bp_get_group_id(),
+			'exclude_admins_mods'=> 0
+		); 
+		if ( bp_group_has_members( $args ) ) {
+			while ( bp_group_members( ) ) {
+				bp_group_the_member();
+				?>
 				 <div class="item-avatar rounded">
 				  <a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar('type=full&width=40&height=40'); ?></a>
 				</div>
