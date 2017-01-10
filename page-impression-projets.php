@@ -63,8 +63,10 @@
 		<hr/>
 		
 		<h3>Synopsis</h3>
+		<div class="center">
 		<?php bp_group_description() ?>
-
+		</div>
+		
 			<h3>Équipe</h3>
 			<div class="center">
 		<?php
@@ -112,10 +114,10 @@
 		
 	?>
 		</div>
-		<h3>Tournage</h3>
 
 			<?php
 		if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ){
+			echo '<h3>Tournage</h3>';
 			while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) )  {
 				the_row();
 				echo '<div class="boxcal">';

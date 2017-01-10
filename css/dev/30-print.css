@@ -25,6 +25,10 @@ h2, h3, h4, hr {
 	clear: both;
 }
 
+.besoins h4 {
+	text-align: left;
+}
+
 a {
 	color:#000;
 	text-decoration: none;
@@ -63,6 +67,7 @@ hr {
 	padding-right: 3%;
 	float:left;
 	margin-bottom: 20px;
+	text-align: center;
 }
 
 .besoins {
