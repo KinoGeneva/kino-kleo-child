@@ -67,7 +67,7 @@
 				echo '<b>'. get_sub_field('role', $fiche_projet_post_id) .' | </b>';
 
 				if(get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)){
-					echo bp_core_get_username( get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)['ID'] );
+					echo bp_core_get_user_displayname( get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)['ID'] );
 					
 				}
 				else if(get_sub_field('membre_hors_plateforme', $fiche_projet_post_id)){
@@ -80,7 +80,7 @@
 		
 	?>
 		</div>
-		<h2>Tournage</h2>
+		<h3>Tournage</h3>
 
 			<?php
 		if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ){
@@ -218,7 +218,7 @@
 			<?php
 			if(get_field('besoin_coiffure', $fiche_projet_post_id)) {
 				echo '<h4  class="red">Coiffure</h4>';
-				echo '<div>'. get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .' comédien(s) | coiffure type '. get_field('type_de_coiffure', $fiche_projet_post_id) .' | PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'<br/></div>';
+				echo '<div>'. get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .' comédien(s) | coiffure type '. wp_strip_all_tags(get_field('type_de_coiffure', $fiche_projet_post_id)) .' | PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'<br/></div>';
 			}
 			?>
 			</div>
