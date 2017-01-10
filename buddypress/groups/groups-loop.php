@@ -81,7 +81,7 @@
 			//meta info, id du groupe et id de l'article associé
 			$display_real = '';
 			if(!empty($id_real)){
-				$display_real = ' de '. bp_core_get_user_displayname($id_real);
+				$display_real = ', de '. bp_core_get_user_displayname($id_real);
 			}
 			?>
 
