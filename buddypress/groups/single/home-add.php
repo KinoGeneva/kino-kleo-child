@@ -176,9 +176,9 @@ $(document).ready(function(){
 	});
 	
 	//toogle menu
-	//$('.besoins h4').next().hide();
+	$('.besoins h4').next().show();
 	$('.besoins h4').click(function() {
-		$(this).toggleClass('open');
+		$(this).toggleClass('closeit');
         $(this).next().toggle(200);
         return false;
         

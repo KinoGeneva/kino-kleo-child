@@ -969,7 +969,7 @@ table.calendar th {
 	background-color: #c11119;
 	padding: 8px;
 	font-size: 15px;
-	background-image: url(../../img/close.png);
+	background-image: url(../../img/open.png);
 	background-repeat: no-repeat;
 	background-position: right;
 	cursor: pointer;
@@ -978,6 +978,10 @@ table.calendar th {
 
 .besoins h4.open {
 	background-image: url(../../img/open.png);
+}
+
+.besoins h4.closeit {
+	background-image: url(../../img/close.png);
 }
 
 .besoins ul {
