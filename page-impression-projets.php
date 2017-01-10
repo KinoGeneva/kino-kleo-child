@@ -29,27 +29,36 @@
 			//meta info, id du groupe et id de l'article associé
 			$group_id = bp_get_group_id(); 
 			$fiche_projet_post_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id');
+			
+			//obtenir la session automatiquement
+			$sessions_terms = get_terms( array(
+				'taxonomy' => 'user-group',
+				'name__like' => 'session' ,
+				'fields' => 'names',
+			) );
+			$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
+
 			?>			
 			<div class="profile clearfix print-profile">
-					<h1><?php bp_group_name(); ?></h1>
+					<h3 class="red right"><?php echo current( ( array_intersect( $sessions_terms,$user_terms ) ) ); ?></h3>
+					<h1 ><?php bp_group_name(); ?></h1>
 
-		<div class="center">Un film de <span class="strong">
+		<div>Un film de 
 		<?php 
 		$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
 		echo bp_core_get_user_displayname($id_real) .' | ';
-		the_field('duree', $fiche_projet_post_id); ?> | <?php the_field('genre', $fiche_projet_post_id); 
-		echo '</span></div>';
-
-		//obtenir la session automatiquement
-		$sessions_terms = get_terms( array(
-			'taxonomy' => 'user-group',
-			'name__like' => 'session' ,
-			'fields' => 'names',
-		) );
-		$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
+		the_field('duree', $fiche_projet_post_id); ?> | <?php the_field('genre', $fiche_projet_post_id);
 		
-		echo '<h3 class="red">'. current( ( array_intersect( $sessions_terms,$user_terms ) ) ) .'</h3>';
+		
+		echo '<div class="show-avatar">'. get_avatar($id_real,80); 
+		echo '<div class="info-avatar">';
+		echo '<b>'. bp_core_get_user_displayname($id_real) .'</b><br/>'.
+		xprofile_get_field_data('e-mail', $id_real) .'<br/>'. xprofile_get_field_data('Téléphone', $id_real);
+		echo '</div></div>';
+
 		?>
+		
+		</div>
 		
 		<hr/>
 		
@@ -78,6 +87,29 @@
 		}
 		//print_r($projet_members);
 		
+		
+			#les comédiens plateforme
+			echo '<b>Comédien-ne-s | </b>';
+			$comediens = array();
+			if( get_field('comedien-nes', $fiche_projet_post_id) ){
+				foreach(get_field('comedien-nes', $fiche_projet_post_id) as $comedienKK) {
+					$comediens[] = bp_core_get_user_displayname( $comedienKK['ID'] );
+				}
+			}
+			#les comédiens hors-plateforme
+			if( get_field('autres_comediens', $fiche_projet_post_id) ){
+				$comediens [] = wp_strip_all_tags(get_field('autres_comediens', $fiche_projet_post_id));
+			}
+			foreach($comediens as $c => $comedien) {
+				echo $comedien;
+				if($c<count($comediens)-1){
+					echo ', ';
+				}
+				else {
+					echo '<br/>';
+				}
+			}
+		
 	?>
 		</div>
 		<h3>Tournage</h3>
@@ -99,15 +131,14 @@
 		?>
 
 <hr/>
-<div class="center">
+<div class="besoins">
 		<h3 class="red">Besoins pour le film</h3>
 
 		<?php
 		if(get_field('besoin_equipe', $fiche_projet_post_id)){
-			echo '<h4 class="red">Équipe</h4>
-			<div>';
+			echo '<div class="boxneed"><h4 class="red">Équipe</h4>';
 			foreach(get_field('besoin_equipe', $fiche_projet_post_id) as $need){
-				echo $need .', ';
+				echo '• '. $need .'<br/>';
 			}
 			echo '</div>';
 		}
@@ -115,8 +146,7 @@
 
 		<?php
 		if( have_rows('besoin_comediens', $fiche_projet_post_id) ){
-			echo '<h4 class="red">Casting</h4>
-			<div>';
+			echo '<div class="boxneed"><h4 class="red">Casting</h4>';
 			while ( have_rows('besoin_comediens', $fiche_projet_post_id) )  {
 				the_row();
 				$casting = array();
@@ -165,13 +195,13 @@
 
 		<?php
 		if(get_field('casting_et_direction_acteur', $fiche_projet_post_id)) {
-			echo '<h4 class="red">Casting et direction d\'acteur</h4>';
+			echo '<h4 class="red boxneed">Casting et direction d\'acteur</h4>';
 		}
 		?>
 		
 		<?php 
 		if(get_field('besoin_lieux_de_tournage', $fiche_projet_post_id)){
-			echo '<h4 class="red">Lieux de tournage</h4><div>';
+			echo '<div class="boxneed"><h4 class="red">Lieux de tournage</h4>';
 			the_field('besoin_lieux_de_tournage', $fiche_projet_post_id);
 			echo '</div>';
 		}
@@ -179,7 +209,7 @@
 		 
 		 <?php 
 		if(get_field('besoin_accessoires', $fiche_projet_post_id)){
-			echo '<h4 class="red">Accessoires</h4><div>';
+			echo '<div class="boxneed"><h4 class="red">Accessoires</h4>';
 			the_field('besoin_accessoires', $fiche_projet_post_id);
 			echo '</div>';
 		}
@@ -187,7 +217,7 @@
 		
 		 <?php 
 		if(get_field('besoin_costumes', $fiche_projet_post_id)){
-			echo '<h4 class="red">Costumes</h4><div>';
+			echo '<div class="boxneed"><h4 class="red">Costumes</h4>';
 			the_field('besoin_costumes', $fiche_projet_post_id);
 			echo '</div>';
 		}
@@ -197,8 +227,7 @@
 			<?php
 			//besoin_maquillage
 			if(get_field('besoin_maquillage', $fiche_projet_post_id)) {
-				echo '<h4 class="red">Maquillage</h4>
-				<div>';
+				echo '<div class="boxneed"><h4 class="red">Maquillage</h4>';
 				if(get_field('maquillage_1', $fiche_projet_post_id)) {
 					echo get_field('maquillage_1', $fiche_projet_post_id) .' comédien(s) | naturel | PAT '. get_field('jour_et_horaire_pat_1', $fiche_projet_post_id) .'<br/>';
 				}
@@ -217,13 +246,13 @@
 	
 			<?php
 			if(get_field('besoin_coiffure', $fiche_projet_post_id)) {
-				echo '<h4  class="red">Coiffure</h4>';
-				echo '<div>'. get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .' comédien(s) | coiffure type '. wp_strip_all_tags(get_field('type_de_coiffure', $fiche_projet_post_id)) .' | PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'<br/></div>';
+				echo '<divclass="boxneed"><h4  class="red">Coiffure</h4>'.
+				get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .' comédien(s) | coiffure type '. wp_strip_all_tags(get_field('type_de_coiffure', $fiche_projet_post_id)) .' | PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'<br/></div>';
 			}
 			?>
 			</div>
 			</div>
-			 <div class="page-break"></div>
+			 <div class="page-break" style="clear: both;"></div>
 			<?php endwhile; endif; ?>
 			
 			</div><!--end article-content-->
