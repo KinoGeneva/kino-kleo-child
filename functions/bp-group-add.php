@@ -31,9 +31,14 @@ function custom_acf_save_post( $post_id ) {
 	$create_meta = groups_update_groupmeta( $_POST['acf']['group_id'],  'fiche-projet-post-id',  $post_id );
 	
 	//4. ajoute les nouveaux membres au groupe
+	//équipe
 	foreach($_POST['acf']['field_586ed49ca1e4b'] as $i => $fields){
 		//membre kino: field_586ed4aca1e4c
 		$new_member = $fields['field_586ed4aca1e4c'];
+		groups_accept_invite( $new_member, $_POST['acf']['group_id'] );
+	}
+	//comédiens
+	foreach( $_POST['acf']['field_586e935c45950'] as $i => $new_member){
 		groups_accept_invite( $new_member, $_POST['acf']['group_id'] );
 	}
 }

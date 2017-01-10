@@ -251,6 +251,17 @@ $(document).ready(function(){
 				}
 			}
 		}
+		#les comédiens plateforme
+		if( get_field('comedien-nes', $fiche_projet_post_id) ){
+			foreach(get_field('comedien-nes', $fiche_projet_post_id) as $comedienKK) {
+				$comediens[] = $comedienKK['ID'];
+			}
+		}
+		#les comédiens hors-plateforme
+		if( get_field('autres_comediens', $fiche_projet_post_id) ){
+			$comediens[] = get_field('autres_comediens', $fiche_projet_post_id);
+		}
+		
 		//print_r($projet_members);
 		
 		#les membres du projet qui sont membre du projet (du groupe buddypress)
@@ -263,6 +274,25 @@ $(document).ready(function(){
 		}
 		# affichage de tous les membres de l'équipe et de leurs rôles
 		$display_members = '';
+		
+		#comédiens
+		if(!empty($comediens)){
+			$display_members.= '<b>Comédien-ne-s | </b>';
+			foreach( $comediens as $m=> $member) {
+			if(array_key_exists($member, $members_KK)){
+					$display_members.= $members_KK[$member]; 
+				}
+				else {
+					$display_members.= wp_strip_all_tags($member);
+				}
+				if($m<count($comediens)-1){
+					$display_members.= ', ';
+				}
+			}
+			$display_members.= '<br/>';
+		}
+		
+		#equipe
 		foreach( $projet_members as $role => $members) {
 			$display_members.= '<b>'. $role .' | </b>';
 			foreach($members as $member){
