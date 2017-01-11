@@ -309,7 +309,7 @@ $(document).ready(function(){
 		echo $display_members;
 		?>
 
-		<h4 class="red">membres de la communautés engagés sur le film</h4>
+		<h4 class="red">Membres de la communauté intéressés par le projet</h4>
 					
 		<?php
 		$args = array(
