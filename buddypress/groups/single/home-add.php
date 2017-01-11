@@ -483,7 +483,20 @@ $(document).ready(function(){
 		if(get_field('besoin_accessoires', $fiche_projet_post_id)){
 			echo '<h4>Accessoires</h4><div>';
 			the_field('besoin_accessoires', $fiche_projet_post_id);
-			echo $link_2_forum .'</div>';
+			$images = get_field('besoin_accessoires_photos', $fiche_projet_post_id);
+
+			if( $images ) {
+				foreach( $images as $image ) {
+					echo '
+					<div class="image">
+						<a href="'. $image['url'] .'">
+							 <img src="'. $image['sizes']['thumbnail'] .'" alt="'. $image['alt'] .'" />
+						</a>
+					</div>';
+				}
+
+			}
+			echo '<div style="clear: both"></div>'. $link_2_forum .'</div>';
 		}
 		 ?>
 		
@@ -491,7 +504,20 @@ $(document).ready(function(){
 		if(get_field('besoin_costumes', $fiche_projet_post_id)){
 			echo '<h4>Costumes</h4><div>';
 			the_field('besoin_costumes', $fiche_projet_post_id);
-			echo $link_2_forum .'</div>';
+			$images = get_field('besoin_costumes_photos', $fiche_projet_post_id);
+
+			if( $images ) {
+				foreach( $images as $image ) {
+					echo '
+					<div class="image">
+						<a href="'. $image['url'] .'">
+							 <img src="'. $image['sizes']['thumbnail'] .'" alt="'. $image['alt'] .'" />
+						</a>
+					</div>';
+				}
+
+			}
+			echo '<div style="clear: both"></div>'. $link_2_forum .'</div>';
 		}
 		 ?>
 
