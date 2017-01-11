@@ -206,8 +206,9 @@ $(document).ready(function(){
 			'fields' => 'names',
 		) );
 		$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
+		$sessionReal = current( ( array_intersect( $sessions_terms,$user_terms ) ) );
 		
-		echo '<h3 class="red">'. current( ( array_intersect( $sessions_terms,$user_terms ) ) ) .'</h3>';
+		echo '<h3 class="red">'. $sessionReal .'</h3>';
 		?>
 		
 		<h3>Le réalisateur</h3>
@@ -533,12 +534,21 @@ $(document).ready(function(){
 </div>
 
 <?php
-/*
+$projection = array(
+'Session 1' => '14 janvier à 21h, Ciné-concert Alhambra',
+'Session 2' => 'projection le 16 janvier à 21h, salle de la Madeleine',
+'Session 3' => 'projection le 19 janvier à 21h, salle de la Madeleine',
+);
+?>
+
+<h1>Projection le <?php echo $projection[$sessionReal]; ?></h1>
+
+<?php
 
 $images = get_field('medias', $fiche_projet_post_id);
 
 if( $images ): ?>
-<h3>Galerie</h3>
+<h3>Photos de tournage</h3>
 		<?php foreach( $images as $image ): ?>
 			<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
 				<a href="<?php echo $image['url']; ?>">
@@ -549,5 +559,5 @@ if( $images ): ?>
 		<?php endforeach; ?>
 
 <?php endif;
-*/
+
 ?>
