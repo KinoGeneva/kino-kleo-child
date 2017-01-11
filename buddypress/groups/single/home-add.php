@@ -372,7 +372,7 @@ $(document).ready(function(){
 				echo ' à ';
 				the_sub_field('tournage_fin', $fiche_projet_post_id);
 				echo '</div>';
-				the_sub_field('adresse', $fiche_projet_post_id);
+				echo '<a href="https://www.google.ch/maps/place/'. get_sub_field('adresse', $fiche_projet_post_id)['address'] .'" target="_blank">'. get_sub_field('adresse', $fiche_projet_post_id)['address'] .'</a>';
 				echo '<hr/></div>';
 			}
 			echo '</div>';
