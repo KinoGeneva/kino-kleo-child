@@ -29,6 +29,7 @@
 			//meta info, id du groupe et id de l'article associé
 			$group_id = bp_get_group_id(); 
 			$fiche_projet_post_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id');
+			$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
 			
 			//obtenir la session automatiquement
 			$sessions_terms = get_terms( array(
@@ -45,7 +46,7 @@
 
 		<div>Un film de 
 		<?php 
-		$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
+		
 		echo bp_core_get_user_displayname($id_real) .' | ';
 		the_field('duree', $fiche_projet_post_id); ?> | <?php the_field('genre', $fiche_projet_post_id);
 		
