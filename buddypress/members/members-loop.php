@@ -9,10 +9,10 @@
  * @subpackage bp-legacy
  */
  
- 
+
  // Define fields
  $kino_fields = kino_test_fields();
-
+ /*
 // Filter users:
 // Show only participants of KinoGenenva 2017
 
@@ -50,12 +50,14 @@ if ( strpos( $kino_query_string, 'include' ) !== false ) {
 }
 
 // echo '<p>' . $kino_query_string . '</p>';
-
+*/
 ?>
 
 <?php do_action( 'bp_before_members_loop' ); ?>
 
-<?php if ( bp_has_members( $kino_query_string ) ) : ?>
+<?php //if ( bp_has_members( $kino_query_string ) ) : ?>
+<?php if ( bp_has_members( bp_ajax_querystring( 'members' ). '&per_page='.sq_option('bp_members_perpage', 24) ) ) : ?>
+
 
 	<div id="pag-top" class="pagination">
 
