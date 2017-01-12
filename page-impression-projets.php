@@ -246,16 +246,18 @@
 				echo '</div>';
 			}
 			?>
-	
+			
 			<?php
 			if(get_field('besoin_coiffure', $fiche_projet_post_id)) {
 				echo '<divclass="boxneed"><h4  class="red">Coiffure</h4>'.
 				get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .' comédien(s) | coiffure type '. wp_strip_all_tags(get_field('type_de_coiffure', $fiche_projet_post_id)) .' | PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'<br/></div>';
 			}
 			?>
+			<div style="clear: both;"></div>
 			</div>
 			</div>
-			 <div class="page-break" style="clear: both;"></div>
+			
+			 <div class="page-break"></div>
 			<?php endwhile; endif; ?>
 			
 			</div><!--end article-content-->
