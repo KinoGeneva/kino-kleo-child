@@ -267,7 +267,11 @@ $(document).ready(function(){
 		
 		#les membres du projet qui sont membre du projet (du groupe buddypress)
 		$members_KK[] = array();
-		if ( bp_group_has_members(  ) ) {
+		$args = array(
+			'group_id' => bp_get_group_id(),
+			'exclude_admins_mods'=> 0
+		); 
+		if ( bp_group_has_members( $args ) ) {
 			while ( bp_group_members() ) {
 				bp_group_the_member();
 				$members_KK[bp_get_member_user_id()] = bp_get_group_member_link();
@@ -363,7 +367,7 @@ $(document).ready(function(){
 			<div class="red">';
 			while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) )  {
 				the_row();
-				echo '<div class="boxcal">';
+				echo '<div class="boxcal" style="height: 105px;">';
 				echo '<div class="day">
 				'. preg_replace('`[^0-9]`', '', get_sub_field('jours', $fiche_projet_post_id)) .'
 				</div>';
@@ -378,6 +382,36 @@ $(document).ready(function(){
 			echo '</div>';
 		}
 		?>
+		
+		<div style="clear: both"></div>
+		
+		<?php
+		$projection = array(
+		'Session 1' => '14 janvier à 21h, Ciné-concert Alhambra',
+		'Session 2' => 'projection le 16 janvier à 21h, salle de la Madeleine',
+		'Session 3' => 'projection le 19 janvier à 21h, salle de la Madeleine',
+		);
+		?>
+
+		<h1>Projection le <?php echo $projection[$sessionReal]; ?></h1>
+
+		<?php
+
+		$images = get_field('medias', $fiche_projet_post_id);
+
+		if( $images ): ?>
+		<h3>Photos de tournage</h3>
+				<?php foreach( $images as $image ): ?>
+					<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
+						<a href="<?php echo $image['url']; ?>">
+							 <img src="<?php echo $image['sizes']['thumbnail']; ?>" alt="<?php echo $image['alt']; ?>" />
+						</a>
+						<br/><?php echo $image['caption']; ?>
+					</div>
+				<?php endforeach; ?>
+
+		<?php endif; ?>
+		<div style="clear: both"></div>
 		
 	</div>
 	<div class="col-sm-4 besoins projet">
@@ -558,32 +592,3 @@ $(document).ready(function(){
 	</div>
 
 </div>
-
-<?php
-$projection = array(
-'Session 1' => '14 janvier à 21h, Ciné-concert Alhambra',
-'Session 2' => 'projection le 16 janvier à 21h, salle de la Madeleine',
-'Session 3' => 'projection le 19 janvier à 21h, salle de la Madeleine',
-);
-?>
-
-<h1>Projection le <?php echo $projection[$sessionReal]; ?></h1>
-
-<?php
-
-$images = get_field('medias', $fiche_projet_post_id);
-
-if( $images ): ?>
-<h3>Photos de tournage</h3>
-		<?php foreach( $images as $image ): ?>
-			<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
-				<a href="<?php echo $image['url']; ?>">
-					 <img src="<?php echo $image['sizes']['thumbnail']; ?>" alt="<?php echo $image['alt']; ?>" />
-				</a>
-				<br/><?php echo $image['caption']; ?>
-			</div>
-		<?php endforeach; ?>
-
-<?php endif;
-
-?>
