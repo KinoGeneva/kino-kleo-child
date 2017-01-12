@@ -23,7 +23,7 @@
 		<article>
 			<div class="article-content">
 			
-			<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
+			<?php if ( bp_has_groups('per_page=34') ) : while ( bp_groups() ) : bp_the_group(); ?>
 			
 			<?php
 			//meta info, id du groupe et id de l'article associé
