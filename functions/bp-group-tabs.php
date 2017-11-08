@@ -221,11 +221,11 @@ function kino_get_field_group_conditions( $groups ) {
   	// Displayed User:
   	$kino_user_role = kino_user_participation( bp_displayed_user_id(), $kino_fields );
 		
-		// No need to show Conditions, they are filled at account creation...
-		
-		if ( bp_is_user_profile_edit() == false ) { // Notice: bp_is_profile_edit est déprécié depuis la version 1.5 ! Utilisez bp_is_user_profile_edit() à la place.
-			$forbidden_groups[] = "Conditions";
-		}
+	// No need to show Conditions, they are filled at account creation...
+	
+	if ( bp_is_user_profile_edit() == false ) { // Notice: bp_is_profile_edit est déprécié depuis la version 1.5 ! Utilisez bp_is_user_profile_edit() à la place.
+		$forbidden_groups[] = "Conditions";
+	}
 		
   	if (!in_array( "realisateur", $kino_user_role )) {
   		if (!in_array( "realisateur-kab", $kino_user_role )) {
@@ -297,7 +297,8 @@ function kino_get_field_group_conditions( $groups ) {
 add_filter( 'bp_profile_get_field_groups', 'kino_get_field_group_temporaire2018', 10 );
 
 function kino_get_field_group_temporaire2018( $groups ) {
-	if ( current_user_can( 'publish_pages' ) ) {	
+	$forbidden_groups = array();
+	if ( current_user_can( 'publish_pages' ) ) {
 		// we show everything for: Admin and Editor roles
 	}
 	else {
