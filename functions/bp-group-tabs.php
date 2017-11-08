@@ -304,4 +304,23 @@ function kino_get_field_group_temporaire2018( $groups ) {
 		$forbidden_groups[] = "Kino Kabaret 2017";
 		$forbidden_groups[] = "Kino Kabaret 2018";
 	}
+	
+	$groups_updated = array();
+  
+  	for ( $i = 0, $count = count( $groups ); $i < $count; ++$i ) {
+			
+			$group_name = $groups[ $i ]->name;
+			$group_id= $groups[ $i ]->id;
+			
+			// hide forbidden groups
+			if (in_array( $group_name, $forbidden_groups)) {
+				// Do Nothing = group is hidden
+			} else {
+				// Add to array
+				$groups_updated[] = $groups[ $i ];
+			}
+			
+  	} // end for loop.
+  	  	
+  return $groups_updated;
 }
