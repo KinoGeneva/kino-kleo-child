@@ -223,7 +223,7 @@ function kino_get_field_group_conditions( $groups ) {
 		
 		// No need to show Conditions, they are filled at account creation...
 		
-		if ( bp_is_profile_edit() == false ) {
+		if ( bp_is_user_profile_edit() == false ) { // Notice: bp_is_profile_edit est déprécié depuis la version 1.5 ! Utilisez bp_is_user_profile_edit() à la place.
 			$forbidden_groups[] = "Conditions";
 		}
 		
@@ -290,3 +290,18 @@ function kino_get_field_group_conditions( $groups ) {
   return $groups_updated;
 }
 
+/* test des champs de profil 2018
+ * on cache l'onglet kino kabaret 2018 si pas admin
+ */
+
+add_filter( 'bp_profile_get_field_groups', 'kino_get_field_group_temporaire2018', 10 );
+
+function kino_get_field_group_temporaire2018( $groups ) {
+	if ( current_user_can( 'publish_pages' ) ) {	
+		// we show everything for: Admin and Editor roles
+	}
+	else {
+		$forbidden_groups[] = "Kino Kabaret 2017";
+		$forbidden_groups[] = "Kino Kabaret 2018";
+	}
+}
