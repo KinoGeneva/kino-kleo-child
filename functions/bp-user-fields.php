@@ -156,7 +156,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 				'field'   => $kino_fields['benevole'], 
 				'user_id' => $userid
 			) );
-			if ( ( $kino_aide_benevole == "oui" ) || ( $kino_aide_benevole == "yes" ) ( $kino_aide_benevole == "1" )) {
+			if ( ( $kino_aide_benevole == "oui" ) || ( $kino_aide_benevole == "yes" ) || ( $kino_aide_benevole == "1" )) {
 						$kup[] = "benevole";
 			}
 			
