@@ -128,24 +128,24 @@ function kino_user_participation( $userid, $kino_fields ) {
 			
 			// ***************
 			
-			// Participe au cabaret 2016?
+			// Participe au cabaret 2018?
 			$kino_test = bp_get_profile_field_data( array(
 					'field'   => $kino_fields['kabaret'], 
 					'user_id' => $userid
 			) );
-			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) ) {
+			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) || ( $kino_test == "1" )) {
 						
-						$kup[] = "kabaret-2017";
-						
-						// Profil Cabaret 2016 complet? 
-						
-						$kino_dispo_kab = bp_get_profile_field_data( array(
-								'field'   => $kino_fields['profil-kabaret-complete'], // trouver ID du champ! (test effectué sur possibilité hébergement)
-								'user_id' => $userid
-						) );
-						if ( $kino_dispo_kab ) {
-								$kup[] = "kabaret-complete";
-						}
+				$kup[] = "kabaret-2018";
+				
+				// Profil Cabaret 2018 complet? 
+				
+				$kino_dispo_kab = bp_get_profile_field_data( array(
+						'field'   => $kino_fields['profil-kabaret-complete'], // trouver ID du champ! (test effectué sur possibilité hébergement)
+						'user_id' => $userid
+				) );
+				if ( $kino_dispo_kab ) {
+						$kup[] = "kabaret-complete";
+				}
 						
 			}
 			
@@ -153,17 +153,17 @@ function kino_user_participation( $userid, $kino_fields ) {
 			
 			// Aide Bénévole?
 			$kino_aide_benevole = bp_get_profile_field_data( array(
-					'field'   => $kino_fields['benevole'], 
-					'user_id' => $userid
+				'field'   => $kino_fields['benevole'], 
+				'user_id' => $userid
 			) );
-			if ( ( $kino_aide_benevole == "oui" ) || ( $kino_aide_benevole == "yes" ) ) {
+			if ( ( $kino_aide_benevole == "oui" ) || ( $kino_aide_benevole == "yes" ) ( $kino_aide_benevole == "1" )) {
 						$kup[] = "benevole";
 			}
 			
-			// Aide benevole pour le Kabaret 2016?
+			// Aide benevole pour le Kabaret 2018?
 			$kino_benevole_boxes = bp_get_profile_field_data( array(
-					'field'   => $kino_fields['benevole-kabaret'],
-					'user_id' => $userid
+				'field'   => $kino_fields['benevole-kabaret'],
+				'user_id' => $userid
 			) );
 			if ($kino_benevole_boxes) {
 			
