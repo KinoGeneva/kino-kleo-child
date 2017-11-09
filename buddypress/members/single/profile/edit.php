@@ -50,8 +50,6 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				<?php
 				$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
 				$field_type->edit_field_html();
-				
-				
 
 				do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
 				?>
@@ -77,7 +75,16 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				  ?>
 
 				<?php do_action( 'bp_custom_profile_edit_fields' ); ?>
-
+				
+				
+				
+				<?php
+				// la description n'est pas inclues sur les types venant du plugin
+				// buddypress-xprofile-custom-fields-type
+				if( bp_get_the_profile_field_type()== 'checkbox_acceptance' || bp_get_the_profile_field_type()== 'image' || bp_get_the_profile_field_type()== 'file' || bp_get_the_profile_field_type()=='checkbox') {
+					echo '<p class="description">'. bp_the_profile_field_description() .'</p>';
+				}
+				?>
 			</div>
 
 		<?php endwhile; ?>
@@ -115,13 +122,28 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 
  	?>
 	
-	<?php //modif du texte d'enregistrement, un msg diff. sur le dernier onglet
-	?>
+	<?php //modif du texte d'enregistrement, un msg diff. sur le dernier onglet + un onglet pour marquer que c'est fini
 	
-	<div class="submit clearfix">
-		<input type="submit" name="profile-group-edit-submit" id="profile-group-edit-submit" value="<?php if($currenttab === '17') {
-			esc_attr_e( 'Finish', 'kinogeneva' );} else {esc_attr_e( 'Save Changes', 'kinogeneva' ); } ?>"/>
-	</div>
+	if($currenttab === 21) {
+		$bp = buddypress();
+		echo '<h5>Votre profil est complet. Vous pouvez régulièrement le mettre à jour.</h5>
+		<a href="'. bp_displayed_user_domain() . $bp->profile->slug .'">Afficher votre profil</a> | <a href="'. bp_displayed_user_domain() . $bp->profile->slug .'/edit">Editer votre profil</a>';
+	}
+	else { 
+		echo '
+		<div class="submit clearfix">
+			<input type="submit" name="profile-group-edit-submit" id="profile-group-edit-submit" value="';
+		if($currenttab === 17) {
+			esc_attr_e( 'Finish', 'kinogeneva' );
+		}
+		else {
+			esc_attr_e( 'Save Changes', 'kinogeneva' );
+		}
+		echo '"/>
+		</div>';
+	
+	}
+	?>
 
 	<input type="hidden" name="field_ids" id="field_ids" value="<?php bp_the_profile_group_field_ids(); ?>" />
 
