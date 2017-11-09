@@ -183,7 +183,7 @@
  		
  		/*Q0 : taking part in Kino Kabaret? */
  		
- 	  if( !in_array( "kabaret-2017", $kino_user_role ) ) { 
+ 	  if( !in_array( "kabaret-2018", $kino_user_role ) ) { 
  	    
  	    // un peu de pub...
  	    //$kino_notification = 'Le prochain Kino Kabaret se déroule du 8 au 19 janvier 2017! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/1/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.';
