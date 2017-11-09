@@ -34,13 +34,13 @@ jQuery(document).ready(function($){
   // Restrict presentation length
 
 
-	//onglet profil kinoïte, #138: alerte si kino 2017 n'est pas coché
-	$('#field_1832').on('beforeValidation', function(value, lang, config) {
-		if($("#check_acc_field_1832").is(":checked")) {
+	//onglet profil kinoïte, #138: alerte si kino 2018 n'est pas coché
+	$('#field_2060').on('beforeValidation', function(value, lang, config) {
+		if($("#check_acc_field_2060").is(":checked")) {
 			//
 		}
 		else {
-			alert("Vous n'avez pas coché la case \"Je m‘inscris au Kino Kabaret 2017\".");
+			alert("Vous n'avez pas coché la case \"Je m‘inscris au Kino Kabaret 2018\".");
 		}
 	});
 });
