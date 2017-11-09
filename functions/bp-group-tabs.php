@@ -157,14 +157,15 @@ function kino_get_the_profile_group_edit_form_action() {
 			
 					$j = $i+1;
 					if ( $j < $count) { 
-						
+						/*
 						//04.12.2016 #118 - rediriger vers page courant si id=17
 						if($current_group_id==17) {
 							$next_group_id = '/edit/group/17/';
 						}
 						else {
 							$next_group_id = '/edit/group/' . $groups[ $j ]->id .'/';
-						}
+						}*/
+						$next_group_id = '/edit/group/' . $groups[ $j ]->id .'/';
 					} else {
 					
 					// $next_group_id = '/change-avatar/'; 
@@ -245,20 +246,20 @@ function kino_get_field_group_conditions( $groups ) {
   		$forbidden_groups[] = "Aide bénévole";
   	}
   	
-  	if (!in_array( "kabaret-2017", $kino_user_role )) {
-  		// pas inscrit au kabaret ?
+  	if (!in_array( "kabaret-2018", $kino_user_role )) {
+  		// pas bénévole ?
   		if (!in_array( "benevole-kabaret", $kino_user_role )) {
-  			// pas bénévole ?
-  			$forbidden_groups[] = "Kino Kabaret 2016";
+  			//$forbidden_groups[] = "Kino Kabaret 2018";
   		}
-  	}
-  	
+  		// pas inscrit au kabaret ?
+		$forbidden_groups[] = "Kino Kabaret 2018";
+  	}	
   	
   	if (!current_user_can( 'publish_pages' )) {
   		  		
-  		if (!in_array( "kabaret-2017", $kino_user_role )) {
+  		if (!in_array( "kabaret-2018", $kino_user_role )) {
   			// pas inscrit au kabaret ?
-  			$forbidden_groups[] = "Kino Kabaret 2017";
+  			$forbidden_groups[] = "Kino Kabaret 2018";
   		}
   	
   	}
@@ -302,8 +303,8 @@ function kino_get_field_group_temporaire2018( $groups ) {
 		// we show everything for: Admin and Editor roles
 	}
 	else {
-		$forbidden_groups[] = "Kino Kabaret 2017";
 		$forbidden_groups[] = "Kino Kabaret 2018";
+		$forbidden_groups[] = "Fin";
 	}
 	
 	$groups_updated = array();

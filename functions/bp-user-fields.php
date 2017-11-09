@@ -133,7 +133,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 					'field'   => $kino_fields['kabaret'], 
 					'user_id' => $userid
 			) );
-			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) || ( $kino_test == "1" )) {
+			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) || ( $kino_test == "1" ) || ( $kino_test == 1 )) {
 						
 				$kup[] = "kabaret-2018";
 				
@@ -277,7 +277,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 			- realisateur-kab
 			- technicien-kab
 			- comedien-kab
-			- kabaret-2017
+			- kabaret-2018
 			- benevole-kabaret
 			
 			- real-kab-valid
