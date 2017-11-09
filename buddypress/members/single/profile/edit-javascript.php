@@ -641,5 +641,16 @@ jQuery(document).ready(function($){
  				}
  			
  		} // end profile group #17
+ 		
+ 		//cache le champs texte du dernier onglet. 
+ 		if ( bp_get_current_profile_group_id() == 21 ) {
+			?>
+			<style type="text/css">
+			#buddypress #profile-edit-form div.field_2097 {
+				 	display:none;
+			}
+			</style>
+		<?php
+		}
 
 ?>
