@@ -150,6 +150,10 @@
  			if ( ( $kinoite_cherche_logement == "OUI" ) ) {
  						kino_add_to_usergroup( $userid, $kino_fields['group-cherche-logement'] );
  			}
+ 			//sinon supprimer du groupe
+ 				else {
+					kino_remove_from_usergroup( $userid, $kino_fields['group-cherche-logement'] );
+				}
  			
  			$kinoite_offre_logement = bp_get_profile_field_data( array(
  						'field'   => $kino_fields["offre-logement"],
@@ -159,6 +163,10 @@
  				if ( ( $kinoite_offre_logement == "OUI" ) ) {
  							kino_add_to_usergroup( $userid, $kino_fields['group-offre-logement'] );
  				}
+ 				//sinon supprimer du groupe
+ 				else {
+					kino_remove_from_usergroup( $userid, $kino_fields['group-offre-logement'] );
+				}
  	
  	// Massive Conditional Testing
  		
@@ -338,7 +346,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
 					$headers[] = 'Bcc: Manu <ms@ms-studio.net>';
 					$kino_notification_email .= '
 					
-					(Debug: message envoyé depuis le serveur test, page '.$_SERVER[REQUEST_URI].', à '. date( 'H:i:s', time() ) .')';
+					(Debug: message envoyé depuis le serveur test, page '.$_SERVER['REQUEST_URI'].', à '. date( 'H:i:s', time() ) .')';
 				
 				}
 				
