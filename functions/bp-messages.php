@@ -370,7 +370,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
  	} while (0);
  	
  	//temporaire jusqu'à l'ouverture des inscription
- 	$kino_notification = 'Le prochain Kino Kabaret se déroule du 13 au 26 janvier 2018 et les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
+ 	$kino_notification.= '<br/>Le prochain Kino Kabaret se déroule du 13 au 26 janvier 2018 et les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
  	return $kino_notification;
  	
  }
