@@ -147,9 +147,13 @@ function kino_title_filter( $args ) {
 	
 }
 
-
-
-
-
-
-
+#https://bitbucket.org/ms-studio/kinogeneva/issues/118/a-la-fin-de-l-dition-du-profil-redirection
+#https://buddypress.org/support/topic/how-to-redirect-users-to-their-profile-after-they-edit-their-profile/
+add_action( 'xprofile_updated_profile', 'SaveEditsRedirect', 12 );
+function SaveEditsRedirect() {
+	global $bp;
+	if ( is_user_logged_in() && bp_get_current_profile_group_id()==21 ) {
+		wp_redirect( $bp->loggedin_user->domain );
+		exit;
+	}
+}
