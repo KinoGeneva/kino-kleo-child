@@ -646,7 +646,8 @@ jQuery(document).ready(function($){
 //cacher le dernier onglet
 ?>
 <style type="text/css">
-#buddypress ul.button-nav li:last-child {
+#buddypress ul.button-nav li:last-child,
+#buddypress #profile-edit-form .editfield.field_2097 {
 	display:none;
 }
 </style>
