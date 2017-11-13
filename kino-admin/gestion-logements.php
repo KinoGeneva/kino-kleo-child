@@ -75,22 +75,27 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	//set term name and add to user array
         	$logement_name = 'Chez '.$kino_user_fields_logement['user-name'];
 			$kinoites_offrent_logement[$kino_userid]['logement-name'] = $logement_name;
+			$logement_addr = $kino_user_fields_logement["rue"] .', '. $kino_user_fields_logement["code-postal"] .' '. $kino_user_fields_logement["ville"] . ', ' . $kino_user_fields_logement["pays"] . ' Tél. '. $kino_user_fields_logement["tel"];
 			
 			 // Ajout du code qui génère automatiquement les logements
+        	
         			
 			$kino_term_logement = term_exists('logement-'.$kino_userid, 'user-logement');
+			
+			
 			if ( $kino_term_logement !== 0 && $kino_term_logement !== null ) {
 				// term exists
+				$term_id = $kino_term_logement['term_id'];
 				//Returns an array if the parent exists. (format: array('term_id'=>term id, 'term_taxonomy_id'=>taxonomy id)) 
 				//add id to user array
-				$kinoites_offrent_logement[$kino_userid]['logement-term-id'] = $kino_term_logement['term_id'];
+				
+				$kinoites_offrent_logement[$kino_userid]['logement-term-id'] = $term_id;
 				
 			} else {
-				$logement_descr = $kino_user_fields_logement['offre-logement-remarque']; //description et nb de couchage?
-				$logement_addr = $kino_user_fields_logement["rue"];
-				$logement_addr.= $kino_user_fields_logement["ville"];
-				$logement_addr.= $kino_user_fields_logement["tel"];
+				//$adresse_logement = $logement["rue"].', '.$logement["code-postal"].' '.$logement["ville"].', '.$logement["pays"];
+				$logement_descr = $kino_user_fields_logement['offre-logement-remarque']; //description
 				
+
 				$nktl = wp_insert_term(
 					$logement_name, // the term name = "chez ..."
 					'user-logement', // the taxonomy
@@ -107,14 +112,20 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 					//add id to user array
 					$kinoites_offrent_logement[$kino_userid]['logement-term-id'] = $term_id;
 					
-					// we can add metadata!
-					update_term_meta( $term_id, 'kino_adresse_logement', $logement_addr );
 				} else {
 					 // Trouble in Paradise:
 					 // echo $nktl->get_error_message();
 				}
+				
+				
 			} // end Creating New Term
-			
+			//update term info
+			// we can add metadata!
+			if($term_id){
+				update_term_meta( $term_id, 'kino_adresse_logement', $logement_addr );
+				update_term_meta( $term_id, 'kino_nombre_couchages', $kino_user_fields_logement['offre-logement-nb'] );
+				//logement description=>
+			}
 			// Fin du code qui génère automatiquement les logements
 		}
         
@@ -257,14 +268,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				$term_id = $logement['logement-term-id'];
 
 				//Nombre de places dispo: 
-				$nombre_couchages = 0;
-				
-				//$nombre_couchages = ???;
-				 $nombre_couchages = get_metadata( 
-	        	   	'term', 
-	        	   	$term_id, 
-	        	   	'kino_nombre_couchages', 
-	        	   	true );
+				$nombre_couchages = $logement['offre-logement-nb'];
 				
 				//adresse
 	        	$adresse_logement = $logement["rue"].', '.$logement["code-postal"].' '.$logement["ville"].', '.$logement["pays"];
@@ -446,7 +450,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	        			<th>Adresse</th>
 	    			    <th>Email</th>
 	    			    <th>Tel.</th>
-	    			    <th>Nombre et type</th>
+	    			    <th>Nombre</th>
+	    			    <th>Type</th>
 	        		</tr>
 	        	</thead>
 	        	<tbody>
@@ -472,6 +477,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							// Email
         							?><td><a href="mailto:<?php echo $item["user-email"] ?>?Subject=Kino%20Kabaret" target="_top"><?php echo $item["user-email"] ?></a></td>
         							<td><?php echo $item["tel"] ?></td>
+        							<td><?php echo $item["offre-logement-nb"] ?></td>
         							<td><?php 
         							if ( !empty($item["offre-logement-remarque"]) ) {
         								echo $item["offre-logement-remarque"];

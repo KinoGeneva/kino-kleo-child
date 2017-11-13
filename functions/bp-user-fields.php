@@ -40,7 +40,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 			$kup = array();
 			
 			
-			// is Comédien? // is Realisateur? // is Technicien?
+			// is Comédien? // is Realisateur? // is Technicien? => plateforme onglet kinoite
 			$kino_particiation_boxes = bp_get_profile_field_data( array(
 					'field'   => $kino_fields['profile-role'],
 					'user_id' => $userid
@@ -89,6 +89,9 @@ function kino_user_participation( $userid, $kino_fields ) {
 				  			$kup[] = "technicien-complete";
 				  	}
 				  	
+				  }
+				   if ( $value == "Béné" ) {
+				  	$kup[] = "benevole";
 				  }
 				  
 				} // end foreach
@@ -151,15 +154,6 @@ function kino_user_participation( $userid, $kino_fields ) {
 			
 			// ***************
 			
-			// Aide Bénévole?
-			$kino_aide_benevole = bp_get_profile_field_data( array(
-				'field'   => $kino_fields['benevole'], 
-				'user_id' => $userid
-			) );
-			if ( ( $kino_aide_benevole == "oui" ) || ( $kino_aide_benevole == "yes" ) || ( $kino_aide_benevole == "1" )) {
-						$kup[] = "benevole";
-			}
-			
 			// Aide benevole pour le Kabaret 2018?
 			$kino_benevole_boxes = bp_get_profile_field_data( array(
 				'field'   => $kino_fields['benevole-kabaret'],
@@ -188,7 +182,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 				foreach ($kab_particiation_boxes as $key => $value) {
 				
 					$value = mb_substr($value, 0, 4);
-				
+					
 				  if ( $value == "Réal" ) {
 				  	$kup[] = "realisateur-kab";
 				  }
@@ -419,6 +413,10 @@ function kino_user_fields_logement( $user, $kino_fields ) {
         ) ),
         "offre-logement-remarque" => bp_get_profile_field_data( array(
             'field'   => $kino_fields['offre-logement-remarque'],
+            'user_id' => $kino_userid
+        ) ),
+        "offre-logement-nb" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields['offre-logement-nb'],
             'user_id' => $kino_userid
         ) ),
         "rue" => bp_get_profile_field_data( array(
