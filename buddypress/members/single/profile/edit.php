@@ -81,7 +81,7 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				<?php
 				// la description n'est pas inclues sur les types venant du plugin
 				// buddypress-xprofile-custom-fields-type
-				if( bp_get_the_profile_field_type()== 'checkbox_acceptance' || bp_get_the_profile_field_type()== 'image' || bp_get_the_profile_field_type()== 'file' || bp_get_the_profile_field_type()=='checkbox') {
+				if( bp_get_the_profile_field_type()== 'checkbox_acceptance' || bp_get_the_profile_field_type()== 'image' || bp_get_the_profile_field_type()== 'file') {
 					echo '<p class="description">'. bp_the_profile_field_description() .'</p>';
 				}
 				?>
