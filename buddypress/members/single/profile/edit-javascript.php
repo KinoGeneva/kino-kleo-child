@@ -161,7 +161,7 @@ jQuery(document).ready(function($){
 		if ( bp_get_current_profile_group_id() == 19 ) {
 			
 			//demande 2017-2018 d'afficher le texte participe au kabaret en rouge ?>
-			$('#profile-edit-form div.field_<?php echo $kino_fields['kabaret']; ?>').css({color: "red"});
+			$('#profile-edit-form div.field_<?php echo $kino_fields['kabaret']; ?>').css({color: "#c11119"});
 			<?php
 			
 			if ( current_user_can('subscriber') ) {
