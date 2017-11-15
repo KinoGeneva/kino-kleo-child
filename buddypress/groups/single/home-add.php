@@ -216,8 +216,11 @@ $(document).ready(function(){
 			  <?php echo get_avatar($id_real,80); ?>
 		</div>
 		<?php
-		echo '<h4 class="no-color">'. bp_core_get_userlink($id_real) .'</h4>'.
-		xprofile_get_field_data('e-mail', $id_real) .'<br/>'. xprofile_get_field_data('Téléphone', $id_real);
+		echo '<h4 class="no-color">'. bp_core_get_userlink($id_real) .'</h4>';
+		//montre seulement les infos de contacts aux personnes connectées
+		if ( is_user_logged_in() ) {
+			xprofile_get_field_data('e-mail', $id_real) .'<br/>'. xprofile_get_field_data('Téléphone', $id_real);
+		}
 		?>
 		
 		<div style="clear: both;"></div>
@@ -391,11 +394,12 @@ $(document).ready(function(){
 		'Session 2' => '16 janvier à 21h, salle de la Madeleine',
 		'Session 3' => '19 janvier à 21h, salle de la Madeleine',
 		);
-		?>
 
-		<h1>Projection le <?php echo $projection[$sessionReal]; ?></h1>
+		//date de projection si définie
+		if(isset($projection[$sessionReal])) {
+			echo '<h1>Projection le '. $projection[$sessionReal] .'</h1>';
+		}
 
-		<?php
 
 		$images = get_field('medias', $fiche_projet_post_id);
 
