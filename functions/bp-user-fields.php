@@ -419,7 +419,7 @@ function kino_user_fields_benevoles( $user, $kino_fields ) {
             'user_id' => $kino_userid
         ) ),
         "vehicule" => bp_get_profile_field_data( array(
-            'field'   => $kino_fields["permis"],
+            'field'   => $kino_fields["vehicule"],
             'user_id' => $kino_userid
         ) ),
 		"permis" => bp_get_profile_field_data( array(

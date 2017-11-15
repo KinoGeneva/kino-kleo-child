@@ -69,7 +69,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         // user query 1
         //***************************************
-        
+        /*
         if ( !empty($ids_of_benevoles) ) {
         
 	        $user_query = new WP_User_Query( array( 
@@ -93,21 +93,19 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 //        	);
         
         }
-        
+        */
         // Function to generate users
         // kino_user_fields_benevoles()
         // in : bp-user-fields.php
         
-        if ( ! empty( $user_query->results ) ) {
-        	foreach ( $user_query->results as $user ) {
-        		
-        		// infos about WP_user object
-        		$kino_userid = $user->ID ;
+        //if ( ! empty( $user_query->results ) ) {
+        if( ! empty( $ids_of_benevoles ) ) {
+        	foreach ( $ids_of_benevoles as $kino_userid ) {
         		
         		// $kinoite_participation = kino_user_participation( $kino_userid, $kino_fields );
         		
         			// add to array
-        			$kinoites_benevoles[] = kino_user_fields_benevoles( $user, $kino_fields );
+        			$kinoites_benevoles[] = kino_user_fields_benevoles( get_user_by('id', $kino_userid), $kino_fields );
         			
         			// 	    
         			
