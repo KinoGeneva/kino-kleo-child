@@ -365,3 +365,5 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 </article>
 <!-- End  Article -->
 
+<?php
+kino_js_tablesort("inscription-table");
