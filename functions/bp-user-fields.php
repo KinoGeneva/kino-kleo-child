@@ -383,6 +383,79 @@ function kino_user_fields_superlight( $user, $kino_fields ) {
 }
 
 /*
+ * Kino Bénévoles
+ * Created for gestion-des-benevoles/
+*/
+function kino_user_fields_benevoles( $user, $kino_fields ) {
+
+	$kino_userid = $user->ID ;
+
+    if ( empty( $kino_fields ) ) {
+        $kino_fields = kino_test_fields();
+    }
+    
+    $kino_user_participation = kino_user_participation( 
+    	$kino_userid, 
+    	$kino_fields
+    );
+    
+    $kino_userdata = array(
+        "user-id" => $kino_userid,
+        "user-name" => $user->display_name,
+        "user-slug" => $user->user_nicename,
+        "user-email" => $user->user_email,
+        "user-registered" => $user->user_registered,
+        "participation" => $kino_user_participation,
+        "benevole-fonction" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["benevole-fonction"],
+            'user_id' => $kino_userid
+        ) ),
+        "benevole-kabaret" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["benevole-kabaret"],
+            'user_id' => $kino_userid
+        ) ),
+        "benevole-charge-admin" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["benevole-charge-admin"],
+            'user_id' => $kino_userid
+        ) ),
+        "vehicule" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["permis"],
+            'user_id' => $kino_userid
+        ) ),
+		"permis" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["permis"],
+            'user_id' => $kino_userid
+        ) ),
+        "rue" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["rue"],
+            'user_id' => $kino_userid
+        ) ),
+        "ville" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["ville"],
+            'user_id' => $kino_userid
+        ) ),
+        "code-postal" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["code-postal"],
+            'user_id' => $kino_userid
+        ) ),
+        "pays" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["pays"],
+            'user_id' => $kino_userid
+        ) ),
+        "tel" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["tel"],
+            'user_id' => $kino_userid
+        ) ),
+         "dispo" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["dispo"],
+            'user_id' => $kino_userid
+        ) ),
+      );
+      return $kino_userdata;
+}
+
+
+/*
  * Kino User Logement
  * Created for Gestion-Logements
 */
@@ -438,23 +511,7 @@ function kino_user_fields_logement( $user, $kino_fields ) {
         "tel" => bp_get_profile_field_data( array(
             'field'   => $kino_fields["tel"],
             'user_id' => $kino_userid
-        ) ),
-        "dispo" =>  bp_get_profile_field_data( array(
-            'field'   => $kino_fields["dispo"],
-            'user_id' => $kino_userid
-        ) ),
-        "benevole-fonction" =>  bp_get_profile_field_data( array(
-            'field'   => $kino_fields["benevole-fonction"],
-            'user_id' => $kino_userid
-        ) ),
-        "benevole-kabaret" =>  bp_get_profile_field_data( array(
-            'field'   => $kino_fields["benevole-kabaret"],
-            'user_id' => $kino_userid
-        ) ),
-        "benevole-charge-admin" =>  bp_get_profile_field_data( array(
-            'field'   => $kino_fields["benevole-charge-admin"],
-            'user_id' => $kino_userid
-        ) ),
+        ) ),        
     );
 	
 	return $kino_userdata;

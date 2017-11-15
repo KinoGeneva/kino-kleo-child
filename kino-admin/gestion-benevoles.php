@@ -95,7 +95,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         }
         
         // Function to generate users
-        // kino_user_fields_logement()
+        // kino_user_fields_benevoles()
         // in : bp-user-fields.php
         
         if ( ! empty( $user_query->results ) ) {
@@ -107,7 +107,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         		// $kinoite_participation = kino_user_participation( $kino_userid, $kino_fields );
         		
         			// add to array
-        			$kinoites_benevoles[] = kino_user_fields_logement( $user, $kino_fields );
+        			$kinoites_benevoles[] = kino_user_fields_benevoles( $user, $kino_fields );
         			
         			// 	    
         			
@@ -140,9 +140,12 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           			<th>Fonction?</th>
           			<th>Choix admin</th>
           			<th>Activités Kino?</th>
+          			<th>Dispo</th>
           			<th>Adresse</th>
         		    <th>Email</th>
         		    <th>Tél.</th>
+        		    <th>Véhicule?</th>
+        		    <th>Permis conduire?</th>
         		    <th>Inscription Kabaret</th>
         		    <th>Inscription bénévole</th>
           		</tr>
@@ -247,6 +250,15 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							
         							echo '</td>';
         							
+        							//dispo
+        							echo '<td>';
+        							if ( $item["dispo"] ) {
+        										foreach ( $item["dispo"] as $key => $value) {
+        											echo '<span class="kp-pointlist">'.$value.'</span>';
+        										}
+        							}
+        							echo '</td>';
+        							
         							// ******************
         							
         							// Adresse
@@ -258,6 +270,17 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					<?php
 									//tel
 									echo $item["tel"] ?>
+									</td>
+							<?php
+									//véhicule ?>
+									<td>
+							<?php echo $item["vehicule"] ?>
+									</td>
+									
+        					<?php
+									//permis de conduire ?>
+									<td>
+							<?php echo $item["permis"] ?>
 									</td>
         					<?php
 									//date d'inscription kino
