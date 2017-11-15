@@ -141,7 +141,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           			<th>Choix admin</th>
           			<th>Activités Kino?</th>
           			<th>Adresse</th>
-        		    <th>Email / Tel.</th>
+        		    <th>Email</th>
+        		    <th>Tél.</th>
         		    <th>Inscription Kabaret</th>
         		    <th>Inscription bénévole</th>
           		</tr>
@@ -252,10 +253,13 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							echo '<td>'.$item["rue"].', '.$item["code-postal"].' '.$item["ville"].', '.$item["pays"].'</td>';
         							
         							// Email
-        							?><td><a href="mailto:<?php echo $item["user-email"] ?>?Subject=Kino%20Kabaret" target="_top"><?php echo $item["user-email"] ?></a> - <?php echo $item["tel"] ?></td>
-        							
+        							?><td><a href="mailto:<?php echo $item["user-email"] ?>?Subject=Kino%20Kabaret" target="_top"><?php echo $item["user-email"] ?></a></td>
+										<td>
         					<?php
-        					
+									//tel
+									echo $item["tel"] ?>
+									</td>
+        					<?php
 									//date d'inscription kino
 									$user_timestamp_complete = get_user_meta( 
 										$item["user-id"], 
