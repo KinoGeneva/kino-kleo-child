@@ -203,8 +203,10 @@ jQuery(document).ready(function($){
 					$kino_disable_real_checkbox = true;
 					$kino_real_notification = '&nbsp;';
  				}
-				 			
+ 				
+				//tél. du 15/11/2017: sandrane me demande de ré-ouvrir cette option
 				//cacher la case à cocher
+				/*
 	 			if ( $kino_disable_real_checkbox == true ) {
 				
 					// Dans "Profil Kinoïte", option Réalisateur-trice:
@@ -220,7 +222,7 @@ jQuery(document).ready(function($){
 					$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> label[for="field_<?php echo $kino_fields['profile-role-real']; ?>"]').css({display: "none"});
 	 					
 	 	<?php
-	 			}
+	 			}*/
 	 			
 				//afficher le message
 	 			if ( !empty($kino_real_notification) ) {
@@ -280,7 +282,7 @@ jQuery(document).ready(function($){
  			}
 			
 	 		// conditional part for CV field
- 			if (in_array( "realisateur", $kino_user_role )) {
+ 			if (in_array( "realisateur", $kino_user_role ) || in_array( "benevole", $kino_user_role )) {
  			
  				// test if file exists
  				?>
@@ -651,11 +653,12 @@ jQuery(document).ready(function($){
  		
  		
 //cacher le dernier onglet
-?>
+/*
 <style type="text/css">
 #buddypress ul.button-nav li:last-child,
 #buddypress #profile-edit-form .editfield.field_2097 {
 	display:none;
 }
 </style>
-
+*/
+?>
