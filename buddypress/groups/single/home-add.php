@@ -390,9 +390,9 @@ $(document).ready(function(){
 		
 		<?php
 		$projection = array(
-		'Session 1' => '14 janvier à 21h, Ciné-concert Alhambra',
-		'Session 2' => '16 janvier à 21h, salle de la Madeleine',
-		'Session 3' => '19 janvier à 21h, salle de la Madeleine',
+		'Session 1' => '19 janvier à 20h30, Ciné-concert Alhambra',
+		'Session 2' => '22 janvier à 21h, salle centrale de la Madeleine',
+		'Session 3' => '26 janvier à 21h, salle centrale de la Madeleine',
 		);
 
 		//date de projection si définie
