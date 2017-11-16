@@ -152,7 +152,7 @@ function kino_title_filter( $args ) {
 add_action( 'xprofile_updated_profile', 'SaveEditsRedirect', 12 );
 function SaveEditsRedirect() {
 	global $bp;
-	if ( is_user_logged_in() && bp_get_current_profile_group_id()==21 ) {
+	if ( is_user_logged_in() && bp_get_current_profile_group_id()==17 ) {
 		wp_redirect( $bp->loggedin_user->domain );
 		exit;
 	}
