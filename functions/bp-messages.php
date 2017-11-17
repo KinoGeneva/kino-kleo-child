@@ -151,9 +151,9 @@
  						kino_add_to_usergroup( $userid, $kino_fields['group-cherche-logement'] );
  			}
  			//sinon supprimer du groupe
- 				else {
-					kino_remove_from_usergroup( $userid, $kino_fields['group-cherche-logement'] );
-				}
+			else {
+				kino_remove_from_usergroup( $userid, $kino_fields['group-cherche-logement'] );
+			}
  			
  			$kinoite_offre_logement = bp_get_profile_field_data( array(
  						'field'   => $kino_fields["offre-logement"],
@@ -161,7 +161,7 @@
  				) );
  				// if OUI = add to group! $kino_fields['group-cherche-logement']
  				if ( ( $kinoite_offre_logement == "OUI" ) ) {
- 							kino_add_to_usergroup( $userid, $kino_fields['group-offre-logement'] );
+ 					kino_add_to_usergroup( $userid, $kino_fields['group-offre-logement'] );
  				}
  				//sinon supprimer du groupe
  				else {
@@ -194,8 +194,7 @@
  	  if( !in_array( "kabaret-2018", $kino_user_role ) ) { 
  	    
  	    // un peu de pub...
- 	    //$kino_notification = 'Le prochain Kino Kabaret se déroule du 8 au 19 janvier 2017! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/1/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.';
- 	    $kino_notification = 'Le prochain Kino Kabaret se déroule du 13 au 26 janvier 2018 et les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
+ 	    $kino_notification = 'Le prochain Kino Kabaret se déroule 13 au 26 janvier 2018! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/19/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.';
  	    
  	    break; }
  		
@@ -227,7 +226,7 @@
  			
  		/* Q1b : is the CV uploaded? */
  		
- 		if ( in_array( "realisateur", $kino_user_role ) ) {
+ 		if ( in_array( "realisateur", $kino_user_role ) || in_array( "benevole", $kino_user_role ) ) {
  		
  			$kinoite_id_cv = bp_get_profile_field_data( array(
  						'field'   => $kino_fields["id-cv"],
@@ -259,10 +258,9 @@
 				
 				// Cette personne vient de compléter la section "Compétence Réalisateur"!
 				
-				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). Pour les réalisateur-trices étranger-ères inscrits avant le 18/12/2016 minuit, nous vous ferons part du choix de la direction artistique le 21 décembre. Pour tous les autres réalisateurs-trices (date limite d’inscription le 29/12/2016 minuit) la sélection finale sera communiquée le 31 décembre 2016.";
+				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). La date limite d’inscription pour les réalisateur-trices est le 19.12.2017 à minuit. Nous vous ferons part du choix de la direction artistique le 21.12.2017. Les réalisateurs-trices devront confirmer leur participation d’ici au 6.1.2018.";
 			
 			} else {
-				
 				$kino_notification = 'Complétez votre profil (Compétence Réalisateur).';
 					break;
 			}
@@ -324,13 +322,11 @@ PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avat
 				$headers[] = 'From: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
 				
 				$kino_notification_email .= '
-				
-Nous nous réjouissons de vous accueillir dans notre nouveau KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le dimanche 8 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h.
+Nous nous réjouissons de vous accueillir dans notre KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le samedi 13 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h.  
 
+Pour toutes les informations pratiques et le programme du Kino Kabaret 2018, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
 
-Pour toutes les informations pratiques et le programme du Kino Kabaret 2017, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
-
-Pour toute question relative à votre inscription, n’hésitez pas à contacter Alex à l’adresse ci-dessous.';
+Pour toute question relative à votre inscription, n’hésitez pas à nous contacter à onvafairedesfilms@kinogeneva.ch.';
 				
 				$host = $_SERVER['HTTP_HOST'];
 				
@@ -341,7 +337,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
 					$headers[] = 'Bcc: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
 				
 				} else {
-				
+					
 					$to = 'webmaster@kinogeneva.com';
 					$headers[] = 'Bcc: Manu <ms@ms-studio.net>';
 					$kino_notification_email .= '
@@ -370,7 +366,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
  	} while (0);
  	
  	//temporaire jusqu'à l'ouverture des inscription
- 	$kino_notification.= '<br/>Le prochain Kino Kabaret se déroule du 13 au 26 janvier 2018 et les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
+ 	$kino_notification.= '<br/>Les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
  	return $kino_notification;
  	
  }
