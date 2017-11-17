@@ -50,7 +50,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	var_dump($ids_of_kino_complete);
         	echo '</pre>';
         }
-        
+        		
         $user_fields = array( 
         	'user_login', 
         	'user_nicename', // = slug
@@ -71,10 +71,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         // Quel est le total d'utilisateurs?
         
-        echo '<h3>Total des utilisateurs de la plateforme: '.count($user_query->results).'</h3>';
-        
-        echo '<p><b>Note: </b> Ce tableau liste tous les utilisateurs qui ne sont PAS dans le groupe "Participants Kino 2018 : profil complet". Il inclut donc les usagers ayant coché la participation, mais dont le profil n’est pas encore complet.</p>';
-        
+        echo '<h3>Total des utilisateurs ne participant pas au Kino Kabaret ou participant mais ayant un profil incomplet: '.count($user_query->results).'</h3>';
+                
         echo '<p><b>Voir aussi la <a href="'.$url.'/kino-admin/participants-kabaret/">liste des participants au Kabaret</a>.</b></p>';
         
         if ( ! empty( $user_query->results ) ) {
