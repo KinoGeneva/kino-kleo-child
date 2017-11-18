@@ -136,6 +136,17 @@
  							kino_add_to_usergroup( $userid, $kino_fields['group-benevoles-kabaret'] );
  							// add to mailing list!
 // 							kino_add_to_mailpoet_list( $userid, $kino_fields['mailpoet-benevoles'] );
+
+							//mail à sandrane #227
+							$kino_email_new_benevole = 'L\'utilisateur <a href="'. bp_core_get_user_domain( $userid ) .'">'. $user->display_name .'</a> s\'est inscrit comme bénévole pour le kabaret 2018';
+								$header = 'From: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
+								$to = 'sandrane@kinogeneva.ch';
+								  wp_mail(
+									$to,  // $to
+									'[KinoGeneva] Nouveau bénévole: '.$user->display_name, // $subject
+									$kino_email_new_benevole, 
+									$header
+								 );
  						}
  			}
  			
@@ -275,8 +286,8 @@
 		 		break; }
 		
 		
-		// Q6 : is "Kino Kabaret 2016" complete?
-		if( in_array( "kabaret-2017", $kino_user_role ) && !in_array( "kabaret-complete", $kino_user_role ) ) { 
+		// Q6 : is "Kino Kabaret 2018" complete?
+		if( in_array( "kabaret-2018", $kino_user_role ) && !in_array( "kabaret-complete", $kino_user_role ) ) { 
 		 		$kino_notification = 'Complétez les informations relatives à votre participation au Kino Kabaret.';
 		 		break; }
 		
