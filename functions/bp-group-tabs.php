@@ -227,7 +227,13 @@ function kino_get_field_group_conditions( $groups ) {
 	if ( bp_is_user_profile_edit() == false ) { // Notice: bp_is_profile_edit est déprécié depuis la version 1.5 ! Utilisez bp_is_user_profile_edit() à la place.
 		$forbidden_groups[] = "Conditions";
 	}
-		
+	
+	//#239 - https://bitbucket.org/ms-studio/kinogeneva/issues/239/cacher-longlet-quand-le-profil-b-n-vole
+	//cacher l'onglet bénévole si complet
+	if( in_array( "benevole-complete", $kino_user_role ) ){
+		$forbidden_groups[] = "Aide bénévole";
+	}
+	
   	if (!in_array( "realisateur", $kino_user_role )) {
   		if (!in_array( "realisateur-kab", $kino_user_role )) {
   			$forbidden_groups[] = "Compétence Réalisateur";
