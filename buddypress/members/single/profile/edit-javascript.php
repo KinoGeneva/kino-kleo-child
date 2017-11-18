@@ -323,19 +323,20 @@ jQuery(document).ready(function($){
 		 		// https://bitbucket.org/ms-studio/kinogeneva/issues/71/bug-aide-b-n-vole
 		 		
 		 		// Disable Bénévole Checkbox if Checked... + message de contacter l'équipe!
+		 		/*
 	 			$ids_of_benevoles = get_objects_in_term( 
 	 				$kino_fields['group-benevoles-kabaret'] , 
 	 				'user-group' 
 	 			);
 				 			
-	 			if ( in_array( $userid, $ids_of_benevoles ) ) {		
+	 			if ( in_array( $userid, $ids_of_benevoles ) ) {	
 		?>
 					//$('#profile-edit-form input#check_acc_field_<?php echo $kino_fields['benevole']; ?>').prop('disabled', true);						 						
 					$('#profile-edit-form div.field_<?php echo $kino_fields['benevole-kabaret']; ?> label[for="field_<?php echo $kino_fields['benevole-kabaret-yes']; ?>"]').css({display: "none"});
 					$('#profile-edit-form div.field_<?php echo $kino_fields['benevole-kabaret']; ?>').append('<b>Vous vous êtes inscrit comme bénévole pour cette édition du Kino Kabaret</b>. Pour des questions d\'organisation, Si vous ne souhaitez plus être bénévole pour le Kino Kabaret, merci de contact l\'équipe!');
 		<?php
 	 			}
-		 		
+		 		*/
 		 		
 		 }
  			
