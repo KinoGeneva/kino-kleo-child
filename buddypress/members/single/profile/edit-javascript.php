@@ -49,7 +49,8 @@ jQuery(document).ready(function($){
 		}
 	});
 
-
+	//dernier onglet pour redirection ?>
+	$("#buddypress ul.button-nav li:last-child").css({display: "none"});
 	
 	<?php
 	
