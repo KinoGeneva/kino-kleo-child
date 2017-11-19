@@ -108,7 +108,7 @@ function kino_title_filter( $args ) {
 	
 		$title_content = $args['title'];
 		
-		$member_avatar = '<div class="item-avatar rounded kino-title-avatar">'. bp_get_member_avatar( array("class"  => "avatar kleo-rounded", "alt" => "") ) .'</div>';
+		$member_avatar = '<div class="item-avatar rounded kino-title-avatar">'. bp_core_fetch_avatar( array("class"  => "avatar kleo-rounded", "alt" => "") ) .'</div>';
 		
 		$args['title'] = $member_avatar . $title_content ;
 		
