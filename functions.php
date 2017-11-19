@@ -53,8 +53,17 @@ require_once('functions/bp-messages.php');
 
 require_once('functions/bp-field-validation.php');
 
-require_once('functions/bp-group-add.php');
+//d'abord tester que le plugin ACF est actif
+/**
+ * Detect plugin. For use on Front End only.
+ */
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
+// check for plugin using plugin name
+if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
+  //plugin is activated
+  require_once('functions/bp-group-add.php');
+} 
 
 /* Admin Pages
 ******************************/
