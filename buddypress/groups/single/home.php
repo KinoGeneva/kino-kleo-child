@@ -88,10 +88,21 @@
 				if ( bp_group_is_visible() ) {
 					
 					//on active le template personnalisé
-					bp_get_template_part( 'groups/single/home-add');
-					
-					// Load appropriate front template
-					//bp_groups_front_template_part();
+					//d'abord tester que le plugin ACF est actif
+					/**
+					 * Detect plugin. For use on Front End only.
+					 */
+					include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+					// check for plugin using plugin name
+					if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
+					  //plugin is activated
+					  bp_get_template_part( 'groups/single/home-add');
+					}
+					else {
+						// Load appropriate front template
+						bp_groups_front_template_part();
+					}
 
 				} else {
 
