@@ -85,8 +85,8 @@
 			// Looking at home location
 			if ( bp_is_group_home() ) :
 
-				if ( bp_group_is_visible() ) {
-					
+				if ( bp_group_is_visible() || current_user_can( "read") ) {
+				
 					//on active le template personnalisé
 					//d'abord tester que le plugin ACF est actif
 					/**
