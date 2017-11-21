@@ -408,7 +408,19 @@ jQuery(document).ready(function($){
 					
 					$('#profile-edit-form .field_type_textbox input[type="text"]').prop('disabled', true);
 					
+					$('#profile-edit-form .field_type_number input[type="number"]').prop('disabled', true);
+					
+					$('#profile-edit-form .field_type_textarea textarea').prop('disabled', true);
+					
+					$('#profile-edit-form .field_type_image input[type="file"]').prop('disabled', true);
+					
 					$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
+ 					
+ 					//on active le champs dispo 224
+ 					//https://bitbucket.org/ms-studio/kinogeneva/issues/224/
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['dispo']; ?> input[type="checkbox"]').prop('disabled', false);
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['dispo-partiel']; ?> textarea').prop('disabled', false);
+ 					
  					
 		<?php		
  					
@@ -578,7 +590,6 @@ jQuery(document).ready(function($){
 
  		} // END if edit group ID 17 - Kino Kabaret 2017
  		
- 
    		
    		/*
    		 * Mixpanel Link Tracking Code:
