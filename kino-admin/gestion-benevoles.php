@@ -129,7 +129,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	echo '<p>Liste des kinoïtes bénévoles ayant coché "l’organisation du Kino Kabaret".';
         	
         	?>
-        	<table id="gestion-benevoles" class="table table-hover table-bordered table-condensed">
+        	<table id="gestion-benevoles" class="table table-hover table-bordered table-condensed pending-form">
         		<thead>
           		<tr>
           			<th>#</th>
@@ -146,8 +146,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         		    <th>Tél.</th>
         		    <th>Véhicule?</th>
         		    <th>Permis conduire?</th>
-        		    <th>Inscription Kabaret</th>
-        		    <th>Inscription bénévole</th>
+        		    <th>Inscription</th>        		    
+        		    <th>Note</th>
           		</tr>
           	</thead>
           	<tbody>
@@ -172,7 +172,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 //        							);
         							
         						?>
-        						<tr>
+        						<tr class="pending-candidate" data-id="<?php echo $item["user-id"] ?>">
         							<th><?php echo $metronom++; ?></th>
         							<?php 
         							
@@ -289,6 +289,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 									</td>
         					<?php
 									//date d'inscription kino
+									//date d'inscription bénévole
 									$user_timestamp_complete = get_user_meta( 
 										$item["user-id"], 
 										'kino_timestamp_complete_2017', 
@@ -297,10 +298,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 									$user_timestamp_complete = str_replace("T", " ", $user_timestamp_complete);
 									// supprimer secondes:
 									$user_timestamp_complete = substr($user_timestamp_complete, 0, 16);
-									echo '<td>'. $user_timestamp_complete .'</td>';
+									echo '<td>Kino: '. $user_timestamp_complete .'<br/>';
 									
-									//date d'inscription bénévole
-
 									$timestamp_benevole = get_user_meta( 
 										$item["user-id"], 
 										'kino_timestamp_benevole_2017', 
@@ -309,7 +308,16 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 									$timestamp_benevole = str_replace("T", " ", $timestamp_benevole);
 									// supprimer secondes:
 									$user_timestamp_complete = substr($user_timestamp_complete, 0, 16);
-									 echo '<td>'. $timestamp_benevole .'</td>';
+									echo 'Bénévole: '. $timestamp_benevole .'</td>';
+									
+									//note admin
+									echo '<td>';
+									$note_admin = get_user_meta( $item["user-id"], 'kino-admin-gestion-benevole-remarque', true );
+									echo '<div id="note_admin_'. $item["user-id"] .'_db">'. $note_admin .'</div>';
+									echo '<textarea id="note_admin_'. $item["user-id"] .'" rows="3" cols="20"></textarea>
+									<a class="admin-action pending-other" data-action="benevole-add-info">ajouter</a>';
+
+        							echo '</td>';
 									
 									// fin de la rangée
         					echo '</tr>';

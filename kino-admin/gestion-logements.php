@@ -46,7 +46,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	$kino_fields['group-cherche-logement'],
         	'user-group' 
         );
-        
+        $kinoites_cherchent_logement_ids = array_filter($kinoites_cherchent_logement_ids);
+         
         // Kinoites qui offrent un logement
         $kinoites_offrent_logement = array();
         
@@ -54,13 +55,13 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	$kino_fields['group-offre-logement'] , 
         	'user-group' 
         );
-   
+        $kinoites_offrent_logement_ids = array_filter($kinoites_offrent_logement_ids);
+
         //Infos des users qui cherchent un logement
         $kinoites_cherchent_logement = array();
         foreach($kinoites_cherchent_logement_ids as $kino_userid) {
 			// Add info to array 
         	$kinoites_cherchent_logement[] = kino_user_fields_logement( get_user_by('id', $kino_userid), $kino_fields );
-			
 			// TODO: tester si le kinoïte est déjà logé!
 			
 		}
@@ -441,7 +442,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	echo '<h2>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=offre-logement">qui offrent un logement</a> ('.count($kinoites_offrent_logement).'):</h2>';
         	
         	?>
-        	<table id="offre-logement" class="table table-hover table-bordered table-condensed">
+        	<table id="offre-logement" class="table table-hover table-bordered table-condensed pending-form">
         		<thead>
 	        		<tr>
 	        			<th>#</th>
@@ -452,6 +453,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	    			    <th>Tel.</th>
 	    			    <th>Nombre</th>
 	    			    <th>Type</th>
+	    			    <th>Remarque admin</th>
 	        		</tr>
 	        	</thead>
 	        	<tbody>
@@ -461,7 +463,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         		
         				foreach ($kinoites_offrent_logement as $key => $item) {
         						?>
-        						<tr>
+        						<tr class="pending-candidate" data-id="<?php echo $item["user-id"] ?>">
         							<th><?php echo $metronom++; ?></th>
         							<?php 
         							
@@ -482,6 +484,12 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							if ( !empty($item["offre-logement-remarque"]) ) {
         								echo $item["offre-logement-remarque"];
         							}
+        							echo '</td>';
+        							echo '<td>';
+        							$note_admin = get_user_meta( $item["user-id"], 'kino-admin-gestion-logement-remarque', true );
+									echo '<div id="note_admin_'. $item["user-id"] .'_db">'. $note_admin .'</div>';
+									echo '<textarea id="note_admin_'. $item["user-id"] .'" rows="3" cols="20"></textarea>
+									<a class="admin-action pending-other" data-action="logement-add-info">ajouter</a>';
         							echo '</td>';
         					echo '</tr>';
         				} // end foreach

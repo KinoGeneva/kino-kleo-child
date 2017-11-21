@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
    
                // Trigger to make AJAX call to set state for ID
                // ( 1:accept, -1:reject )
-               function setState(id, state) {
+               function setState(id, state, value) {
    
                    // item clicked
                    var $item = $('.pending-candidate[data-id="' + id + '"]'),
@@ -18,7 +18,8 @@ jQuery(document).ready(function($){
                        data = {
                            action: 'set_kino_state',
                            id:      id,
-                           state:   state
+                           state:   state,
+                           value: value
                        };
    
                    // make AJAX POST call    
@@ -73,7 +74,15 @@ jQuery(document).ready(function($){
                              	 location.reload(true);
                              	 // $("#table-container").load("/kino-admin/inscriptions/ #inscription-table");
                              }
-   
+                            else if ( state == 'logement-add-info' || state == 'benevole-add-info' ) {
+								var oldvalue = $('#note_admin_'+ id +'_db').html();
+								//text method to prevent html entities
+								$('#note_admin_'+ id +'_db').text(value);
+								if(oldvalue != '') {
+									$('#note_admin_'+ id +'_db').prepend(oldvalue +'<br/>');
+								}
+								$('#note_admin_'+ id ).val('');
+							 }
                                // succcess data
                                console.log(response.data);
    
@@ -97,8 +106,10 @@ jQuery(document).ready(function($){
                    $actionBtn.on ('click', function(){
                        var id = $item.attr ('data-id');
                        var kinoaction = $(this).attr ('data-action');
-                       // alert ('id='+id+' action='+kinoaction);
-                       setState( id, kinoaction);
+                       var value;
+                       value = $('#note_admin_' + id ).val();
+                       //alert ('id='+id+' value='+value);
+                       setState( id, kinoaction, value);
                    });
    
                });
