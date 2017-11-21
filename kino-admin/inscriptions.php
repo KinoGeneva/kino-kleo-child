@@ -154,8 +154,10 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         				<th>Profil complet?</th>
         		    <th width="200">Rôle Kabaret</th>
         		    <th>Réal?</th>
-        		    <th>Inscription</th>
-        		    <th>Carte Repas</th>
+        		    <th>Inscription<br/>payée</th>
+        		    <th>Action<br/>Inscription</th>
+        		    <th>Carte Repas<br/>payée</th>
+        		    <th>Action<br/>Carte repas</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -182,15 +184,15 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					echo '<td>';
         					
         					if ( !empty($user->display_name) ) {
-        						echo '('.$user->display_name .') ';
+        						echo $user->display_name .'<br/>';
         					}
         					
         					echo '<a href="'.$url.'/members/'.$user->user_nicename.'/profile/" target="_blank">';
 		        					echo $user->user_nicename;
-        					echo '</a>';
+        					echo '</a><br/>';
         					
         					// Email
-        			echo ' – <a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
+							echo '<a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
         					
         					
         					// Profil complet ?
@@ -253,7 +255,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	            				$somme_paiements = ( $somme_paiements + 100) ;
 	            				$nombre_entrees_100++;
 	            			}	
-	            			
+            			echo '</td>';
+            			echo '<td>';
 	            			if ( ( in_array( $id, $ids_of_paid_25 ) ) || ( in_array( $id, $ids_of_paid_100 ) ) ) {
 	            				
 	            				echo '<a class="admin-action payment-reset pending-reject" data-action="payment-reset">Reset</a>';
@@ -262,7 +265,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	            				echo '<a class="admin-action payment-25 pending-other" data-action="payment-25">Payer 25</a>';
 	            				echo '<a class="admin-action payment-100 pending-other" data-action="payment-100">Payer 100</a>';
 	            			}
-            			
+      	
             			echo '</td>';
             			
             			// Actions Carte Repas
@@ -281,7 +284,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
             					$somme_repas = ( $somme_repas + 100 );
             					$nombre_repas_100++; 
             				}
-            				
+						echo '</td>';
+						echo '<td>';
             				if ( ( in_array( $id, $ids_of_repas_60 ) ) || ( in_array( $id, $ids_of_repas_100 ) ) ) {
             					
             					echo '<a class="admin-action repas-reset pending-reject" data-action="repas-reset">Reset</a>';
@@ -297,25 +301,29 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         		echo '</tr>';
         		
         	}
-        	
+        	echo '</tbody>';
         			// Somme des Payements:
-        			
+        			//éviter que les totaux soient déplacés par les filtres
+        	echo '<tfoot>';
         			?>
         			<tr>
         				<th></th>
         				<th></th>
         				<th></th>
+        				
         				<th></th>
         			  <th></th>
-        			  <th></th>
+        			  <th>Somme Inscriptions: </th>
         			  <th><?php 
         			  	// Somme Inscriptions
-        			  	echo '<span class="has-paid"><b>Somme Inscriptions: '.$somme_paiements.'.-</b></span>';
+        			  	echo '<span class="has-paid">'.$somme_paiements.'.-</span>';
         			   ?></th>
+        			   <th>Somme Cartes Repas: </th>
         			  <th><?php 
         			  	// Somme Carte Repas 
-        			  	echo '<span class="has-paid"><b>Somme Cartes Repas: '.$somme_repas.'.-</b></span>';
+        			  	echo '<span class="has-paid">'.$somme_repas.'.-</span>';
         			  	?></th>
+        			  	<th></th>
         			</tr>
         			<?php
         			
@@ -323,14 +331,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			
         			?>
         			<tr>
-        				<th></th>
-        				<th></th>
-        				<th></th>
-        				<th></th>
-        			  <th></th>
-        			  <th></th>
-        			  <th><?php 
-        			  
+        				<th colspan="4"></th>
+        				<th colspan="1">
+        				<?php 
         			  	echo '<span class="has-paid"><b>';
         			  	echo 'Entrées à 25 : '.$nombre_entrees_25.' <br/>';
         			  	echo 'Entrées à 100 : '.$nombre_entrees_100.' <br/>';
@@ -339,7 +342,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			  	echo '</b></span>';
         			  
         			   ?></th>
-        			  <th><?php 
+        			  <th colspan="5"><?php 
         			  	// Somme Totale 
         			  	$somme_totale = ( $somme_paiements + $somme_repas );
         			  	echo '<span class="has-paid"><b>Somme Totale: '.$somme_totale.'.-</b></span>';
@@ -347,7 +350,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			</tr>
         			<?php
         	
-        	echo '</tbody></table></div>';
+        	echo '</tfoot></table></div>';
         
         	// Ajouter à Mailpoet: Participants Kabaret
 //        	kino_add_to_mailpoet_list( 
