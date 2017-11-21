@@ -109,7 +109,7 @@ jQuery(document).ready(function($){
 	$("div.required-field.field_type_color input").attr('data-validation', 'required');
 	// number
 	$("div.required-field.field_type_number input").attr('data-validation', 'required');
- 			 			
+ 	
 	<?php
 	
 	// checkbox group
@@ -308,6 +308,33 @@ jQuery(document).ready(function($){
 		 */
 		 			
 		 if ( bp_get_current_profile_group_id() == 16 ) {
+			 
+			 /*
+					* Cf https://bitbucket.org/ms-studio/kinogeneva/issues/116/
+					* et https://bitbucket.org/ms-studio/kinogeneva/issues/71/
+					en rouge si aucun choix n'est coché (le caractère obligatoire du champ ne fonctionne pas)
+					
+					   Méthode : 
+					   - On teste le groupe de champ. = defined in $kino_fields['benevole-kabaret'] = 1320
+					   - Si le groupe est entièrement vide, on affiche l'avertissement par Javascript.
+					   Ceci étant, on ne force pas la validation, pour éviter des bugs.
+					*/
+ 							
+				$kino_field_dispo = bp_get_profile_field_data( array(
+						'field'   => $kino_fields['benevole-kabaret'],
+						'user_id' => $userid
+				 ) );
+ 							
+				if ( empty( $kino_field_dispo ) ) {
+					
+					// rien sélectionné : 
+					// afficher avertissement!
+					// + rendre le groupe obligatoire
+					
+					kino_validate_chekbox( $kino_fields['benevole-kabaret'] );
+				
+				} // if empty($kino_field_dispo)
+			 
 		 		
 		 		// rendre obligatoire les cases "Aide Bénévole: activités Kinogeneva"
 		 		// $kino_fields['benevole-kabaret']
