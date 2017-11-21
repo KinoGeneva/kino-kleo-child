@@ -123,7 +123,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         // ***********************************
         
         if ( !empty($kinoites_benevoles) ) {
-        	echo '<h2>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=benevoles-kabaret">Bénévoles</a> ('.count($kinoites_benevoles).'):</h2>';
+        	echo '<h2>Gestion des bénévoles Kabaret</h2>
+        	<h3>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=benevoles-kabaret">Bénévoles</a> ('.count($kinoites_benevoles).'):</h3>';
         	
         	echo '<p>Liste des kinoïtes bénévoles ayant coché "l’organisation du Kino Kabaret".';
         	
@@ -133,12 +134,13 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           		<tr>
           			<th>#</th>
           			<th>Nom</th>
-          			<th>Real?</th>
+          			<?php //<th>Real?</th> ?>
           			<th>Rôle Kino</th>
-          			<th>Fonction?</th>
-          			<th>Choix admin</th>
-          			<th>Activités Kino?</th>
+          			<?php //<th>Fonction?</th> ?>
+          			<?php //<th>Choix admin</th> ?>
+          			<?php //<th>Activités Kino?</th> ?>
           			<th>Dispo</th>
+          			<th>Dispo partielle</th>
           			<th>Adresse</th>
         		    <th>Email</th>
         		    <th>Tél.</th>
@@ -179,7 +181,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							
         							// Real?
         							// ******************
-        							  							  								
+        							  /*							  								
 				  								if ( in_array( "real-kab-valid", $item["participation"] ) ) {          				            				
 				          				  echo '<td class="success">Approved</td>';
 				          				
@@ -196,7 +198,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				          					echo '<td></td>';
 				  								}
         							
-        							
+        							*/
         							// Rôles Kino
         							// ******************
         							
@@ -220,6 +222,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							// ******************
         							
         							// Fonction
+        							/*
         							echo '<td>';
         							if ( $item["benevole-fonction"] ) {
         										foreach ( $item["benevole-fonction"] as $key => $value) {
@@ -247,14 +250,18 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							}
         							
         							echo '</td>';
-        							
+        							*/
         							//dispo
-        							echo '<td>';
+        							echo '<td style="white-space:nowrap;">';
         							if ( $item["dispo"] ) {
         										foreach ( $item["dispo"] as $key => $value) {
-        											echo '<span class="kp-pointlist">'.$value.'</span>';
+        											echo $value.'<br/>';
         										}
         							}
+        							echo '</td>';
+        							
+        							echo '<td>';
+									echo $item["dispo-partiel"];
         							echo '</td>';
         							
         							// ******************

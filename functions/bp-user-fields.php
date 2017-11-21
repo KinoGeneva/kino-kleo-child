@@ -450,6 +450,10 @@ function kino_user_fields_benevoles( $user, $kino_fields ) {
             'field'   => $kino_fields["dispo"],
             'user_id' => $kino_userid
         ) ),
+        "dispo-partiel" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["dispo-partiel"],
+            'user_id' => $kino_userid
+        ) ),
       );
       return $kino_userdata;
 }
