@@ -230,7 +230,7 @@ function kino_get_field_group_conditions( $groups ) {
 	
 	//#239 - https://bitbucket.org/ms-studio/kinogeneva/issues/239/cacher-longlet-quand-le-profil-b-n-vole
 	//cacher l'onglet bénévole si complet
-	if( in_array( "benevole-complete", $kino_user_role ) ){
+	if( in_array( "benevole-complete", $kino_user_role ) && !current_user_can( 'publish_pages' ) ){
 		$forbidden_groups[] = "Aide bénévole";
 	}
 	
@@ -301,7 +301,7 @@ function kino_get_field_group_conditions( $groups ) {
  * on cache l'onglet kino kabaret 2018 si pas admin
  */
 
-add_filter( 'bp_profile_get_field_groups', 'kino_get_field_group_temporaire2018', 10 );
+//add_filter( 'bp_profile_get_field_groups', 'kino_get_field_group_temporaire2018', 10 );
 
 function kino_get_field_group_temporaire2018( $groups ) {
 	$forbidden_groups = array();
@@ -310,7 +310,6 @@ function kino_get_field_group_temporaire2018( $groups ) {
 	}
 	else {
 		$forbidden_groups[] = "Kino Kabaret 2018";
-		$forbidden_groups[] = "Fin";
 	}
 	
 	$groups_updated = array();
