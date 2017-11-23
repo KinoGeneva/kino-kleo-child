@@ -565,6 +565,7 @@ jQuery(document).ready(function($){
 				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').show();
 				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').show();
 				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').show();
+				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').show();
 				        
 				        // require validation
 				        $("#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?> select").attr('data-validation', 'required');
@@ -578,6 +579,7 @@ jQuery(document).ready(function($){
 			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').hide();
 			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').hide();
 			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').hide();
+			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').hide();
 			    		// remove validation
 			    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?> select").removeAttr('data-validation');
 			    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?> select").removeAttr('data-validation');
@@ -682,7 +684,9 @@ jQuery(document).ready(function($){
  					<style type="text/css">
  					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>,
  					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>,
- 					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?> {
+ 					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>,
+ 					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime']; ?>
+ 					  {
  					 	display:none;
  					 }
  					</style>

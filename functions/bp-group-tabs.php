@@ -96,6 +96,8 @@ function kino_hide_some_profile_fields( $retval ) {
 				$kino_excluded_id[] = $kino_fields['session-un'];
 				$kino_excluded_id[] = $kino_fields['session-deux'];
 				$kino_excluded_id[] = $kino_fields['session-trois'];
+				//Genève je t'aime 2018
+				$kino_excluded_id[] = $kino_fields['session-geneve-je-taime'];
 				
 				
 				// And in addition to that...
