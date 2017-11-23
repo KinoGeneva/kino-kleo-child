@@ -32,7 +32,7 @@ jQuery(document).ready(function($){
                            // look at the response
    
                            if (response.success) {
-   
+
                              // update the UI to reflect the response
                              $item.attr ('data-state', state);
                              
@@ -40,16 +40,17 @@ jQuery(document).ready(function($){
                              	$item.detach();
                              } else if ( state == 'kabaret-session1' ) {
                              	$item.detach();
+                             	$item.appendTo( "#session1" );
                              } else if ( state == 'kabaret-session2' ) {
                              	$item.detach();
+                             	$item.appendTo( "#session2" );
                              } else if ( state == 'kabaret-session3' ) {
                              	$item.detach();
-                             } else if ( state == 'kabaret-sessions8' ) {
-                             	$item.detach();
-                             } else if ( state == 'kabaret-reject' ) {
-                             	$item.detach();
+                             	$item.appendTo( "#session3" );
+                             } else if ( state == 'kabaret-reject' ) {								 
+								 $item.detach();
                              } else if ( state == 'kabaret-cancel' ) {
-                             	$item.detach();
+								 $item.detach();
                              } else if ( state == 'platform-accept' ) {
                              	 $item.detach();
                              } else if ( state == 'platform-reject' ) {
@@ -106,9 +107,9 @@ jQuery(document).ready(function($){
                    $actionBtn.on ('click', function(){
                        var id = $item.attr ('data-id');
                        var kinoaction = $(this).attr ('data-action');
-                       var value;
+                       var value = '';
                        value = $('#note_admin_' + id ).val();
-                       //alert ('id='+id+' value='+value);
+                       //alert ('id='+id+' kinoaction='+ kinoaction + ' - value='+value);
                        setState( id, kinoaction, value);
                    });
    
