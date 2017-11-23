@@ -116,8 +116,13 @@
 				 				// move to group: real-kabaret-pending
 				 				kino_add_to_usergroup( $userid, 
 				 						$kino_fields['group-real-kabaret-pending'] );
-//				 				kino_add_to_mailpoet_list( $userid, 
-//				 				  	$kino_fields['mailpoet-real-kabaret-pending'] );
+				 				//mailpoet
+				 				if( $mailpoet_id = getMailpoetId( $userid ) ) {
+									kino_add_to_mailpoet_list(
+										$mailpoet_id, 
+										$kino_fields['mailpoet-real-kabaret-pending'] 
+									);
+								}
  					 		}
  					
  			} // end testing "realisateur-kab"
@@ -135,7 +140,13 @@
  							// add to group!
  							kino_add_to_usergroup( $userid, $kino_fields['group-benevoles-kabaret'] );
  							// add to mailing list!
-// 							kino_add_to_mailpoet_list( $userid, $kino_fields['mailpoet-benevoles'] );
+ 							//mailpoet
+			 				if( $mailpoet_id = getMailpoetId( $userid ) ) {
+								kino_add_to_mailpoet_list(
+									$mailpoet_id, 
+									$kino_fields['mailpoet-benevoles'] 
+								);
+							}
 
 							//mail à sandrane #227
 							$kino_email_new_benevole = 'L\'utilisateur <a href="'. bp_core_get_user_domain( $userid ) .'">'. $user->display_name .'</a> s\'est inscrit comme bénévole pour le kabaret 2018';
@@ -327,6 +338,18 @@ PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avat
 				
 				kino_add_to_usergroup( $userid, $kino_fields['group-kino-complete'] );
 				
+				//mailpoet ajout "Kino Kabaret (Profil Complet)" et suppression de liste mailpoet kabaret incomplet
+ 				if( $mailpoet_id = getMailpoetId( $userid ) ) {
+					kino_add_to_mailpoet_list(
+						$mailpoet_id, 
+						$kino_fields['mailpoet-participant-kabaret'] 
+					);
+					kino_remove_from_mailpoet_list(
+						$mailpoet_id, 
+						$kino_fields['mailpoet-participant-kabaret-incomplet'] 
+					);
+				}
+				
 				// Action 2 = send email notification!
 				// ****************************************
 				
@@ -363,13 +386,6 @@ Pour toute question relative à votre inscription, n’hésitez pas à nous cont
 				 	$kino_notification_email, 
 				 	$headers 
 				 );
-				 
-				 // Add user to Mailpoet list: 
-//				 kino_add_to_mailpoet_list( $userid, 
-//				   $kino_fields['mailpoet-participant-kabaret']);
-				 // Remove from incomplete list:
-//				 kino_remove_from_mailpoet_list( $userid, 
-//				   $kino_fields['mailpoet-participant-kabaret-incomplet'] );
 				 
 				break;
 		
