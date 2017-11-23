@@ -166,3 +166,14 @@ function SaveEditsRedirect() {
 		exit;
 	}
 }
+
+//redir sur l'onglet profil à l'édition
+//https://bitbucket.org/ms-studio/kinogeneva/issues/265/
+add_action( 'xprofile_screen_edit_profile', 'conditionsEditsRedirect', 12 );
+function conditionsEditsRedirect() {
+	global $bp;
+	if ( is_user_logged_in() && bp_get_current_profile_group_id()==1 ) {
+		wp_redirect( $bp->loggedin_user->domain .'/profile/edit/group/19/');
+		exit;
+	}
+}
