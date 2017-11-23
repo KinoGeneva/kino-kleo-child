@@ -385,6 +385,49 @@ jQuery(document).ready(function($){
 		 <?php
 		}  // END if edit group ID 7
 		
+		/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profile Group 5 (= Réalisateur)
+		 ******************************
+		 */
+		 if ( bp_get_current_profile_group_id() == 5 ) {
+			//ticket 263 https://bitbucket.org/ms-studio/kinogeneva/issues/263
+			//rendre l'upload ['real-coaching-scenario'] obligatoire si coach ['real-coaching'] = oui ?>
+			
+			//A. onload
+			var soumission_scenario = $("#field_<?php echo $kino_fields['real-coaching']; ?>").val();
+			if(soumission_scenario == 'OUI' ) {
+				// show fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').show();
+				// require fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+			}
+			else {
+				// hide fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').hide();
+				// remove validation
+				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').removeAttr('data-validation');
+			}
+			
+			//B. au moment du changement de sélection
+			$("#field_<?php echo $kino_fields['real-coaching']; ?>").change(function() {
+				var soumission_scenario = $("#field_<?php echo $kino_fields['real-coaching']; ?>").val();
+				if(soumission_scenario == 'OUI') {
+					// show fields
+					 $('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').show();
+					// require fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+				}
+				else {
+					// hide fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').hide();
+					// remove validation
+					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').removeAttr('data-validation');
+				}
+			});
+		<?php
+		 }  // END if edit group ID 5
+		
 		
 	 	/*************************************
 		 * CONDITIONAL CODE 
