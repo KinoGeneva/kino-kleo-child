@@ -40,7 +40,7 @@
 jQuery(document).ready(function($){
 	
 	//onglet identité: test sur le champ photo #114 => on efface le nom du fichier du champ s'il ne contient pas l'extension voulue
-	$("#profile-edit-form #field_859").change(function() {	 
+	$("#profile-edit-form #field_859").change(function() {		
 		if(($(this).val().indexOf('jpg') >=0) || ($(this).val().indexOf('JPG') >=0) || ($(this).val().indexOf('jpeg') >=0) || ($(this).val().indexOf('JPEG') >=0)){
 			//ok
 		}
@@ -300,7 +300,92 @@ jQuery(document).ready(function($){
  			}
 		 
 		 } //fin de bp_get_current_profile_group_id() == 10
-		 	
+		 
+		 
+		/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profile Group 7 (= Technicien)
+		 ******************************
+		 */
+		
+		if ( bp_get_current_profile_group_id() == 7 ) {
+			//ticket 264 https://bitbucket.org/ms-studio/kinogeneva/issues/264/onglet-technicien
+			//1. cacher pas défaut la question du scénario ['comp-scenario-soumission'] et l'upload ['comp-scenario-file']
+			//2. montrer la question soumission seulement si ['comp-scenario-scenariste'] "Checked": 
+		?>
+		
+		//A. on load
+		if($("input#field_<?php echo $kino_fields['comp-scenario-scenariste']; ?>").is(":checked")) {
+			// show fields
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').show();
+			// require validation
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').attr('data-validation', 'required');
+			
+			//3. montrer le champ d'upload seulement si ['comp-scenario-soumission'] = OUI
+			var soumission_scenario = $("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").val();
+			if(soumission_scenario == 'OUI' ) {
+				 // show fields
+				 $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').show();
+				// require fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+			}
+			else {
+				// hide fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+				// remove validation
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+			}
+		}
+		else {
+			// hide fields
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').hide();
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+			// remove validation
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').removeAttr('data-validation');
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+		}
+	
+		//B. quand on click sur ['comp-scenario-scenariste']
+		 $("input#field_<?php echo $kino_fields['comp-scenario-scenariste']; ?>").click(function() {
+		    if($(this).is(":checked")) {
+		        // show fields
+		        $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').show();
+		        // require validation
+		        $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').attr('data-validation', 'required');
+		    }
+		    else {
+				// effacer la valeur si sélectionnée
+				$("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").val('');
+	    		// hide fields
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').hide();
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+	    		// remove validation
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').removeAttr('data-validation');
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+			    }
+			});
+			
+		//3. montrer le champ d'upload seulement si ['comp-scenario-soumission'] = OUI au moment du changement de sélection
+		$("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").change(function() {
+			var soumission_scenario = $("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").val();
+			if(soumission_scenario == 'OUI') {
+				// show fields
+				 $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').show();
+				// require fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+			}
+			else {
+				// hide fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+				// remove validation
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+			}
+		});
+			
+		 <?php
+		}  // END if edit group ID 7
+		
+		
 	 	/*************************************
 		 * CONDITIONAL CODE 
 		 * for Profile Group 16 (= Aide Bénévole)
