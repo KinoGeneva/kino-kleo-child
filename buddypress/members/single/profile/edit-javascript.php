@@ -542,12 +542,18 @@ jQuery(document).ready(function($){
 					
 					$('#profile-edit-form .field_type_image input[type="file"]').prop('disabled', true);
 					
-					$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
- 					
+					//on laisse l'enregistrement possible avec modif du nom de bouton de validation
+					//https://bitbucket.org/ms-studio/kinogeneva/issues/274/
+					//$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
+ 					$('#profile-edit-form .submit input[type="submit"]').prop('value', 'Enregistrer les modifications');
  					//on active le champs dispo 224
  					//https://bitbucket.org/ms-studio/kinogeneva/issues/224/
+ 					//et la photo du logement pour le tournage
+ 					//https://bitbucket.org/ms-studio/kinogeneva/issues/274/
  					$('#profile-edit-form div.field_<?php echo $kino_fields['dispo']; ?> input[type="checkbox"]').prop('disabled', false);
  					$('#profile-edit-form div.field_<?php echo $kino_fields['dispo-partiel']; ?> textarea').prop('disabled', false);
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-photo']; ?> textarea').prop('disabled', false);
+
  					
  					
 		<?php		
