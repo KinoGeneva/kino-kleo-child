@@ -393,7 +393,7 @@ Pour toute question relative à votre inscription, n’hésitez pas à nous cont
  	} while (0);
  	
  	//temporaire jusqu'à l'ouverture des inscription
- 	$kino_notification.= '<br/>Les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
+ 	//$kino_notification.= '<br/>Les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
  	return $kino_notification;
  	
  }
