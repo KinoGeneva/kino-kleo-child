@@ -525,11 +525,12 @@ jQuery(document).ready(function($){
 			if ( in_array( $userid, $ids_group_kino_complete ) ) {
 				
 				if ( current_user_can('subscriber') ) {
-				
-		?>
- 					
+
+ 					//ne fonctionne pas de désactiver quelques champs si ils sont obligatoire
+ 					//cf. bug https://bitbucket.org/ms-studio/kinogeneva/issues/277/
+ 					 
+ 					/*
  					// désactiver l'édition de tous les champs!
- 					
  					$('#profile-edit-form input[type="checkbox"]').prop('disabled', true);
 					
 					$('#profile-edit-form .field_type_selectbox select').prop('disabled', true);
@@ -542,19 +543,29 @@ jQuery(document).ready(function($){
 					
 					$('#profile-edit-form .field_type_image input[type="file"]').prop('disabled', true);
 					
-					//on laisse l'enregistrement possible avec modif du nom de bouton de validation
-					//https://bitbucket.org/ms-studio/kinogeneva/issues/274/
-					//$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
- 					$('#profile-edit-form .submit input[type="submit"]').prop('value', 'Enregistrer les modifications');
- 					//on active le champs dispo 224
- 					//https://bitbucket.org/ms-studio/kinogeneva/issues/224/
- 					//et la photo du logement pour le tournage
- 					//https://bitbucket.org/ms-studio/kinogeneva/issues/274/
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['dispo']; ?> input[type="checkbox"]').prop('disabled', false);
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['dispo-partiel']; ?> textarea').prop('disabled', false);
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-photo']; ?> textarea').prop('disabled', false);
-
+					$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
+					
+					//alors on les cache
+					*  */
+			?>
+					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-nb'] ?>').hide();
  					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage'] ?>').hide()
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').hide();
+
+					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule-remarque'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['permis'] ?>').hide();
+
+		<?php		//renommer le bouton d'enregistrement si profil déjà complet
+					//https://bitbucket.org/ms-studio/kinogeneva/issues/274/
+		?>
+ 					$('#profile-edit-form .submit input[type="submit"]').prop('value', 'Enregistrer les modifications');
  					
 		<?php		
  					
