@@ -104,57 +104,61 @@ add_filter('kleo_title_args', 'kino_title_filter',10,1);
 
 function kino_title_filter( $args ) {
 	
-	if ( bp_is_user() ) {
+	if ( function_exists( 'bp_is_user' ) ) {
 	
-		$title_content = $args['title'];
+		if ( bp_is_user() ) {
 		
-		$member_avatar = '<div class="item-avatar rounded kino-title-avatar">'. bp_core_fetch_avatar( array("class"  => "avatar kleo-rounded", "alt" => "") ) .'</div>';
-		
-		$args['title'] = $member_avatar . $title_content ;
-		
-		// ajouter le @username... ou pas.
-		
-		$title_username = ' <span class="user-nicename">@'. bp_get_displayed_user_mentionname() .'</span>';
-		
-		// $args['title'] .= $title_username;
-		
-		
-		// ajouter les boutons:
-		// do_action( 'bp_member_header_actions' ); 
-		
-		// bp_send_public_message_button
-		
-		// bp_send_private_message_button = OK
-		
-		// $title_buttons = do_action( 'bp_member_header_actions' );
-		
-		$title_buttons = '';
-		
-		// Test if function exists: bp_get_send_message_button()
-		
-		 if ( function_exists( 'bp_get_send_message_button' ) ) {
-		 	
-		 	$title_buttons = bp_get_send_message_button();
-		 
-		 }
-		 
-		 if ( function_exists( 'bp_get_send_public_message_button' ) ) {
-		 	
-		 	$title_buttons = bp_get_send_public_message_button();
-		 
-		 }
-		
-
-		$args['title'] .= $title_buttons;
-		
-		// class="user-nicename">@<?php bp_displayed_user_mentionname(); 
-		
-		
-	}
+			$title_content = $args['title'];
+			
+			$member_avatar = '<div class="item-avatar rounded kino-title-avatar">'. bp_core_fetch_avatar( array("class"  => "avatar kleo-rounded", "alt" => "") ) .'</div>';
+			
+			$args['title'] = $member_avatar . $title_content ;
+			
+			// ajouter le @username... ou pas.
+			
+			$title_username = ' <span class="user-nicename">@'. bp_get_displayed_user_mentionname() .'</span>';
+			
+			// $args['title'] .= $title_username;
+			
+			
+			// ajouter les boutons:
+			// do_action( 'bp_member_header_actions' ); 
+			
+			// bp_send_public_message_button
+			
+			// bp_send_private_message_button = OK
+			
+			// $title_buttons = do_action( 'bp_member_header_actions' );
+			
+			$title_buttons = '';
+			
+			// Test if function exists: bp_get_send_message_button()
+			
+			 if ( function_exists( 'bp_get_send_message_button' ) ) {
+			 	
+			 	$title_buttons = bp_get_send_message_button();
+			 
+			 }
+			 
+			 if ( function_exists( 'bp_get_send_public_message_button' ) ) {
+			 	
+			 	$title_buttons = bp_get_send_public_message_button();
+			 
+			 }
+			
+	
+			$args['title'] .= $title_buttons;
+			
+			// class="user-nicename">@<?php bp_displayed_user_mentionname(); 
+			
+			
+		}
+			
+	} // if function_exists
 	
 	return $args;
 	
-}
+} // end kino_title_filter
 
 #https://bitbucket.org/ms-studio/kinogeneva/issues/118/a-la-fin-de-l-dition-du-profil-redirection
 #https://buddypress.org/support/topic/how-to-redirect-users-to-their-profile-after-they-edit-their-profile/
