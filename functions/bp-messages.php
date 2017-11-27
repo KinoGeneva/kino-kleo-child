@@ -280,7 +280,7 @@
 				
 				// Cette personne vient de compléter la section "Compétence Réalisateur"!
 				
-				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). La date limite d’inscription pour les réalisateur-trices est le 19.12.2017 à minuit. Nous vous ferons part du choix de la direction artistique le 21.12.2017. Les réalisateurs-trices devront confirmer leur participation d’ici au 6.1.2018.";
+				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). La date limite d’inscription pour les réalisateur-trices est le 16.12.2017 à minuit. Nous vous ferons part du choix de la direction artistique le 19.12.2017. Les réalisateurs-trices devront confirmer leur participation d’ici au 6.1.2018.";
 			
 			} else {
 				$kino_notification = 'Complétez votre profil (Compétence Réalisateur).';
