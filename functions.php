@@ -166,7 +166,7 @@ add_action( 'xprofile_updated_profile', 'SaveEditsRedirect', 12 );
 function SaveEditsRedirect() {
 	global $bp;
 	if ( is_user_logged_in() && bp_get_current_profile_group_id()==22 ) {
-		wp_redirect( $bp->loggedin_user->domain );
+		wp_redirect( $bp->displayed_user->domain );
 		exit;
 	}
 }
@@ -177,7 +177,7 @@ add_action( 'xprofile_screen_edit_profile', 'conditionsEditsRedirect', 12 );
 function conditionsEditsRedirect() {
 	global $bp;
 	if ( is_user_logged_in() && bp_get_current_profile_group_id()==1 ) {
-		wp_redirect( $bp->loggedin_user->domain .'/profile/edit/group/19/');
+		wp_redirect( $bp->displayed_user->domain .'/profile/edit/group/19/');
 		exit;
 	}
 }
