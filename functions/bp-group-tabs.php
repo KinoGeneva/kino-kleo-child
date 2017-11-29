@@ -81,7 +81,7 @@ function kino_hide_some_profile_fields( $retval ) {
 			
 			$kino_user_role = kino_user_participation( bp_loggedin_user_id(), $kino_fields );
 			
-			if ( !in_array( "realisateur", $kino_user_role ) && !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) ) {
+			if ( !in_array( "realisateur", $kino_user_role ) && !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) && !in_array( "benevole", $kino_user_role ) ) {
 			
 				// Don't show role options for Kino Kabaret!
 				
@@ -101,7 +101,7 @@ function kino_hide_some_profile_fields( $retval ) {
 				
 				
 				// And in addition to that...
-				if ( !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) ) {
+				if ( !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) && !in_array( "benevole", $kino_user_role ) ) {
 				
 					// Don't show ANY role options for Kino Kabaret
 					

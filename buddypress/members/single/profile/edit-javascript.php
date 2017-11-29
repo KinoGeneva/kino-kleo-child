@@ -324,10 +324,17 @@ jQuery(document).ready(function($){
 			//3. montrer le champ d'upload seulement si ['comp-scenario-soumission'] = OUI
 			var soumission_scenario = $("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").val();
 			if(soumission_scenario == 'OUI' ) {
-				 // show fields
-				 $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').show();
-				// require fields
-				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+				// show fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').show();
+				 
+				//test s'il y a deja un fichier
+				if($('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').children('a').length) {
+						//has link
+				}
+				else {
+					// require fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+				}
 			}
 			else {
 				// hide fields
@@ -371,8 +378,14 @@ jQuery(document).ready(function($){
 			if(soumission_scenario == 'OUI') {
 				// show fields
 				 $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').show();
-				// require fields
-				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+				//test s'il y a deja un fichier
+				if($('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').children('a').length) {
+						//has link
+				}
+				else {
+					// require fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+				}
 			}
 			else {
 				// hide fields
@@ -399,8 +412,14 @@ jQuery(document).ready(function($){
 			if(soumission_scenario == 'OUI' ) {
 				// show fields
 				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').show();
-				// require fields
-				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+				//test s'il y a deja un fichier
+				if($('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').children('a').length) {
+						//has link
+				}
+				else {
+					// require fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+				}
 			}
 			else {
 				// hide fields
@@ -415,8 +434,14 @@ jQuery(document).ready(function($){
 				if(soumission_scenario == 'OUI') {
 					// show fields
 					 $('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').show();
-					// require fields
-					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+					//test s'il y a deja un fichier
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').children('a').length) {
+							//has link
+					}
+					else {
+						// require fields
+						$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+					}
 				}
 				else {
 					// hide fields
@@ -545,22 +570,83 @@ jQuery(document).ready(function($){
 					
 					$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
 					
-					//alors on les cache
+					//alors on cache les champs et on affiche les infos remplies par les utilisateurs
 					*  */
 			?>
-					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?>').hide();
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement'] ?>').hide();
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').hide();
-					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement'] ?>').hide();
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-remarque'] ?>').hide();
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-nb'] ?>').hide();
+				// Je m'inscris au Kino Kabaret en tant que 
+					$('#profile-edit-form #field_<?php echo $kino_fields['role-kabaret'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> p.description').hide();
+					
+					var role_kab_value = ''
+					//display comédien checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-comed']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-comed']?> ').val() + '</div>';
+					}
+					//display technicien checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-tech']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-tech']?> ').val() + '</div>';
+					}
+					//display réal checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-real']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-real']?> ').val() + '</div>';
+					}
+					//display bénévole checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-bene']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-bene']?> ').val() + '</div>';
+					}
+					
+					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?>').append(role_kab_value);
+					
+				//choix de session
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-un']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-un'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-un']; ?>').val());
+		    		
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-deux']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-deux'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-deux']; ?>').val());
+		    		
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-trois']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois'] ?> p.description').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-trois']; ?>').val());
+		    		
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').val());
+		    	//cherche logement
+					$('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement'] ?>').val());
  					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').val());
+ 					
+ 				//offre logement
+					$('#profile-edit-form #field_<?php echo $kino_fields['offre-logement'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement'] ?> p.description').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['offre-logement'] ?>').val());
+					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-remarque'] ?> p.description').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-remarque'] ?>').val());
+ 					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-nb'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-nb'] ?> p.description').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-nb'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-nb'] ?>').val());
+ 				//possible tournage
  					$('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage'] ?>').hide()
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').hide();
-
-					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule'] ?>').hide();
- 					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule-remarque'] ?>').hide();
-					$('#profile-edit-form div.field_<?php echo $kino_fields['permis'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage'] ?>').val())
+ 					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-remarque'] ?> p.description').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').val());
+ 					
+				//vehicule
+					$('#profile-edit-form #field_<?php echo $kino_fields['vehicule'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule'] ?> p.description').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['vehicule'] ?>').val());
+					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['vehicule-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['vehicule-remarque'] ?>').val());
+ 				//permis
+					$('#profile-edit-form #field_<?php echo $kino_fields['permis'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['permis'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['permis'] ?>').val());
 
 		<?php		//renommer le bouton d'enregistrement si profil déjà complet
 					//https://bitbucket.org/ms-studio/kinogeneva/issues/274/
@@ -805,7 +891,16 @@ jQuery(document).ready(function($){
  				}
  				</style>
  				<?php
- 			} // technicien
+ 			} // bénévole
+ 			if (!in_array( "benevole", $kino_user_role )) {
+ 				?>
+ 				<style type="text/css">
+ 				#buddypress div.field_<?php echo $kino_fields['role-kabaret']; ?> label[for=field_<?php echo $kino_fields['role-kabaret-bene']; ?>] {
+ 					display: none;
+ 				}
+ 				</style>
+ 				<?php
+ 			} // bénévole
  			
  			
  			/*
