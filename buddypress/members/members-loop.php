@@ -140,7 +140,8 @@ if ( strpos( $kino_query_string, 'include' ) !== false ) {
             * bp_member_profile_data( 'field=the field name' );
             */
             
-            if ( current_user_can( 'publish_pages' ) ) {
+           if ( current_user_can( 'read' ) ) {
+           //modif: on montre à tous les membres
             
             	// we show everything for: Admin and Editor roles
             	echo '<div class="item-meta">';
