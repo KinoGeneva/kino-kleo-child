@@ -398,7 +398,8 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 }
 
 .kino-edit-profile .field_type_checkbox legend,
-.kino-edit-profile .field_type_radio legend {
+.kino-edit-profile .field_type_radio legend,
+.kino-edit-profile legend {
 	margin-left:  -20px;
 	margin-bottom: 10px;
 	font-weight: bold;
