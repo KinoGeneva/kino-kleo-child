@@ -143,7 +143,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 				// Profil Cabaret 2018 complet? 
 				
 				$kino_dispo_kab = bp_get_profile_field_data( array(
-						'field'   => $kino_fields['profil-kabaret-complete'], // trouver ID du champ! (test effectué sur possibilité hébergement)
+						'field'   => $kino_fields['role-kabaret'], // changement: test effectué sur "je m'inscris en tant que"
 						'user_id' => $userid
 				) );
 				if ( $kino_dispo_kab ) {
@@ -177,7 +177,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 					'field'   => $kino_fields['role-kabaret'],
 					'user_id' => $userid
 			) );
-			// test field 135 = participation en tant que
+			// test field " participation en tant que"
 			if ($kab_particiation_boxes) {
 				foreach ($kab_particiation_boxes as $key => $value) {
 				
@@ -302,7 +302,7 @@ function kino_user_participation_role( $userid, $kino_fields ) {
 	}
 	$kup = array();
 	
-	// Test des rôles pour le Kabaret 2017
+	// Test des rôles pour le Kabaret
 	$kab_particiation_boxes = bp_get_profile_field_data( array(
 			'field'   => $kino_fields['role-kabaret'],
 			'user_id' => $userid
