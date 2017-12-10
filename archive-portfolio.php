@@ -52,7 +52,33 @@ kleo_switch_layout( 'no' );
             $img_height = $img_array[1];
         }
 
-        echo kleo_portfolio_items( $display_type, $title_style, $columns, NULL, 'yes', $show_filter, $excerpt, $img_width, $img_height );
+        // echo kleo_portfolio_items( $display_type, $title_style, $columns, NULL, 'yes', $show_filter, $excerpt, $img_width, $img_height );
+        
+        // Start the Loop.
+        
+        ?>
+        <div class="portfolio-wrapper">
+        	<ul class="portfolio-items responsive-cols kleo-masonry  default-style per-row-4">
+        <?php
+        
+        	while ( have_posts() ) : the_post();
+        
+        		/*
+        		 * Include the post format-specific template for the content. If you want to
+        		 * use this in a child theme, then include a file called called content-___.php
+        		 * (where ___ is the post format) and that will be used instead.
+        		 */
+        
+        		get_template_part( 'page-parts/portfolio-masonry' );
+        
+        	endwhile;
+        	?>
+        	
+        		</ul></div>
+        	
+        		<?php
+        		// page navigation.
+        		kleo_pagination();
         ?>
 
     <?php endif; ?>

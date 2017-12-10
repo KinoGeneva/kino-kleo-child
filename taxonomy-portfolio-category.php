@@ -62,10 +62,8 @@ add_filter( 'kleo_main_template_classes', create_function( '$cls', '$cls .=" pos
 	kino_film_category_filter( $this_term->slug );
 	
 	?>
-	
 	<div class="portfolio-wrapper">
 		<ul class="portfolio-items responsive-cols kleo-masonry  default-style per-row-4">
-
 	<?php
 	// Start the Loop.
 	while ( have_posts() ) : the_post();

@@ -55,7 +55,7 @@ function kino_taxonomy_lesfilms() {
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
 	);
-	register_taxonomy( 'lesfilms', array( '' ), $args );
+	// register_taxonomy( 'lesfilms', array( '' ), $args );
 
 }
 add_action( 'init', 'kino_taxonomy_lesfilms', 0 );
