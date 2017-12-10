@@ -56,21 +56,12 @@ add_filter( 'kleo_main_template_classes', create_function( '$cls', '$cls .=" pos
 	<?php
 	
 	// Afficher filtre custom
-	$terms = get_terms('portfolio-category'); // lesfilms
+	
+	$this_term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) ); 
+	
+	kino_film_category_filter( $this_term->slug );
+	
 	?>
-	<div class="row clearfix">
-		<ul class="portfolio-filter-tabs bar-styling col-sm-12 clearfix">
-			<li class="all"><a href="/films/">Tout</a></li>
-			<?php 
-			
-			foreach ( $terms as $term) {
-			?>
-	    <li><a href="/lesfilms/<?php echo $term->slug; ?>"><?php echo $term->name; ?></a></li>
-	   <?php 
-	    }
-		?>
-		</ul>
-	</div>
 	
 	<div class="portfolio-wrapper">
 		<ul class="portfolio-items responsive-cols kleo-masonry  default-style per-row-4">

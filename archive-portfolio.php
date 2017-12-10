@@ -34,23 +34,7 @@ kleo_switch_layout( 'no' );
         
         $terms = get_terms('portfolio-category'); // lesfilms
         
-        ?>
-        <div class="row clearfix">
-        	<ul class="portfolio-filter-tabs bar-styling col-sm-12 clearfix">
-        		<li class="all"><a href="/films/">Tout</a></li>
-        		<?php 
-        		
-        		foreach ( $terms as $term) {
-        		?>
-		        <li><a href="/lesfilms/<?php echo $term->slug; ?>"><?php echo $term->name; ?></a></li>
-		       <?php 
-		       
-            }
-        		
-        	?>
-        	</ul>
-        </div>
-        <?php
+        kino_film_category_filter( 'archive-portfolio' );
         
         /* Uses page-parts/portfolio-masonry.php template */
 

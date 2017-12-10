@@ -55,7 +55,48 @@ function kino_taxonomy_lesfilms() {
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
 	);
-	register_taxonomy( 'lesfilms', array( 'portfolio' ), $args );
+	register_taxonomy( 'lesfilms', array( '' ), $args );
 
 }
 add_action( 'init', 'kino_taxonomy_lesfilms', 0 );
+
+/*
+ * Fonction pour afficher filtre
+ * sur les pages Archives de Films
+*/
+
+function kino_film_category_filter( $currentpage ) {
+	
+	$terms = get_terms('portfolio-category');
+	
+	if ( $currentpage == 'archive-portfolio' ) {
+		$classeactive = ' selected';
+	} else {
+		$classeactive = '';
+	}
+	
+	$filter = '<div class="row clearfix">';
+	$filter .= '<ul class="portfolio-filter-tabs bar-styling col-sm-12 clearfix">';
+	$filter .= '<li class="all'.$classeactive.'"><a href="/films/">Tout</a></li>';
+
+	foreach ( $terms as $term) {
+		
+		// ajouter classe "selected" si page active	
+		
+		if ( $currentpage == $term->slug ) {
+			$classeactive = ' selected';
+		} else {
+			$classeactive = '';
+		}
+			
+		$filter .= '<li class="'.$classeactive.'"><a href="/lesfilms/' . $term->slug .'">';
+		
+		$filter .= $term->name ;
+		 
+	  $filter .= '</a></li>';
+	   
+	}
+			
+	$filter .= '</ul></div>';
+	echo $filter;
+}
