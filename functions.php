@@ -65,6 +65,11 @@ if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
   require_once('functions/bp-group-add.php');
 } 
 
+/* Portfolio aka Film  Pages
+******************************/
+
+require_once('functions/portfolio-films.php');
+
 /* Admin Pages
 ******************************/
 
