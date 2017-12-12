@@ -61,20 +61,6 @@ $kleo_post_format = get_cfield( 'media_type' ) ? get_cfield( 'media_type' ) : 't
                     }
                     break;
 
-                case 'video':
-
-                    //oEmbed video
-                    $video = get_cfield( 'embed' );
-
-                    if ( !empty( $video ) ) {
-                        global $wp_embed;
-                        echo '<div class="kleo-video-embed">';
-                        echo apply_filters( 'kleo_oembed_video', $video );
-                        echo '</div>';
-                    }
-
-                    break;
-
                 case 'slider':
 
                     $slides = get_cfield('slider');
@@ -112,14 +98,12 @@ $kleo_post_format = get_cfield( 'media_type' ) ? get_cfield( 'media_type' ) : 't
                     }
 
                     echo '</div>';
-                    /*echo '<a href="#" class="kleo-banner-prev"><i class="icon-angle-left"></i></a>'
-                        . '<a href="#" class="kleo-banner-next"><i class="icon-angle-right"></i></a>'
-                        . '<div class="kleo-banner-features-pager carousel-pager"></div>';*/
                     echo '</div>';
 
                     break;
 
                 default:
+                
                     if ( kleo_get_post_thumbnail_url() != '' ) {
                         global $portfolio_img_width, $portfolio_img_height;
                         $img_width = isset($portfolio_img_width) ? $portfolio_img_width : $kleo_config['post_gallery_img_width'];
@@ -138,6 +122,34 @@ $kleo_post_format = get_cfield( 'media_type' ) ? get_cfield( 'media_type' ) : 't
                             . '</a>';
 
                         echo '</div><!--end post-image-->';
+                        
+                    } else {
+                    // Test if video:
+                    
+                     //oEmbed video
+                      $video_url = get_cfield( 'embed' );
+  
+                      if ( !empty( $video_url ) ) {
+                          
+                          if (function_exists('vimeovortex')) {
+                          	
+                          	$video = vimeovortex_array($video_url);
+                          	
+                          	$image = $video["video"]["thumbnail_large"];
+                          	$image = str_replace("http:","https:",$image);
+                          
+                          	 echo '<div class="portfolio-image">';
+                          	
+  	                        echo '<a href="'. get_permalink() .'" class="element-wrap">'
+  	                            . '<img src="' . $image . '">'
+  	                            . kleo_get_img_overlay()
+  	                            . '</a>';
+  	
+  	                        echo '</div><!--end post-image-->';
+                          	
+                          }
+                      }
+  
                     }
 
                     break;
@@ -152,7 +164,19 @@ $kleo_post_format = get_cfield( 'media_type' ) ? get_cfield( 'media_type' ) : 't
             <?php if (kleo_excerpt() != '<p></p>') : ?>
 
                 <div class="portfolio-info">
-                    <?php echo kleo_excerpt( 60, false ); ?>
+                    <?php 
+                    // echo kleo_excerpt( 60, false ); 
+                    // no UTF-8 support!
+                    
+                    $excerpt = get_the_excerpt();
+                    $limit = 60;
+                    if (strlen($excerpt) > $limit) {
+                        echo mb_substr($excerpt, 0, $limit), '[...]';
+                    } else {
+                        echo $excerpt;
+                    }
+                    
+                    ?>
                 </div><!--end post-info-->
 
             <?php endif; ?>
