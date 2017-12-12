@@ -67,7 +67,19 @@ add_action( 'init', 'kino_taxonomy_lesfilms', 0 );
 
 function kino_film_category_filter( $currentpage ) {
 	
-	$terms = get_terms('portfolio-category');
+	$terms = get_terms( array(
+	    'taxonomy' => 'portfolio-category',
+	    'hide_empty' => true,
+	    'exclude' => array(321)
+	) );
+	
+	/*
+	 * Note : problème masquage articles brouillons:
+	 * Cf https://wordpress.stackexchange.com/questions/225458/get-terms-showing-link-to-category-even-if-all-posts-are-drafts
+	 * get_terms() doesn't have built-in feature that excludes draft posts because it keeps track of only total posts term is attached to.
+	 
+	 * Workaround: on exclut temporairement "Kinogeneva 2017" (id 321)
+	*/
 	
 	if ( $currentpage == 'archive-portfolio' ) {
 		$classeactive = ' selected';
