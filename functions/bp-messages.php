@@ -365,12 +365,12 @@
 				$kino_notification_email .= '
 Nous nous réjouissons de vous accueillir dans notre KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le samedi 13 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h.  
 
-Vos frais d\'inscription contribuent à permettre à ce que l\'évènement ait lieu ainsi qu\'aux coûts de location du KinoLab, des salles de projection, de préparation des repas, des assurances, etc. En contrepartie vous bénéficiez de repas à un prix en dessous du prix coûtant, d\'un magnifique KinoLab avec accès internet, d\'une imprimante à disposition, d\'un espace de montage, d\'une plateforme internet, d\'impressions de fiches de tous les participants et l\'entrée aux trois projections.
+Vos frais d’inscription contribuent à permettre à ce que l’évènement ait lieu ainsi qu’aux coûts de location du KinoLab, des salles de projection, de préparation des repas, des assurances, etc. En contrepartie vous bénéficiez de repas à un prix en dessous du prix coûtant, d’un magnifique KinoLab avec accès internet, d’une imprimante à disposition, d’un espace de montage, d’une plateforme internet, d’impressions de fiches de tous les participants et l’entrée aux trois projections.
 
-Merci de payer vos frais d\'inscription sur notre plateforme de financement participatif, en choisissant Inscription Kinoïte ou Inscription Kinoïte de soutien.
+Merci de payer vos frais d’inscription sur notre plateforme de financement participatif, en choisissant Inscription Kinoïte ou Inscription Kinoïte de soutien.
 <a href="https://www.lokalhelden.ch/5me-kino-kabaret-de-geneve">www.lokalhelden.ch/5me-kino-kabaret-de-geneve</a>
 
-Afin qu\'il reste accessible pour tous et parce qu\'à ce jour nos recherches de soutiens ne suffisent pas à couvrir tous les frais liés à l\'organisation du Kino Kabaret tel que vous, et nous, l’aimons, nous convions la communauté à le soutenir, et merci d\'encourager votre entourage à aussi soutenir le Kino Kabaret de Genève.</div>
+Afin qu’il reste accessible pour tous et parce qu’à ce jour nos recherches de soutiens ne suffisent pas à couvrir tous les frais liés à l’organisation du Kino Kabaret tel que vous, et nous, l’aimons, nous convions la communauté à le soutenir, et merci d’encourager votre entourage à aussi soutenir le Kino Kabaret de Genève.</div>
 
 Pour toutes les informations pratiques et le programme du Kino Kabaret 2018, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
 
