@@ -163,6 +163,30 @@
     					echo '<td></td>';
     				}
       			
+      			//Session GE t’aime
+      			echo '<td>';
+      			echo bp_get_profile_field_data( array(
+	      			'field'   => $kino_fields['session-geneve-je-taime'],
+	      			'user_id' => $user->ID
+	      		) );
+      			echo '</td>';
+      			
+      			//Scénario d’un autre
+      			echo '<td>';
+      			echo bp_get_profile_field_data( array(
+	      			'field'   => $kino_fields['real-scenar-other'],
+	      			'user_id' => $user->ID
+	      		) );
+      			echo '</td>';
+      			
+      			//Atelier écriture
+      			echo '<td>';
+      			echo bp_get_profile_field_data( array(
+	      			'field'   => $kino_fields['real-coaching'] ,
+	      			'user_id' => $user->ID
+	      		) );
+      			echo '</td>';
+      			
       			// Profil complet ?	
       			// ********************
       			
