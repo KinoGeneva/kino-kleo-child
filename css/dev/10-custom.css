@@ -406,6 +406,10 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 	font-size: 14px;
 }
 
+.kino-edit-profile input[type="checkbox"] {
+	margin-right: 10px;
+}
+
 #buddypress .field-visibility-settings, 
 #buddypress .field-visibility-settings-toggle, 
 #buddypress .field-visibility-settings-notoggle {
