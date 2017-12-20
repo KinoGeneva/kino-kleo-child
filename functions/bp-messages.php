@@ -344,6 +344,7 @@
 				// ****************************************
 				
 				kino_add_to_usergroup( $userid, $kino_fields['group-kino-complete'] );
+				kino_remove_from_usergroup( $userid, $kino_fields['group-kino-incomplete'] );
 				
 				//mailpoet ajout "Kino Kabaret (Profil Complet)" et suppression de liste mailpoet kabaret incomplet
  				if( $mailpoet_id = getMailpoetId( $userid ) ) {
