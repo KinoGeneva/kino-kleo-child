@@ -50,9 +50,9 @@
 				
 				if ( !empty($kino_notifications) ) {
 				
-					?><figure class="callout-blockquote light big-blockquote"><blockquote><p><?php 
+					?><figure class="callout-blockquote light big-blockquote"><blockquote><?php 
 						echo $kino_notifications; ?>
-					    </p></blockquote></figure>
+					    </blockquote></figure>
 					<?php
 				} 
 	 ?>
