@@ -66,6 +66,12 @@ get_header(); ?>
 							
 							get_template_part( 'kino-admin/participants-kabaret' );
 						
+						// participants au Kabaret au profil incomplet
+						
+						} else if ( $kino_page_slug == 'kabaret-incomplet' ) {
+							
+							get_template_part( 'kino-admin/kabaret-incomplet' );
+						
 						// Membres hors-Kabaret	
 							
 						} else if ( $kino_page_slug == 'membres-hors-kabaret' ) {
