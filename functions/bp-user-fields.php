@@ -192,6 +192,9 @@ function kino_user_participation( $userid, $kino_fields ) {
 				  if ( $value == "Arti" ) {
 				  	$kup[] = "technicien-kab";
 				  }
+				  if ( $value == "Béné" ) {
+					$kup[] = "benevole-kab";
+				  }
 				} // end foreach
 			} //
 			
@@ -321,6 +324,9 @@ function kino_user_participation_role( $userid, $kino_fields ) {
 		  }
 		  if ( $value == "Arti" ) {
 		  	$kup[] = "technicien-kab";
+		  }
+		  if ( $value == "Béné" ) {
+		  	$kup[] = "benevole-kab";
 		  }
 		} // end foreach
 	} //
