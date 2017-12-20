@@ -30,7 +30,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         $kino_fields = kino_test_fields();
         
-        // Kinoites qui cherchent un logement
+        // Kinoites bénévoles
         $kinoites_benevoles = array();
 
 				$ids_of_benevoles = get_objects_in_term( 
@@ -38,7 +38,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 					'user-group' 
 				);
 				
-				// tester aussi si la personne participe au Kabaret 2017 :
+				// tester aussi si la personne participe au Kabaret
 				
 				$ids_of_participants = get_objects_in_term( 
 					$kino_fields['group-kino-pending'] , 
@@ -56,7 +56,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				
 //				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_participants );
 				
-				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_complete );
+				//$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_complete );
 				
 //				echo '<pre>$ids_of_benevoles:';
 //				var_dump($ids_of_benevoles);
@@ -215,6 +215,10 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         								// Comédien ?
         								if ( in_array( "comedien-kab", $item["participation"] )) {
         									echo '<span class="kp-pointlist">Comédien-ne</span>';
+        								}
+        								// Bénévole ?
+        								if ( in_array( "benevole-kab", $item["participation"] )) {
+        									echo '<span class="kp-pointlist">Bénévole</span>';
         								}
         								
         							echo '</td>';
