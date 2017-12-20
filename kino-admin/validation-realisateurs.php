@@ -207,7 +207,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 			if( !empty( $users_real_kabaret_accepted = get_users( array( 'include' => $ids_real_kabaret_accepted ) ) ) ) {
 				$metronom = 1;
 				$kino_show_validation = 'accepted';
-				echo '<h2 id="real-kabaret-accepted-h2">Réalisateurs Kino Kabaret 2017: Acceptés ('.count( $users_real_kabaret_accepted ).')</h2>';
+				echo '<h2 id="real-kabaret-accepted-h2">Réalisateurs Kino Kabaret: Acceptés ('.count( $users_real_kabaret_accepted ).')</h2>';
 				echo '<div id="real-kabaret-accepted">';
 				echo kino_table_header($kino_show_validation, 'kabaret-accept');
 				foreach ( $users_real_kabaret_accepted as $user ) {
@@ -222,7 +222,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 			if( !empty( $users_real_kabaret_canceled = get_users( array( 'include' => $ids_real_kabaret_canceled ) ) ) ) {
 				$metronom = 1;
 				$kino_show_validation = 'false';
-				echo '<h2>Réalisateurs Kino Kabaret 2017: Annulation ('.count( $users_real_kabaret_canceled ).')</h2>';
+				echo '<h2>Réalisateurs Kino Kabaret: Annulation ('.count( $users_real_kabaret_canceled ).')</h2>';
 				echo '<div id="real-kabaret-canceled">';
 				echo kino_table_header($kino_show_validation, 'kabaret-cancel');
 				foreach ( $users_real_kabaret_canceled as $user ) {
@@ -238,7 +238,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 			if( !empty( $users_real_kabaret_rejected = get_users( array( 'include' => $ids_real_kabaret_rejected ) ) ) ) {
 				$metronom = 1;
 				$kino_show_validation = 'false';
-				echo '<h2>Réalisateurs Kino Kabaret 2017: Refusés ('.count( $users_real_kabaret_rejected ).')</h2>';
+				echo '<h2>Réalisateurs Kino Kabaret: Refusés ('.count( $users_real_kabaret_rejected ).')</h2>';
 				echo '<div id="real-kabaret-rejected">';
 				echo kino_table_header($kino_show_validation, 'kabaret-reject');
 				foreach ( $users_real_kabaret_rejected as $user ) {
