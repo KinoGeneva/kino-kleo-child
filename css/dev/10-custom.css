@@ -1046,3 +1046,16 @@ table.calendar th {
 	background-color: #c11119;
 	border-color: #c11119;
 }
+
+/* bp-groups > besoins */
+#buddypress .besoins-projets{
+	text-align: left;
+}
+#buddypress .besoins-projets ul {
+padding: 0px;
+}
+#buddypress #groups-list .besoins-projets li {
+	text-align: left;
+	padding: 0px;
+	display:list-item;
+}
