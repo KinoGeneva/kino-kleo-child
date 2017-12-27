@@ -40,7 +40,7 @@ jQuery(document).ready(function($){
 			//
 		}
 		else {
-			alert("Vous n'avez pas coché la case \"Je m‘inscris au Kino Kabaret 2018\".");
+			alert("Vous n’avez pas coché la case \"Je m’inscris au Kino Kabaret 2018\".");
 		}
 	});
 });
