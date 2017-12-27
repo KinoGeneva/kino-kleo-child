@@ -19,6 +19,8 @@
     <body>
 <?php
 
+if ( current_user_can( 'publish_pages' ) ) {
+
 $url = get_stylesheet_directory_uri();
 
 ?>
@@ -866,6 +868,10 @@ body {
 
     <?php  ?>
 </article>
-        
+<?php } else {
+
+echo '<h1>Désolé, l’accès à cette page est réservé aux administrateurs-trices de Kino Geneva!</h1>';
+
+} // end if current user can...  ?>  
     </body>
 </html>

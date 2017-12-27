@@ -19,6 +19,11 @@
 
     </head>
     <body>
+    <?php
+    	
+    	if ( current_user_can( 'publish_pages' ) ) {
+    	
+    ?>
 		<!-- Begin Article -->
 		<article>
 			<div class="article-content">
@@ -264,6 +269,10 @@
 
 		</article>
 		<!-- End  Article -->
+<?php } else {
 
+echo '<h1>Désolé, l’accès à cette page est réservé aux administrateurs-trices de Kino Geneva!</h1>';
+
+} // end if current user can...  ?>  
     </body>
 </html>
