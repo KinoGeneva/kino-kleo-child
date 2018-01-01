@@ -75,7 +75,8 @@ jQuery(document).ready(function($){
                              	 location.reload(true);
                              	 // $("#table-container").load("/kino-admin/inscriptions/ #inscription-table");
                              }
-                            else if ( state == 'logement-add-info' || state == 'benevole-add-info' ) {
+                             //
+                            else if ( state == 'cherche-logement-add-info' || state == 'offre-logement-add-info' || state == 'benevole-add-info' ) {
 								var oldvalue = $('#note_admin_'+ id +'_db').html();
 								//text method to prevent html entities
 								$('#note_admin_'+ id +'_db').text(value);
