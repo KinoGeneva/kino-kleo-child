@@ -216,7 +216,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 // OUTPUT!
 #1 - Kinoïtes qui cherchent un logement:
         if ( !empty($kinoites_cherchent_logement) ) {
-        	echo '<h2>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=cherche-logement">qui cherchent un logement</a> ('.count($kinoites_cherchent_logement).'):</h2>';
+        	echo '<div><a name="cherche-logement" href="#logements-dispo">Aller au tableau des logements disponibles</a></div>
+        	<h2>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=cherche-logement">qui cherchent un logement</a> ('.count($kinoites_cherchent_logement).'):</h2>';
         	?>
         	<table id="cherche-logement" class="table table-hover table-bordered table-condensed pending-form">
         		<thead>
@@ -327,7 +328,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 // **********************************
 
 		if ( !empty($kino_logements_all) ) {
-			echo '<h2>Lits disponibles: '. $kino_logements_all['nombre_couchages_restant'] .'/'. $kino_logements_all['nombre_couchages_total'] .'</h2>';
+			echo '<div><a name="logements-dispo" href="#cherche-logement">Aller au tableau des personnes qui cherchent un logement</a></div>
+			<h2>Lits disponibles: '. $kino_logements_all['nombre_couchages_restant'] .'/'. $kino_logements_all['nombre_couchages_total'] .'</h2>';
 			echo '<h3>Logements disponibles ('.count( $kino_logements_dispo ).' / '.$kino_logements_total.'):</h3>';
 			?>
 			<table id="offre-logement" class="table table-hover table-bordered table-condensed pending-form">
