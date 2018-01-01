@@ -122,8 +122,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 		if ( !empty($kino_logements) && !is_wp_error( $kino_logements ) ) {
 			
 			$kino_logements_total = count($kino_logements);
-			$kino_logements_all['nombre_couchages_total'] = 0;
-			$kino_logements_all['nombre_couchages_restant'] = 0;
+			$kino_logements_dispo_nb['nombre_couchages_total'] = 0;
+			$kino_logements_dispo_nb['nombre_couchages_restant'] = 0;
 			
 			foreach ( $kino_logements as $logement ) {
 				// Nombre de places dispo:
@@ -199,8 +199,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				}
 				if(!empty($kino_logement_data)){
 					$kino_logements_all[] = $kino_logement_data;
-					$kino_logements_all['nombre_couchages_total']+= $nombre_couchages;
-					$kino_logements_all['nombre_couchages_restant']+= ($nombre_couchages - $nombre_occupants);
+					$kino_logements_dispo_nb['nombre_couchages_total']+= $nombre_couchages;
+					$kino_logements_dispo_nb['nombre_couchages_restant']+= ($nombre_couchages - $nombre_occupants);
 				}
 			} // foreach	
 		}
@@ -329,7 +329,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 
 		if ( !empty($kino_logements_all) ) {
 			echo '<div><a name="logements-dispo" href="#cherche-logement">Aller au tableau des personnes qui cherchent un logement</a></div>
-			<h2>Lits disponibles: '. $kino_logements_all['nombre_couchages_restant'] .'/'. $kino_logements_all['nombre_couchages_total'] .'</h2>';
+			<h2>Lits disponibles: '. $kino_logements_dispo_nb['nombre_couchages_restant'] .'/'. $kino_logements_dispo_nb['nombre_couchages_total'] .'</h2>';
 			echo '<h3>Logements disponibles ('.count( $kino_logements_dispo ).' / '.$kino_logements_total.'):</h3>';
 			?>
 			<table id="offre-logement" class="table table-hover table-bordered table-condensed pending-form">
