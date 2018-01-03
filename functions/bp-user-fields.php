@@ -521,7 +521,15 @@ function kino_user_fields_logement( $user, $kino_fields ) {
         "tel" => bp_get_profile_field_data( array(
             'field'   => $kino_fields["tel"],
             'user_id' => $kino_userid
-        ) ),        
+        ) ),
+          "dispo" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["dispo"],
+            'user_id' => $kino_userid
+        ) ),
+        "dispo-partiel" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["dispo-partiel"],
+            'user_id' => $kino_userid
+        ) ),
     );
 	
 	return $kino_userdata;
