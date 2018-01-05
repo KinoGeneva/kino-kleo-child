@@ -311,12 +311,12 @@ echo '</pre>';
 							if ( !empty($item["dispo"]) ) {
 								echo 'Jours: ';
 								foreach ( $item["dispo"] as $key => $value) {
-									echo '<span class="jour-dispo"> '.substr($value, 0, 2).'</span>';
+									echo '<span class="jour-dispo"> '. substr($value, 0, 5) .'</span>';
 								}
 							}
 						echo '</td>';
 						
-						//note admin : TODO
+						//note admin
 						echo '<td>';
 							$note_admin = get_user_meta( $item["user-id"], 'kino-admin-cherche-logement-remarque', true );
 							echo '
@@ -422,7 +422,7 @@ echo '</pre>';
 				echo '<td>';
 				if(!empty($item['logeant'])){
 					foreach ( $item['logeant']["dispo"] as $key => $value) {
-						echo $value.'<br/>';
+						echo '<span class="jour-dispo">'. substr($value, 0, 5) .'</span>';
 					}
 				}
 				echo '</td>';
