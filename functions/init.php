@@ -10,29 +10,28 @@ function kino_register_styles() {
 	/**
 	 * Custom CSS
 	 */
+	 
+	wp_enqueue_style( 
+		'dynamic-kleo', 
+		get_stylesheet_directory_uri() . '/css/dev/01-dynamic-css-kleo.min.css', // main.css
+		false, // dependencies
+		'2018.01.08' // version
+	); 
 
 	wp_enqueue_style( 
-			'main-style', 
-			get_stylesheet_directory_uri() . '/css/dev/00-main.css', // main.css
-			false, // dependencies
-			'2016.12.10' // version
+		'kino-custom', 
+		get_stylesheet_directory_uri() . '/css/dev/10-custom.css', // main.css
+		false, // dependencies
+		'2018.01.08' // version
 	); 
 	
-	/*
-	 * Conditional CSS for the DEV site
-	 *
-	*/
+	wp_enqueue_style( 
+		'kino-mediaqueries', 
+		get_stylesheet_directory_uri() . '/css/dev/50-mediaqueries.css', // main.css
+		false, // dependencies
+		'2018.01.08' // version
+	); 
 	
-//	$host = $_SERVER['HTTP_HOST'];
-//	if ( $host == 'kinogeneva.4o4.ch' ) {
-//	    wp_enqueue_style( 
-//	    		'test-style', 
-//	    		get_stylesheet_directory_uri() . '/css/test/00-testing.css', // main.css
-//	    		false, // dependencies
-//	    		null // version
-//	    ); 
-//	}
-		
 		/* Remove uneccessary styles loaded by parent theme */
 		
 		wp_dequeue_style( 'kleo-style' );
