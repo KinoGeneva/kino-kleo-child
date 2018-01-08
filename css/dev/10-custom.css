@@ -217,6 +217,38 @@
 
 /* @end */
 
+/* @group Profile View New */
+
+.kino-personal-info .kino-personal-name {
+	margin-top: 0;
+	margin-bottom: 0.1em;
+}
+
+.kino-personal-shortinfo {
+	font-weight: bold;
+	margin-bottom: 1em;
+}
+
+.personal-photos {
+	margin-bottom: 1em;
+}
+
+.personal-presentation {
+	font-size: 1.2em;
+	line-height: 1.5;
+	padding-bottom: 0.8em;
+	margin-bottom: 0.8em;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.personal-contact dl {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-bottom: 0.5em;
+}
+
+/* @end */
+
 /* @group Edit Profile */
 
 /* Ajustements et espacements */

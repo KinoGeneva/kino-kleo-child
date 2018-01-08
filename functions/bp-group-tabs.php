@@ -14,7 +14,7 @@ function kino_list_of_excluded_profile_fields() {
 	
 	if ( current_user_can( 'publish_pages' ) ) {
 	
-		// we show everything for: Admin and Editor roles
+		// Admin and Editor roles = we show absolutely everything.
 	
 	} else {
 		
@@ -36,7 +36,7 @@ function kino_list_of_excluded_profile_fields() {
 		
 		} else {
 		
-			// Cacher uniquement sur la page "Vue du profil": 
+			// Cacher uniquement pour noms-admins, sur la page "Vue du profil": 
 		
 			// conditions d'utilisation:
 			$kino_excluded_id[] = $kino_fields['conditions-generales'];
@@ -44,7 +44,7 @@ function kino_list_of_excluded_profile_fields() {
 			// Vidéo checkbox pour Comédiens
 			$kino_excluded_id[] = $kino_fields['video-presentation'];
 			
-		}
+		} // end testing Edit page
 		
 		if ( !is_user_logged_in() ) {
 		
@@ -53,11 +53,11 @@ function kino_list_of_excluded_profile_fields() {
 		
 		}
 		
-	}
+	} // end testing current_user_can( 'publish_pages' )
 	
 	return $kino_excluded_id;
 	
-}
+} // function kino_list_of_excluded_profile_fields
 
 
 function kino_hide_some_profile_fields( $retval ) {	
@@ -112,7 +112,7 @@ function kino_hide_some_profile_fields( $retval ) {
 				
 				}
 				
-			}
+			}  // end !réalisateur
 		
 		} // end testing for Admin/Editor
 	
@@ -227,10 +227,18 @@ function kino_get_field_group_conditions( $groups ) {
   	// Displayed User:
   	$kino_user_role = kino_user_participation( bp_displayed_user_id(), $kino_fields );
 		
-	// No need to show Conditions, they are filled at account creation...
+	// En mode "Affichage" du profil
 	
 	if ( bp_is_user_profile_edit() == false ) {
+		
+		// No need to show Conditions, they are filled at account creation...
+		
 		$forbidden_groups[] = "Conditions";
+	
+		// Ne plus afficher Identité, car géré séparément dans profile/personal.php
+		
+		$forbidden_groups[] = "Identité";
+	
 	}
 	
 	//#239 - https://bitbucket.org/ms-studio/kinogeneva/issues/239/cacher-longlet-quand-le-profil-b-n-vole

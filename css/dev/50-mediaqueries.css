@@ -5,6 +5,31 @@
 	margin-left: auto;
 }
 
+@media only screen and (min-width: 400px) {
+	.personal-contact {		
+		-webkit-column-count: 2;
+		-webkit-column-gap: 30px; 
+		-webkit-column-rule: 0px solid #e5e5e5;
+		-moz-column-count: 2;
+		-moz-column-gap: 30px;  
+		-moz-column-rule: 0px solid #e5e5e5;
+		column-count: 2;
+		column-gap: 30px; 
+		column-rule: 0px solid #e5e5e5;
+	}
+	
+	.personal-contact dl {
+		-webkit-column-break-inside: avoid; /* Chrome, Safari */
+		page-break-inside: avoid;           /* Theoretically FF 20+ */
+		break-inside: avoid-column;         /* IE 11 */
+		display:table;                      /* Actually FF 20+ */
+		display:inline-block;
+		
+		max-width: 100%;
+		width: 100%;
+	}
+}
+
 @media only screen and (min-width: 600px) { 
 	.bps-form {
 			-webkit-column-count: 2;
@@ -36,6 +61,22 @@
 		font-weight: 700;
 	}
 	
+	
+	.kino-personal-info,
+	.personal-contact {
+		width: 60%;
+		float: left;
+	}
+	
+	.personal-photos {
+		width: 35%;
+		float: right;
+		clear: none;
+	}
+	
+	.bp-profile-loop-container {
+		clear: both;
+	}
 }
 
 @media only screen and (min-width: 800px) { 

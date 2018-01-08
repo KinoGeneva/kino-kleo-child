@@ -2,16 +2,9 @@
 
 <?php if ( bp_has_profile() ) : 
 	
-	// Test for current user
-
-	$user = wp_get_current_user();
-
-	if ( $user->user_nicename == 'manuel' ) {
 		
-		bp_get_template_part( 'members/single/profile/personal' );
+	bp_get_template_part( 'members/single/profile/personal' );
 		
-	}
-	
 	
 	echo '<div class="bp-profile-loop-container">';
 
