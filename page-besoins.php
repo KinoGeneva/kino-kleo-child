@@ -29,6 +29,8 @@ if ( bp_has_groups( bp_ajax_querystring( 'groups' ). '&per_page=100' ) ) {
 
 //affiche les filtres de recherche
 
+echo '<h3>Filtres de recherches</h3>';
+
 get_template_part('page-parts/besoins-search');
 
 
