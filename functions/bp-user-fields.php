@@ -816,3 +816,21 @@ function kino_user_fields_auto( $kino_userid, $kino_fields, $kino_query_fields )
 	return $kino_userdata;
 
 }
+
+/*
+ * kino_make_user_field_markup()
+ * Fonction pour produire un champ <dl>
+ 
+ * Arguments à fournir: 
+ 
+ * $label = étiquette
+ * $content = définition
+
+*/
+function kino_make_user_field_markup( $label, $content ) {
+	$html = '<dl class="">';
+	$html .= '<dt>'.$label.'</dt>';
+	$html .= '<dd>'.$content.'</dd>';
+	$html .= '</dl>';
+	return $html;
+}
