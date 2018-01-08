@@ -131,6 +131,7 @@
 			
 			<?php
 			foreach($group_2_display as $date => $entry){
+				if(!empty($entry)){
 				echo '<div class="profile clearfix print-profile">';
 				echo '<h2>'. $date .'</h2>';
 				uasort($entry, function($a, $b) {
@@ -199,7 +200,8 @@
 			<?php } ?>
 			</div>
 			<div class="page-break"></div>
-		<?php }?>
+		<?php }
+		}?>
 			
 			</div><!--end article-content-->
 
