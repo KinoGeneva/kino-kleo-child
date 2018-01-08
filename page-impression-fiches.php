@@ -842,6 +842,25 @@ Total: 166mm
         	 echo $kino_userdata["presentation"];
         	 echo '</div>';
         	 
+        	 
+        	 /*
+        	 	* Pour réalisateur: 
+        	 	* Êtes-vous intéressé-e à réaliser le scénario d'un-e autre?
+        	 */
+        	 
+        	  if ( in_array( "realisateur-kab", $kino_userdata["participation"] )) {
+        	  
+        	  	$kino_real_scenario_autre = bp_get_profile_field_data( array(
+        	  		   		'field'   => $kino_fields['real-scenar-other'],
+        	  		   		'user_id' => $kino_userid
+        	  	));
+        	  	
+        	  	if ( $kino_real_scenario_autre == 'OUI' ) {
+        	  	
+        	  	echo "<div class='paragraphe'><b>Je suis intéressé-e à réaliser le scénario de quelqu’un d’autre.</b></div>";
+        	  	} 
+        	  
+        	  }
 						
         	 // Compétences
         	 
