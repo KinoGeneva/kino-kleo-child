@@ -207,7 +207,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         								if ( !empty($item["dispo"]) ) {
         									echo 'Jours: ';
         									foreach ( $item["dispo"] as $key => $value) {
-        										echo '<span class="jour-dispo"> '.substr($value, 0, 2).'</span>';
+        										echo '<span class="jour-dispo"> '.substr($value, 0, 5).'</span>';
         									}
         								}
         								echo '</td>';
