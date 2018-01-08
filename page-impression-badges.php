@@ -515,7 +515,7 @@ body {
         	echo '<b>Filtrage par ID:</b> '.$kino_id_var.'<br/>';
         }
         if ( ! empty( $user_query->results ) ) {
-        	echo '<b>Nombre de fiches: </b>'.count($user_query->results).'';
+        	echo '<b>Nombre de badges: </b>'.count($user_query->results).'';
         }
          ?></p>
         
