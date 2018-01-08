@@ -46,15 +46,20 @@
 
 	<?php 
 				// Show notifications:
-				$kino_notifications = kino_edit_profile_notifications( bp_loggedin_user_id() );
 				
-				if ( !empty($kino_notifications) ) {
+				if ( is_user_logged_in() ) {
 				
-					?><figure class="callout-blockquote light big-blockquote"><blockquote><?php 
-						echo $kino_notifications; ?>
-					    </blockquote></figure>
-					<?php
-				} 
+					$kino_notifications = kino_edit_profile_notifications( bp_loggedin_user_id() );
+					
+					if ( !empty($kino_notifications) ) {
+					
+						?><figure class="callout-blockquote light big-blockquote"><blockquote><?php 
+							echo $kino_notifications; ?>
+						    </blockquote></figure>
+						<?php
+					} 
+				
+				}
 	 ?>
 
 <?php switch ( bp_current_action() ) :
