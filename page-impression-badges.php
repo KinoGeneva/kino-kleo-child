@@ -433,6 +433,17 @@ body {
 	} // end $kinorole_var testing
 	
 	
+	// Retirer les comptes de test de la liste des ID
+	
+	$kino_test_accounts = kino_test_accounts();
+	
+	$ids_of_kino_participants = array_diff(
+		$ids_of_kino_participants, 
+		$kino_test_accounts
+	);
+	
+	
+	// Paramètre de date d'inscription
 	
 	$kinodate_var = ( get_query_var('kinodate') ) ? get_query_var('kinodate') : false;
 		

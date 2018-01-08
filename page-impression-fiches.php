@@ -175,7 +175,7 @@ Total: 166mm
 
 .calendrier {
 	width: 170mm;
-	margin-left: 2mm;
+	margin-left: 0mm;
 	margin-top: 5mm;
 	margin-bottom: 5mm;
 }
@@ -191,7 +191,7 @@ Total: 166mm
 	font-size: 18pt;
 	color: #fff;
 	width: 10mm;
-	margin-right: 0mm;
+	margin-right: 2mm;
 	text-align: center;
 	padding-top: 2mm;
 	padding-bottom: 1mm;
@@ -438,6 +438,18 @@ Total: 166mm
 		
 
 	} // end $kinorole_var testing
+	
+	
+	// Retirer les comptes de test de la liste des ID
+	
+	$kino_test_accounts = kino_test_accounts();
+	
+	$ids_of_kino_participants = array_diff(
+		$ids_of_kino_participants, 
+		$kino_test_accounts
+	);
+	
+	
 	
 	$kinodate_var = ( get_query_var('kinodate') ) ? get_query_var('kinodate') : false;
 	
