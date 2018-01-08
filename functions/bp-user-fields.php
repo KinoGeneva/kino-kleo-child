@@ -40,7 +40,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 			$kup = array();
 			
 			
-			// is Comédien? // is Realisateur? // is Technicien?
+			// is Comédien? // is Realisateur? // is Technicien? => plateforme onglet kinoite
 			$kino_particiation_boxes = bp_get_profile_field_data( array(
 					'field'   => $kino_fields['profile-role'],
 					'user_id' => $userid
@@ -90,6 +90,9 @@ function kino_user_participation( $userid, $kino_fields ) {
 				  	}
 				  	
 				  }
+				   if ( $value == "Béné" ) {
+				  	$kup[] = "benevole";
+				  }
 				  
 				} // end foreach
 			} // end testing field kino_participation
@@ -128,42 +131,33 @@ function kino_user_participation( $userid, $kino_fields ) {
 			
 			// ***************
 			
-			// Participe au cabaret 2016?
+			// Participe au cabaret 2018?
 			$kino_test = bp_get_profile_field_data( array(
 					'field'   => $kino_fields['kabaret'], 
 					'user_id' => $userid
 			) );
-			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) ) {
+			if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) || ( $kino_test == "1" ) || ( $kino_test == 1 )) {
 						
-						$kup[] = "kabaret-2017";
-						
-						// Profil Cabaret 2016 complet? 
-						
-						$kino_dispo_kab = bp_get_profile_field_data( array(
-								'field'   => $kino_fields['profil-kabaret-complete'], // trouver ID du champ! (test effectué sur possibilité hébergement)
-								'user_id' => $userid
-						) );
-						if ( $kino_dispo_kab ) {
-								$kup[] = "kabaret-complete";
-						}
+				$kup[] = "kabaret-2018";
+				
+				// Profil Cabaret 2018 complet? 
+				
+				$kino_dispo_kab = bp_get_profile_field_data( array(
+						'field'   => $kino_fields['role-kabaret'], // changement: test effectué sur "je m'inscris en tant que"
+						'user_id' => $userid
+				) );
+				if ( $kino_dispo_kab ) {
+						$kup[] = "kabaret-complete";
+				}
 						
 			}
 			
 			// ***************
 			
-			// Aide Bénévole?
-			$kino_aide_benevole = bp_get_profile_field_data( array(
-					'field'   => $kino_fields['benevole'], 
-					'user_id' => $userid
-			) );
-			if ( ( $kino_aide_benevole == "oui" ) || ( $kino_aide_benevole == "yes" ) ) {
-						$kup[] = "benevole";
-			}
-			
-			// Aide benevole pour le Kabaret 2016?
+			// Aide benevole pour le Kabaret 2018?
 			$kino_benevole_boxes = bp_get_profile_field_data( array(
-					'field'   => $kino_fields['benevole-kabaret'],
-					'user_id' => $userid
+				'field'   => $kino_fields['benevole-kabaret'],
+				'user_id' => $userid
 			) );
 			if ($kino_benevole_boxes) {
 			
@@ -183,12 +177,12 @@ function kino_user_participation( $userid, $kino_fields ) {
 					'field'   => $kino_fields['role-kabaret'],
 					'user_id' => $userid
 			) );
-			// test field 135 = participation en tant que
+			// test field " participation en tant que"
 			if ($kab_particiation_boxes) {
 				foreach ($kab_particiation_boxes as $key => $value) {
 				
 					$value = mb_substr($value, 0, 4);
-				
+					
 				  if ( $value == "Réal" ) {
 				  	$kup[] = "realisateur-kab";
 				  }
@@ -197,6 +191,9 @@ function kino_user_participation( $userid, $kino_fields ) {
 				  }
 				  if ( $value == "Arti" ) {
 				  	$kup[] = "technicien-kab";
+				  }
+				  if ( $value == "Béné" ) {
+					$kup[] = "benevole-kab";
 				  }
 				} // end foreach
 			} //
@@ -277,7 +274,7 @@ function kino_user_participation( $userid, $kino_fields ) {
 			- realisateur-kab
 			- technicien-kab
 			- comedien-kab
-			- kabaret-2017
+			- kabaret-2018
 			- benevole-kabaret
 			
 			- real-kab-valid
@@ -308,7 +305,7 @@ function kino_user_participation_role( $userid, $kino_fields ) {
 	}
 	$kup = array();
 	
-	// Test des rôles pour le Kabaret 2017
+	// Test des rôles pour le Kabaret
 	$kab_particiation_boxes = bp_get_profile_field_data( array(
 			'field'   => $kino_fields['role-kabaret'],
 			'user_id' => $userid
@@ -327,6 +324,9 @@ function kino_user_participation_role( $userid, $kino_fields ) {
 		  }
 		  if ( $value == "Arti" ) {
 		  	$kup[] = "technicien-kab";
+		  }
+		  if ( $value == "Béné" ) {
+		  	$kup[] = "benevole-kab";
 		  }
 		} // end foreach
 	} //
@@ -389,6 +389,83 @@ function kino_user_fields_superlight( $user, $kino_fields ) {
 }
 
 /*
+ * Kino Bénévoles
+ * Created for gestion-des-benevoles/
+*/
+function kino_user_fields_benevoles( $user, $kino_fields ) {
+
+	$kino_userid = $user->ID ;
+
+    if ( empty( $kino_fields ) ) {
+        $kino_fields = kino_test_fields();
+    }
+    
+    $kino_user_participation = kino_user_participation( 
+    	$kino_userid, 
+    	$kino_fields
+    );
+    
+    $kino_userdata = array(
+        "user-id" => $kino_userid,
+        "user-name" => $user->display_name,
+        "user-slug" => $user->user_nicename,
+        "user-email" => $user->user_email,
+        "user-registered" => $user->user_registered,
+        "participation" => $kino_user_participation,
+        "benevole-fonction" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["benevole-fonction"],
+            'user_id' => $kino_userid
+        ) ),
+        "benevole-kabaret" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["benevole-kabaret"],
+            'user_id' => $kino_userid
+        ) ),
+        "benevole-charge-admin" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["benevole-charge-admin"],
+            'user_id' => $kino_userid
+        ) ),
+        "vehicule" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["vehicule"],
+            'user_id' => $kino_userid
+        ) ),
+		"permis" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["permis"],
+            'user_id' => $kino_userid
+        ) ),
+        "rue" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["rue"],
+            'user_id' => $kino_userid
+        ) ),
+        "ville" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["ville"],
+            'user_id' => $kino_userid
+        ) ),
+        "code-postal" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["code-postal"],
+            'user_id' => $kino_userid
+        ) ),
+        "pays" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["pays"],
+            'user_id' => $kino_userid
+        ) ),
+        "tel" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields["tel"],
+            'user_id' => $kino_userid
+        ) ),
+         "dispo" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["dispo"],
+            'user_id' => $kino_userid
+        ) ),
+        "dispo-partiel" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["dispo-partiel"],
+            'user_id' => $kino_userid
+        ) ),
+      );
+      return $kino_userdata;
+}
+
+
+/*
  * Kino User Logement
  * Created for Gestion-Logements
 */
@@ -421,6 +498,10 @@ function kino_user_fields_logement( $user, $kino_fields ) {
             'field'   => $kino_fields['offre-logement-remarque'],
             'user_id' => $kino_userid
         ) ),
+        "offre-logement-nb" => bp_get_profile_field_data( array(
+            'field'   => $kino_fields['offre-logement-nb'],
+            'user_id' => $kino_userid
+        ) ),
         "rue" => bp_get_profile_field_data( array(
             'field'   => $kino_fields["rue"],
             'user_id' => $kino_userid
@@ -441,20 +522,12 @@ function kino_user_fields_logement( $user, $kino_fields ) {
             'field'   => $kino_fields["tel"],
             'user_id' => $kino_userid
         ) ),
-        "dispo" =>  bp_get_profile_field_data( array(
+          "dispo" =>  bp_get_profile_field_data( array(
             'field'   => $kino_fields["dispo"],
             'user_id' => $kino_userid
         ) ),
-        "benevole-fonction" =>  bp_get_profile_field_data( array(
-            'field'   => $kino_fields["benevole-fonction"],
-            'user_id' => $kino_userid
-        ) ),
-        "benevole-kabaret" =>  bp_get_profile_field_data( array(
-            'field'   => $kino_fields["benevole-kabaret"],
-            'user_id' => $kino_userid
-        ) ),
-        "benevole-charge-admin" =>  bp_get_profile_field_data( array(
-            'field'   => $kino_fields["benevole-charge-admin"],
+        "dispo-partiel" =>  bp_get_profile_field_data( array(
+            'field'   => $kino_fields["dispo-partiel"],
             'user_id' => $kino_userid
         ) ),
     );

@@ -53,9 +53,9 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         echo ' ('.$kino_complete_percentage.'%)</p>';
         
-        echo '<p><b>Note: </b> Ce tableau liste tous les '.count( $ids_of_kino_participants ) .' utilisateurs qui ont coché la participation au Kabaret 2017.</p>';
+        echo '<p><b>Note: </b> Ce tableau liste tous les '.count( $ids_of_kino_participants ) .' utilisateurs qui ont coché la participation au Kabaret 2018.</p>';
         	
-        echo '<p><b>Voir aussi les <a href="'.$url.'/kino-admin/membres-hors-kabaret/">membres au profil non complet</a>.</b></p>';
+        echo '<p><b>Voir aussi les <a href="'.$url.'/kino-admin/membres-hors-kabaret/">membres hors kabaret</a>.</b></p>';
         // Voir Participants Kabaret pour une vue plus détaillée	
         	
         $user_fields = array( 

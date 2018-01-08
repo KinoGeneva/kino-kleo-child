@@ -28,10 +28,12 @@ else {
 	$projet_form = array(
 		'post_id'		=> 'new_post',
 		'new_post'		=> array(
-			'post_type'		=> 'post',
-			'post_status'		=> 'publish',
+			'post_type'		=> 'portfolio',
+			'post_status'		=> 'draft',
 			'comment_status' => 'closed',
-			'post_category' => array(308)
+			'tax_input'    => array(
+				'portfolio-category' => array(339)
+				)
 			),
 		'field_groups' => array(3147,3164),
 		'updated_message'    => 'Le projet a été mis à jour',

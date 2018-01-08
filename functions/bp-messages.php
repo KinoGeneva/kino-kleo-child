@@ -55,6 +55,10 @@
  							$kino_fields['group-real-platform-rejected'], 
  							'user-group' 
  						);
+ 						$ids_group_real_platform_canceled = get_objects_in_term( 
+ 							$kino_fields['group-real-platform-canceled'], 
+ 							'user-group' 
+ 						);
  						
  				 		// test:
  				 		if ( in_array( $userid, $ids_group_real_platform ) ) {
@@ -73,6 +77,8 @@
  				 		  
  				 		} else if ( in_array( $userid, $ids_group_real_platform_rejected ) ) {
  				 			  // rejected: do nothing
+ 				 		} else if ( in_array( $userid, $ids_group_real_platform_canceled ) ) {
+ 				 			  // canceled: do nothing
  				 		} else {
  				 				// New candidate!
  				 				// move to group: real-platform-pending
@@ -103,6 +109,10 @@
 								$kino_fields['group-real-kabaret-rejected'], 
 								'user-group' 
 							);
+							$ids_group_real_kabaret_canceled = get_objects_in_term( 
+								$kino_fields['group-real-kabaret-canceled'], 
+								'user-group' 
+							);
  					
  					 		// test:
  					 		if ( in_array( $userid, $ids_group_real_kabaret ) ) {
@@ -111,13 +121,20 @@
 				 			  // do nothing
 				 			} else if ( in_array( $userid, $ids_group_real_kabaret_rejected ) ) {
 				 				  // do nothing
+				 			} else if ( in_array( $userid, $ids_group_real_kabaret_canceled ) ) {
+				 				  // do nothing
 				 			} else {
 				 				// New candidate!
 				 				// move to group: real-kabaret-pending
 				 				kino_add_to_usergroup( $userid, 
 				 						$kino_fields['group-real-kabaret-pending'] );
-//				 				kino_add_to_mailpoet_list( $userid, 
-//				 				  	$kino_fields['mailpoet-real-kabaret-pending'] );
+				 				//mailpoet
+				 				if( $mailpoet_id = getMailpoetId( $userid ) ) {
+									kino_add_to_mailpoet_list(
+										$mailpoet_id, 
+										$kino_fields['mailpoet-real-kabaret-pending'] 
+									);
+								}
  					 		}
  					
  			} // end testing "realisateur-kab"
@@ -135,7 +152,24 @@
  							// add to group!
  							kino_add_to_usergroup( $userid, $kino_fields['group-benevoles-kabaret'] );
  							// add to mailing list!
-// 							kino_add_to_mailpoet_list( $userid, $kino_fields['mailpoet-benevoles'] );
+ 							//mailpoet
+			 				if( $mailpoet_id = getMailpoetId( $userid ) ) {
+								kino_add_to_mailpoet_list(
+									$mailpoet_id, 
+									$kino_fields['mailpoet-benevoles'] 
+								);
+							}
+
+							//mail à sandrane #227
+							$kino_email_new_benevole = 'L\'utilisateur <a href="'. bp_core_get_user_domain( $userid ) .'">'. $user->display_name .'</a> s\'est inscrit comme bénévole pour le kabaret 2018';
+								$header = 'From: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
+								$to = 'sandrane@kinogeneva.ch';
+								  wp_mail(
+									$to,  // $to
+									'[KinoGeneva] Nouveau bénévole: '.$user->display_name, // $subject
+									$kino_email_new_benevole, 
+									$header
+								 );
  						}
  			}
  			
@@ -150,6 +184,10 @@
  			if ( ( $kinoite_cherche_logement == "OUI" ) ) {
  						kino_add_to_usergroup( $userid, $kino_fields['group-cherche-logement'] );
  			}
+ 			//sinon supprimer du groupe
+			else {
+				kino_remove_from_usergroup( $userid, $kino_fields['group-cherche-logement'] );
+			}
  			
  			$kinoite_offre_logement = bp_get_profile_field_data( array(
  						'field'   => $kino_fields["offre-logement"],
@@ -157,8 +195,12 @@
  				) );
  				// if OUI = add to group! $kino_fields['group-cherche-logement']
  				if ( ( $kinoite_offre_logement == "OUI" ) ) {
- 							kino_add_to_usergroup( $userid, $kino_fields['group-offre-logement'] );
+ 					kino_add_to_usergroup( $userid, $kino_fields['group-offre-logement'] );
  				}
+ 				//sinon supprimer du groupe
+ 				else {
+					kino_remove_from_usergroup( $userid, $kino_fields['group-offre-logement'] );
+				}
  	
  	// Massive Conditional Testing
  		
@@ -176,17 +218,25 @@
  		 
  		// Q -1: is user in group "Participants Kino (profil complet)"?
  		
- 		if ( in_array( $userid, $ids_group_kino_complete ) ) { 
+ 		if ( in_array( $userid, $ids_group_kino_complete ) ) {
+			$kino_notification = '
+			<p style="font-style: normal; font-weight: normal; font-size: 100%">Bravo, vous êtes inscrit au Kino Kabaret de Genève 2018. Vos frais d\'inscription contribuent à permettre à ce que l\'évènement ait lieu ainsi qu\'aux coûts de location du KinoLab, des salles de projection, de préparation des repas, des assurances, etc. En contrepartie vous bénéficiez de repas à un prix en dessous du prix coûtant, d\'un magnifique KinoLab avec accès internet, d\'une imprimante à disposition, d\'un espace de montage, d\'une plateforme internet, d\'impressions de fiches de tous les participants et l\'entrée aux trois projections.</p>
+
+			<p style="font-style: normal; font-weight: normal; font-size: 100%">Merci de payer vos frais d\'inscription sur notre plateforme de financement participatif, en choisissant Inscription Kinoïte ou Inscription Kinoïte de soutien.
+			<a href="https://www.lokalhelden.ch/5me-kino-kabaret-de-geneve" target="_blank">www.lokalhelden.ch/5me-kino-kabaret-de-geneve</a>.</p>
+
+			<p style="font-style: normal; font-weight: 100; font-size: 100%">Afin qu\'il reste accessible pour tous et parce qu\'à ce jour nos recherches de soutiens ne suffisent pas à couvrir tous les frais liés à l\'organisation du Kino Kabaret tel que vous, et nous, l’aimons, nous convions la communauté à le soutenir, et merci d\'encourager votre entourage à aussi soutenir le Kino Kabaret de Genève.</p>
+			';
 			// already complete, do nothing
  			break;
  		}
  		
  		/*Q0 : taking part in Kino Kabaret? */
  		
- 	  if( !in_array( "kabaret-2017", $kino_user_role ) ) { 
+ 	  if( !in_array( "kabaret-2018", $kino_user_role ) ) { 
  	    
  	    // un peu de pub...
- 	    $kino_notification = 'Le prochain Kino Kabaret se déroule du 8 au 19 janvier 2017! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/1/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.';
+ 	    $kino_notification = '<p>Le prochain Kino Kabaret se déroule 13 au 26 janvier 2018! N’oubliez pas <a href="'.bp_core_get_user_domain( $userid ).'profile/edit/group/19/">de vous inscrire par ici</a>, et d’enregistrer tous les onglets jusqu’à celui du Kino Kabaret.</p>';
  	    
  	    break; }
  		
@@ -203,7 +253,7 @@
  	  		// user subscribed but:
  	  		// id section = incomplete
  	  		
- 	  		$kino_notification = 'Complétez votre profil (identité).';
+ 	  		$kino_notification = '<p>Complétez votre profil (identité).</p>';
  	  		break; }
  		
  		/* Q1b : is the Photo uploaded? */
@@ -213,33 +263,33 @@
  					'user_id' => $userid ) );
  		if ( empty($kinoite_id_photo) ) {
  			// photo is missing!
- 			$kino_notification = 'Complétez votre profil (identité) en ajoutant votre photo.';
+ 			$kino_notification = '<p>Complétez votre profil (identité) en ajoutant votre photo.</p>';
  			break; }
  			
  		/* Q1b : is the CV uploaded? */
  		
- 		if ( in_array( "realisateur", $kino_user_role ) ) {
+ 		if ( in_array( "realisateur", $kino_user_role ) || in_array( "benevole", $kino_user_role ) ) {
  		
  			$kinoite_id_cv = bp_get_profile_field_data( array(
  						'field'   => $kino_fields["id-cv"],
  						'user_id' => $userid ) );
  			if ( empty($kinoite_id_cv) ) {
  				// CV is missing!
- 				$kino_notification = 'Complétez votre profil (identité) en ajoutant votre CV.';
+ 				$kino_notification = '<p>Complétez votre profil (identité) en ajoutant votre CV.</p>';
  				break; }
  		}
  		
  	  /* Q2 : is "Compétence Comédien" complete? */
  	  
  	  if( in_array( "comedien", $kino_user_role ) && !in_array( "comedien-complete", $kino_user_role ) ) { 
- 	   		$kino_notification = 'Complétez votre profil (Compétence Comédien).';
+ 	   		$kino_notification = '<p>Complétez votre profil (Compétence Comédien).</p>';
  	   		break; }
  	   		
  		
  		// Q3 : is "Compétence Tech" complete?
  		
  		if( in_array( "technicien", $kino_user_role ) && !in_array( "technicien-complete", $kino_user_role ) ) { 
- 		  		$kino_notification = 'Complétez votre profil (Compétence Technicien).';
+ 		  		$kino_notification = '<p>Complétez votre profil (Compétence Technicien).</p>';
  		  		break; }
  	  		
 		// Q4 : is "Compétence Réal" complete?
@@ -250,11 +300,10 @@
 				
 				// Cette personne vient de compléter la section "Compétence Réalisateur"!
 				
-				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). Pour les réalisateur-trices étranger-ères inscrits avant le 18/12/2016 minuit, nous vous ferons part du choix de la direction artistique le 21 décembre. Pour tous les autres réalisateurs-trices (date limite d’inscription le 29/12/2016 minuit) la sélection finale sera communiquée le 31 décembre 2016.";
+				$kino_notification_email .= "La participation en tant que réalisateur-trice est limitée à 12 réalisateur-trices par session (au total 36 réalisateur-trices). La date limite d’inscription pour les réalisateur-trices est le 16.12.2017 à minuit. Nous vous ferons part du choix de la direction artistique le 19.12.2017. Les réalisateurs-trices devront confirmer leur participation d’ici au 6.1.2018.";
 			
 			} else {
-				
-				$kino_notification = 'Complétez votre profil (Compétence Réalisateur).';
+				$kino_notification = '<p>Complétez votre profil (Compétence Réalisateur).</p>';
 					break;
 			}
 		}  
@@ -264,13 +313,13 @@
 		
 		if( in_array( "benevole", $kino_user_role ) && !in_array( "benevole-complete", $kino_user_role ) ) {
 		 
-		 		$kino_notification = 'Merci de vous proposer comme bénévole. Complétez votre profil d’aide bénévole.';
+		 		$kino_notification = '<p>Merci de vous proposer comme bénévole. Complétez votre profil d’aide bénévole.</p>';
 		 		break; }
 		
 		
-		// Q6 : is "Kino Kabaret 2016" complete?
-		if( in_array( "kabaret-2017", $kino_user_role ) && !in_array( "kabaret-complete", $kino_user_role ) ) { 
-		 		$kino_notification = 'Complétez les informations relatives à votre participation au Kino Kabaret.';
+		// Q6 : is "Kino Kabaret 2018" complete?
+		if( in_array( "kabaret-2018", $kino_user_role ) && !in_array( "kabaret-complete", $kino_user_role ) ) { 
+		 		$kino_notification = '<p>Complétez les informations relatives à votre participation au Kino Kabaret.</p>';
 		 		break; }
 		
 			
@@ -280,7 +329,7 @@
 			
 			if( in_array( "avatar-complete", $kino_user_role ) ) {
 			 
-			 		$kino_notification = 'Votre profil est complet. Vous pouvez régulièrement mettre à jour les informations de votre profil en vous connectant avec votre mot de passe.
+			 		$kino_notification = '<p>Votre profil est complet. Vous pouvez régulièrement mettre à jour les informations de votre profil en vous connectant avec votre mot de passe.</p>
 			 			<script>
 			 				mixpanel.track(
 			 				    "Completed Profile"
@@ -290,9 +339,8 @@
 			 		
 			 } else {
 			 		
-			 		$kino_notification = 'Votre profil est complet. Vous pouvez régulièrement mettre à jour les informations de votre profil en vous connectant avec votre mot de passe.
-			 		
-PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avatar/">choisir une photo d’avatar</a>!
+			 		$kino_notification = '<p>Votre profil est complet. Vous pouvez régulièrement mettre à jour les informations de votre profil en vous connectant avec votre mot de passe.			 		
+					PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avatar/">choisir une photo d’avatar</a>!</p>
 			 		<script>
 			 				mixpanel.track(
 			 				    "Completed Profile"
@@ -308,6 +356,19 @@ PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avat
 				// ****************************************
 				
 				kino_add_to_usergroup( $userid, $kino_fields['group-kino-complete'] );
+				kino_remove_from_usergroup( $userid, $kino_fields['group-kino-incomplete'] );
+				
+				//mailpoet ajout "Kino Kabaret (Profil Complet)" et suppression de liste mailpoet kabaret incomplet
+ 				if( $mailpoet_id = getMailpoetId( $userid ) ) {
+					kino_add_to_mailpoet_list(
+						$mailpoet_id, 
+						$kino_fields['mailpoet-participant-kabaret'] 
+					);
+					kino_remove_from_mailpoet_list(
+						$mailpoet_id, 
+						$kino_fields['mailpoet-participant-kabaret-incomplet'] 
+					);
+				}
 				
 				// Action 2 = send email notification!
 				// ****************************************
@@ -315,13 +376,18 @@ PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avat
 				$headers[] = 'From: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
 				
 				$kino_notification_email .= '
-				
-Nous nous réjouissons de vous accueillir dans notre nouveau KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le dimanche 8 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h.
+Nous nous réjouissons de vous accueillir dans notre KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le samedi 13 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h.  
 
+Vos frais d’inscription contribuent à permettre à ce que l’évènement ait lieu ainsi qu’aux coûts de location du KinoLab, des salles de projection, de préparation des repas, des assurances, etc. En contrepartie vous bénéficiez de repas à un prix en dessous du prix coûtant, d’un magnifique KinoLab avec accès internet, d’une imprimante à disposition, d’un espace de montage, d’une plateforme internet, d’impressions de fiches de tous les participants et l’entrée aux trois projections.
 
-Pour toutes les informations pratiques et le programme du Kino Kabaret 2017, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
+Merci de payer vos frais d’inscription sur notre plateforme de financement participatif, en choisissant Inscription Kinoïte ou Inscription Kinoïte de soutien.
+<a href="https://www.lokalhelden.ch/5me-kino-kabaret-de-geneve">www.lokalhelden.ch/5me-kino-kabaret-de-geneve</a>
 
-Pour toute question relative à votre inscription, n’hésitez pas à contacter Alex à l’adresse ci-dessous.';
+Afin qu’il reste accessible pour tous et parce qu’à ce jour nos recherches de soutiens ne suffisent pas à couvrir tous les frais liés à l’organisation du Kino Kabaret tel que vous, et nous, l’aimons, nous convions la communauté à le soutenir, et merci d’encourager votre entourage à aussi soutenir le Kino Kabaret de Genève.
+
+Pour toutes les informations pratiques et le programme du Kino Kabaret 2018, voir: <a href="https://kinogeneva.ch/informations-pratiques/" style="color:#c11119;">https://kinogeneva.ch/informations-pratiques/</a>
+
+Pour toute question relative à votre inscription, n’hésitez pas à nous contacter à onvafairedesfilms@kinogeneva.ch.';
 				
 				$host = $_SERVER['HTTP_HOST'];
 				
@@ -332,12 +398,12 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
 					$headers[] = 'Bcc: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
 				
 				} else {
-				
+					
 					$to = 'webmaster@kinogeneva.com';
 					$headers[] = 'Bcc: Manu <ms@ms-studio.net>';
 					$kino_notification_email .= '
 					
-					(Debug: message envoyé depuis le serveur test, page '.$_SERVER[REQUEST_URI].', à '. date( 'H:i:s', time() ) .')';
+					(Debug: message envoyé depuis le serveur test, page '.$_SERVER['REQUEST_URI'].', à '. date( 'H:i:s', time() ) .')';
 				
 				}
 				
@@ -348,19 +414,13 @@ Pour toute question relative à votre inscription, n’hésitez pas à contacter
 				 	$headers 
 				 );
 				 
-				 // Add user to Mailpoet list: 
-//				 kino_add_to_mailpoet_list( $userid, 
-//				   $kino_fields['mailpoet-participant-kabaret']);
-				 // Remove from incomplete list:
-//				 kino_remove_from_mailpoet_list( $userid, 
-//				   $kino_fields['mailpoet-participant-kabaret-incomplet'] );
-				 
 				break;
 		
 		
  	} while (0);
  	
- 	
+ 	//temporaire jusqu'à l'ouverture des inscription
+ 	//$kino_notification.= '<br/>Les inscriptions seront ouvertes très prochainement. Merci de votre patience!';
  	return $kino_notification;
  	
  }

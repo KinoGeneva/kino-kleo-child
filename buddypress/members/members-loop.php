@@ -88,7 +88,7 @@ if ( strpos( $kino_query_string, 'include' ) !== false ) {
           	//pastille si KK profil complet
 			 $ids_of_kino_complete = get_objects_in_term( $kino_fields['group-kino-complete'] , 'user-group' );
 			 if(in_array($userid, $ids_of_kino_complete)){
-				 echo '<img src="'. get_stylesheet_directory_uri() .'/img/badges/Star_small.png" style="float: right; margin-right: 10px;" alt="Participant Kino Kabaret 2017" title="Participant Kino Kabaret 2017"/>';
+				 echo '<img src="'. get_stylesheet_directory_uri() .'/img/badges/Star_small.png" style="float: right; margin-right: 10px;" alt="Participant Kino Kabaret" title="Participant Kino Kabaret"/>';
 			 }
 			?>
         <div class="item-avatar rounded">
@@ -140,7 +140,8 @@ if ( strpos( $kino_query_string, 'include' ) !== false ) {
             * bp_member_profile_data( 'field=the field name' );
             */
             
-            if ( current_user_can( 'publish_pages' ) ) {
+           if ( current_user_can( 'read' ) ) {
+           //modif: on montre à tous les membres
             
             	// we show everything for: Admin and Editor roles
             	echo '<div class="item-meta">';

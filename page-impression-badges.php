@@ -19,6 +19,8 @@
     <body>
 <?php
 
+if ( current_user_can( 'publish_pages' ) ) {
+
 $url = get_stylesheet_directory_uri();
 
 ?>
@@ -431,6 +433,17 @@ body {
 	} // end $kinorole_var testing
 	
 	
+	// Retirer les comptes de test de la liste des ID
+	
+	$kino_test_accounts = kino_test_accounts();
+	
+	$ids_of_kino_participants = array_diff(
+		$ids_of_kino_participants, 
+		$kino_test_accounts
+	);
+	
+	
+	// Paramètre de date d'inscription
 	
 	$kinodate_var = ( get_query_var('kinodate') ) ? get_query_var('kinodate') : false;
 		
@@ -513,7 +526,7 @@ body {
         	echo '<b>Filtrage par ID:</b> '.$kino_id_var.'<br/>';
         }
         if ( ! empty( $user_query->results ) ) {
-        	echo '<b>Nombre de fiches: </b>'.count($user_query->results).'';
+        	echo '<b>Nombre de badges: </b>'.count($user_query->results).'';
         }
          ?></p>
         
@@ -811,9 +824,9 @@ body {
         	 						
         	 				}
         	 				
-        	 				if ( $kino_userdata["comp-autres-liste"] ) {
-        	 						echo '<span class="kp-pointlist">Autres&nbsp;talents </span>';
-        	 				}
+//        	 				if ( $kino_userdata["comp-autres-liste"] ) {
+//        	 						echo '<span class="kp-pointlist">Autres&nbsp;talents </span>';
+//        	 				}
         	 				
         	 				if ( !empty($kino_userdata["fonctions-staff"]) ) {
   	 								foreach ( $kino_userdata["fonctions-staff"] as $key => $value) {
@@ -828,7 +841,7 @@ body {
         	 
         	 // Baseline - Is staff?
         	 
-        	 echo '<div class="baseline">Kino Kabaret de Genève 2017';
+        	 echo '<div class="baseline">Kino Kabaret de Genève 2018';
         	 
         	 	if ( !empty($kino_is_staff ) ) {
         	 		echo ' – <span class="staff">staff</staff>';
@@ -866,6 +879,10 @@ body {
 
     <?php  ?>
 </article>
-        
+<?php } else {
+
+echo '<h1>Désolé, l’accès à cette page est réservé aux administrateurs-trices de Kino Geneva!</h1>';
+
+} // end if current user can...  ?>  
     </body>
 </html>

@@ -1,5 +1,4 @@
 <?php 
-	
 	/*
 	* Some jQuery corrections for the BuddyPress Profile Edit Page
 	* 
@@ -24,24 +23,24 @@
 	* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
 	* Proposition 1: masquer les onglets, sauf l'actuel.
 	*/
-	
- ?>
- <style>
- 	
- /*	#button-nav li {
- 		display:  none; 		
+	/*
+
+<style>
+	#button-nav li {
+		display:  none; 		
  	}
  	
  	#button-nav li.current {
  			display:  block; 		
- 		}*/
- 
- </style>
- 
- <script>
-//onglet identité: test sur le champ photo #114 => on efface le nom du fichier du champ s'il ne contient pas l'extension voulue
+ 	}
+</style>
+ */
+?>
+<script>
 jQuery(document).ready(function($){
-	$("#profile-edit-form #field_859").change(function() {		 
+	
+	//onglet identité: test sur le champ photo #114 => on efface le nom du fichier du champ s'il ne contient pas l'extension voulue
+	$("#profile-edit-form #field_859").change(function() {		
 		if(($(this).val().indexOf('jpg') >=0) || ($(this).val().indexOf('JPG') >=0) || ($(this).val().indexOf('jpeg') >=0) || ($(this).val().indexOf('JPEG') >=0)){
 			//ok
 		}
@@ -49,295 +48,446 @@ jQuery(document).ready(function($){
 			$(this).val('');
 		}
 	});
-});
 
-</script> 
- 
- <script>
- jQuery(document).ready(function($){	
- 		
- 		<?php
- 		
- 		/* Méthode pour désactiver les liens des onglets
- 		**************************************************
- 		* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
- 		* Proposition 2: desactiver le HREF.
- 		*/
- 		if ( current_user_can('subscriber') ) {
- 		
-		?>
-		 		
-		 		$("#button-nav li a").removeAttr("href").css({'cursor': 'default', 'pointer-events' : 'none'});
- 		<? 
- 		
- 		} // test 'subscriber'
- 		 
- 		?>
+	//dernier onglet pour redirection ?>
+	$("#buddypress ul.button-nav li:last-child").css({display: "none"});
+	
+	<?php
+	
+	/* Méthode pour désactiver les liens des onglets
+	**************************************************
+	* Cf ticket https://bitbucket.org/ms-studio/kinogeneva/issues/123/		
+	* Proposition 2: desactiver le HREF.
+	*/
+	
+	if ( current_user_can('subscriber') ) {
+	?>
+ 		$("#button-nav li a").removeAttr("href").css({'cursor': 'default', 'pointer-events' : 'none'});
+	<?php
+	} // test 'subscriber'
+	?>
 
  
- 		// le champ Presentez-vous = limiter à 500 signes = 100 mots
- 		
- 			$("#profile-edit-form #field_31").attr("maxlength", "500"); 
+	// le champ Presentez-vous = limiter à 500 signes = 100 mots
+	$("#profile-edit-form #field_31").attr("maxlength", "500"); 
  			
- 			// le champ Mes motivations à rejoindre KinoGeneva = limiter à  500 mots = 2500 signes
- 			$("#profile-edit-form #field_545").attr("maxlength", "2500"); 
+	// le champ Mes motivations à rejoindre KinoGeneva = limiter à  500 mots = 2500 signes
+	$("#profile-edit-form #field_545").attr("maxlength", "2500"); 
  			
- 			// add target_blank to .kino-edit-profile links
- 			$("#profile-edit-form p.description a[href^=http]").attr('target', '_blank');
+	// add target_blank to .kino-edit-profile links
+	$("#profile-edit-form p.description a[href^=http]").attr('target', '_blank');
  			
- 			<?php
- 			
- 			// Une fois les conditions générales acceptées, on ne peut plus les modifier!
- 			
- 			?>
+ 	<?php
+ 	// Une fois les conditions générales acceptées, on ne peut plus les modifier!		
+ 	?>
  				
- 				var kino_accept_cond = '#profile-edit-form #check_acc_field_1070';
- 				if ($(kino_accept_cond).is(":checked")) {
- 				        $(kino_accept_cond).prop('disabled', true);
+	var kino_accept_cond = '#profile-edit-form #check_acc_field_1070';
+	if ($(kino_accept_cond).is(":checked")) {
+		$(kino_accept_cond).prop('disabled', true);
+	}
+ 			
+	<?php
+	
+	/*************************************
+	 * Make Required Fields Required 
+	 * using jQuery-Form-Validator library
+	 * info: https://github.com/victorjonsson/jQuery-Form-Validator/wiki
+	 ******************************
+	*/
+
+	?>
+ 					
+	$("div.required-field.field_type_textarea textarea").attr('data-validation', 'required');
+	
+	$("div.required-field.field_type_textbox input").attr('data-validation', 'required');
+
+	// datebox
+	$("div.required-field.field_type_datebox select").attr('data-validation', 'required');
+	// selectbox
+	$("div.required-field.field_type_selectbox select").attr('data-validation', 'required');
+	// color
+	$("div.required-field.field_type_color input").attr('data-validation', 'required');
+	// number
+	$("div.required-field.field_type_number input").attr('data-validation', 'required');
+ 	
+	<?php
+	
+	// checkbox group
+	// **********************************
+	
+	// Disabled, not working well with BuddyPress checkbox groups
+	// https://bitbucket.org/ms-studio/kinogeneva/issues/71/bug-aide-b-n-vole
+	
+	// image = must test by JS if empty
+	// **********************************
+ 			 				
+	?>
+	
+	$('div.required-field.field_type_image').each(function() {
+		if ($(this).children('img').length) {
+			// has image = do nothing
+			// alert('has image');
+		} else {
+			$(this).children('input[type=file]').attr('data-validation', 'required');
+		}
+	});
+ 			 				
+	// file = must test by JS if empty
+	// **********************************
+		
+	$('div.required-field.field_type_file').each(function() {
+		if ($(this).children('a').length) {
+			// has link = do nothing
+			// alert('has link');
+		}
+		else {
+			/*
+			$(this).children('input[type=file]').attr('data-validation', 'required');
+			$(this).children('input[type=file]').attr({
+				'data-validation':'mime',  // required - cf http://formvalidator.net/#file-validators
+				'data-validation-allowing':'jpg' // rather PDF etc!!
+			});*/
+		}
+	});
+					
+		<?php 
+	
+		/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profil Kinoïte
+		 ******************************
+		*/
+		
+		//04.12.2016 issue #125 => les champs ont été déplacés dans le tab 19
+		if ( bp_get_current_profile_group_id() == 19 ) {
+			
+			//demande 2017-2018 d'afficher le texte participe au kabaret en rouge ?>
+			$('#profile-edit-form div.field_<?php echo $kino_fields['kabaret']; ?>').css({color: "#c11119"});
+			<?php
+			
+			if ( current_user_can('subscriber') ) {
+ 				// Une fois coché, on désactive l'option Réalisateur: 
+ 				// voir https://bitbucket.org/ms-studio/kinogeneva/issues/18/inscriptions-section-r-alisateur
+				 			
+				 $kino_disable_real_checkbox = false;
+ 			
+ 				/* Test for Groups: 
+ 				 * group-real-platform-pending? 
+ 				 * group-real-platform?
+ 				 * group-real-platform-rejected
+ 				*/
+ 				
+ 				// build ID arrays:
+				$ids_group_real_platform = get_objects_in_term(
+					$kino_fields['group-real-platform'], 
+					'user-group' 
+				);
+				$ids_group_real_platform_pending = get_objects_in_term(
+					$kino_fields['group-real-platform-pending'], 
+					'user-group' 
+				);
+				$ids_group_real_platform_rejected = get_objects_in_term(
+					$kino_fields['group-real-platform-rejected'], 
+					'user-group' 
+				);
+				
+				//statut du réal
+ 				if ( in_array( $userid, $ids_group_real_platform ) ) {
+					$kino_disable_real_checkbox = true;
+					$kino_real_notification = 'Votre statut de réalisateur-trice <b>sur la plateforme</b> est validé.';
+ 				
+ 				} else if ( in_array( $userid, $ids_group_real_platform_pending ) ) {
+					$kino_disable_real_checkbox = true;
+					$kino_real_notification = 'Votre statut de réalisateur-trice <b>sur la plateforme</b> est <b>en attente de validation</b>.';
+ 				
+ 				} else if ( in_array( $userid, $ids_group_real_platform_rejected ) ) {
+					$kino_disable_real_checkbox = true;
+					$kino_real_notification = '&nbsp;';
  				}
- 			
- 			<?php
- 			
- 			/*************************************
- 			 		 * Make Required Fields Required 
- 			 		 * using jQuery-Form-Validator library
- 			 		 * info: https://github.com/victorjonsson/jQuery-Form-Validator/wiki
- 			 		 ******************************
- 			 		*/
- 			
- 					?>
- 					
- 						$("div.required-field.field_type_textarea textarea").attr('data-validation', 'required');
- 						
- 						$("div.required-field.field_type_textbox input").attr('data-validation', 'required');
- 					
- 						// datebox
- 						$("div.required-field.field_type_datebox select").attr('data-validation', 'required');
- 						// selectbox
- 						$("div.required-field.field_type_selectbox select").attr('data-validation', 'required');
- 						// color
- 						$("div.required-field.field_type_color input").attr('data-validation', 'required');
- 						// number
- 						$("div.required-field.field_type_number input").attr('data-validation', 'required');
- 			 			
- 			 			<?php
- 			 			
- 			 			// checkbox group
- 			 			// **********************************
- 			 			
- 			 			// Disabled, not working well with BuddyPress checkbox groups
- 			 			// https://bitbucket.org/ms-studio/kinogeneva/issues/71/bug-aide-b-n-vole
- 			 			
- 			 			// image = must test by JS if empty
- 			 			// **********************************
- 			 				
- 			 				?>
- 			 				
- 			 				$('div.required-field.field_type_image').each(function() {
- 			 				    if ($(this).children('img').length) {
- 			 				    	// has image = do nothing
- 			 				    	// alert('has image');
- 			 				    } else {
- 			 				    	$(this).children('input[type=file]').attr('data-validation', 'required');
- 			 				    }
- 			 				});
- 			 				
- 			 				// file = must test by JS if empty
- 			 				// **********************************
- 			 					
- 			 				$('div.required-field.field_type_file').each(function() {
- 			 					    if ($(this).children('a').length) {
- 			 					    // has link = do nothing
- 			 					    // alert('has link');
- 			 					    } else {
-										//$(this).children('input[type=file]').attr('data-validation', 'required');
-// 			 					    	$(this).children('input[type=file]').attr({
-// 			 					    	    'data-validation':'mime',  // required - cf http://formvalidator.net/#file-validators
-// 			 					    	    'data-validation-allowing':'jpg' // rather PDF etc!!
-// 			 					    	});
- 			 					    }
- 			 					});
- 			 				
- 			   	<?php 
- 			
- 		    	/*************************************
- 			 		 * CONDITIONAL CODE 
- 			 		 * for Profil Kinoïte
- 			 		 ******************************
- 			 		*/
- 			//04.12.2016 issue #125 => les champs ont été déplacés dans le tab 19
- 			if ( bp_get_current_profile_group_id() == 19 ) { 
- 				if ( current_user_can('subscriber') ) {
+ 				
+				//tél. du 15/11/2017: sandrane me demande de ré-ouvrir cette option
+				//cacher la case à cocher
+				/*
+	 			if ( $kino_disable_real_checkbox == true ) {
+				
+					// Dans "Profil Kinoïte", option Réalisateur-trice:
+		?>
+		
+					// ATTENTION BUG NAVIGATEUR: si on fait DISABLED sur une liste de checkbox, 
+					// elles vont être vidées lors de la soumission!
+					
+					// Etrangement, ce n'est pas le cas pour des cases à cocher uniques.
+					
+					// Ce qui fonctionne:  faire display: none
+	 						
+					$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> label[for="field_<?php echo $kino_fields['profile-role-real']; ?>"]').css({display: "none"});
+	 					
+	 	<?php
+	 			}*/
+	 			
+				//afficher le message
+	 			if ( !empty($kino_real_notification) ) {
+	 	?>
+					$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> p.description').html('<?php echo $kino_real_notification; ?>');
+		<?php
+				} 
 				 			
-				 				// Une fois coché, on désactive l'option Réalisateur: 
-				 					// voir https://bitbucket.org/ms-studio/kinogeneva/issues/18/inscriptions-section-r-alisateur
-				 			
-				 			$kino_disable_real_checkbox = false;
-				 			
-				 				/* Test for Groups: 
-				 				 * group-real-platform-pending? 
-				 				 * group-real-platform?
-				 				 * group-real-platform-rejected
-				 				*/
+	 			// Disable Kino Kabaret Checkbox if Checked...
+	 			
+	 			// test if KinoKabaret checked
+	 			$ids_of_kino_pending = get_objects_in_term(
+ 					$kino_fields['group-kino-pending'] , 
+ 					'user-group' 
+	 			);
 				 				
-				 				// build ID arrays:
-				 				
-				 					$ids_group_real_platform = get_objects_in_term( 
-				 						$kino_fields['group-real-platform'], 
-				 						'user-group' 
-				 					);
-				 					$ids_group_real_platform_pending = get_objects_in_term( 
-				 						$kino_fields['group-real-platform-pending'], 
-				 						'user-group' 
-				 					);
-				 					$ids_group_real_platform_rejected = get_objects_in_term( 
-				 						$kino_fields['group-real-platform-rejected'], 
-				 						'user-group' 
-				 					);
-				 				
-				 				if ( in_array( $userid, $ids_group_real_platform ) ) {
-				 				
-				 							$kino_disable_real_checkbox = true;
-				 							
-				 							$kino_real_notification = 'Votre statut de réalisateur-trice <b>sur la plateforme</b> est validé.';
-				 				
-				 				} else if ( in_array( $userid, $ids_group_real_platform_pending ) ) {
-				 				
-				 							$kino_disable_real_checkbox = true;
-				 							
-				 							$kino_real_notification = 'Votre statut de réalisateur-trice <b>sur la plateforme</b> est <b>en attente de validation</b>.';
-				 				
-				 				} else if ( in_array( $userid, $ids_group_real_platform_rejected ) ) {
-				 				
-				 							$kino_disable_real_checkbox = true;
-				 							
-				 							$kino_real_notification = '&nbsp;';
-				 				
-				 				}
+		 		if ( in_array( $userid, $ids_of_kino_pending ) ) {
+ 		?>
+ 					$('#profile-edit-form input#check_acc_field_<?php echo $kino_fields['kabaret']; ?>').prop('disabled', true);
+ 		<?php
+		 		}				
 				 			
-				 			
-				 			if ( $kino_disable_real_checkbox == true ) {
-				 					
-				 						// Dans "Profil Kinoïte", option Réalisateur-trice:
-				 				?>
-				 						
-				 						// ATTENTION BUG NAVIGATEUR: si on fait DISABLED sur une liste de checkbox, 
-				 						// elles vont être vidées lors de la soumission!
-				 						
-				 						// Etrangement, ce n'est pas le cas pour des cases à cocher uniques.
-				 						
-				 						// Ce qui fonctionne:  faire display: none
-				 						
-				 					$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> label[for="field_<?php echo $kino_fields['profile-role-real']; ?>"]').css({display: "none"});
-				 					
-				 					<?php
-				 			}
-				 			
-				 			if ( !empty($kino_real_notification) ) {
-				 					
-				 					?>
-				 						$('#profile-edit-form div.field_<?php echo $kino_fields['profile-role']; ?> p.description').html('<?php echo $kino_real_notification; ?>');
-				 						<?php
-				 			} 
-				 			
-				 			// Disable Kino Kabaret Checkbox if Checked...
-				 			
-				 			// test if KinoKabaret checked
-				 			$ids_of_kino_pending = get_objects_in_term( 
-				 					$kino_fields['group-kino-pending'] , 
-				 					'user-group' 
-				 				);
-				 				
-				 		if ( in_array( $userid, $ids_of_kino_pending ) ) {
-				 				
-				 					?>
-				 					$('#profile-edit-form input#check_acc_field_<?php echo $kino_fields['kabaret']; ?>').prop('disabled', true);
-				 					
-				 					<?php
-				 			}
-				 			
-				 			// Disable Bénévole Checkbox if Checked...
-				 			
-				 			$ids_of_benevoles = get_objects_in_term( 
-				 				$kino_fields['group-benevoles-kabaret'] , 
-				 				'user-group' 
-				 			);
-				 			
-				 			if ( in_array( $userid, $ids_of_benevoles ) ) {
-				 				
-				 					?>
-		 							$('#profile-edit-form input#check_acc_field_<?php echo $kino_fields['benevole']; ?>').prop('disabled', true);
-		 							
-		 							<?php
-				 			}
-				 			
-				 			
-		 			} // if subscriber
-		 	} // if edit group id = 19 (Profil Kinoïte)
+		 	} // if subscriber
+
+		} // if edit group id = 19 (Profil Kinoïte)
 		 	
 		 	
-		 	/*************************************
-		 				 * CONDITIONAL CODE 
-		 				 * for Profile Group 10 (= Identité)
-		 			******************************
-		 				*/
+	 	/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profile Group 10 (= Identité)
+		 ******************************
+		 */
 		
 		 if ( bp_get_current_profile_group_id() == 10 ) {
+	 		// champ "Prénom Nom"
+ 			// 
+ 			// https://bitbucket.org/ms-studio/kinogeneva/issues/45/ 
+ 			// On teste si le champ "Prénom Nom" contient le nom d'utilsateur  		
+		 			
+ 			$kino_fullname = bp_get_profile_field_data( array(
+ 					'field'   => '1',
+ 					'user_id' => $userid
+ 			) );
+		 			
+ 			$kino_user_info = get_userdata( $userid );
+ 			$kino_wp_login = $kino_user_info->user_login;
+		 			
+ 			// echo "// $kino_fullname = ". $kino_fullname . " -  $kino_wp_login = " . $kino_wp_login ;
+ 			
+ 			if ( $kino_fullname == $kino_wp_login ) {
+ 			
+				// clear the field with Jquery!
+		?>
+				$("input#field_1").val('');
+		<?php
+ 					
+ 			}
+			
+	 		// conditional part for CV field
+ 			if (in_array( "realisateur", $kino_user_role ) || in_array( "benevole", $kino_user_role )) {
+ 			
+ 				// test if file exists
+ 				?>
+ 				
+ 				$('div.field_858.field_type_file').each(function() {
+					if ($(this).children('a').length) {
+					// has link = file exists = do nothing
+					} else {
+						$("div.field_858 input[type=file]").attr('data-validation', 'required');
+						$("div.field_858 label[for=field_858]").text("C.V. (obligatoire)");
+					}
+				});
+ 		<?php
+ 			}
 		 
-		 		
-		 		// champ "Prénom Nom"
-		 			// 
-		 			// https://bitbucket.org/ms-studio/kinogeneva/issues/45/ 
-		 			// On teste si le champ "Prénom Nom" contient le nom d'utilsateur  		
-		 			
-		 			$kino_fullname = bp_get_profile_field_data( array(
-		 					'field'   => '1',
-		 					'user_id' => $userid
-		 			) );
-		 			
-		 			$kino_user_info = get_userdata( $userid );
-		 			$kino_wp_login = $kino_user_info->user_login;
-		 			
-		 			// echo "// $kino_fullname = ". $kino_fullname . " -  $kino_wp_login = " . $kino_wp_login ;
-		 			
-		 			if ( $kino_fullname == $kino_wp_login ) {
-		 			
-		 					// clear the field with Jquery!
-		 					?>
-		 					$("input#field_1").val('');
-		 					<?php
-		 					
-		 			}
-		 		
+		 } //fin de bp_get_current_profile_group_id() == 10
 		 
-		 		// conditional part for CV field
-		 			
-		 			if (in_array( "realisateur", $kino_user_role )) {
-		 			
-		 				// test if file exists
-		 				?>
-		 				
-		 				$('div.field_858.field_type_file').each(function() {
-		 						    if ($(this).children('a').length) {
-		 						    // has link = file exists = do nothing
-		 						    } else {
-		 						    	$("div.field_858 input[type=file]").attr('data-validation', 'required');
-		 						    	$("div.field_858 label[for=field_858]").text("C.V. (obligatoire)");
-		 						    }
-		 						});
-		 				
-		 				<?php
-		 			}
 		 
-		 }
-		 	
-		 	/*************************************
-		 			 * CONDITIONAL CODE 
-		 			 * for Profile Group 16 (= Aide Bénévole)
-		 		******************************
-		 			*/
+		/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profile Group 7 (= Technicien)
+		 ******************************
+		 */
+		
+		if ( bp_get_current_profile_group_id() == 7 ) {
+			//ticket 264 https://bitbucket.org/ms-studio/kinogeneva/issues/264/onglet-technicien
+			//1. cacher pas défaut la question du scénario ['comp-scenario-soumission'] et l'upload ['comp-scenario-file']
+			//2. montrer la question soumission seulement si ['comp-scenario-scenariste'] "Checked": 
+		?>
+		
+		//A. on load
+		if($("input#field_<?php echo $kino_fields['comp-scenario-scenariste']; ?>").is(":checked")) {
+			// show fields
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').show();
+			// require validation
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').attr('data-validation', 'required');
+			
+			//3. montrer le champ d'upload seulement si ['comp-scenario-soumission'] = OUI
+			var soumission_scenario = $("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").val();
+			if(soumission_scenario == 'OUI' ) {
+				// show fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').show();
+				 
+				//test s'il y a deja un fichier
+				if($('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').children('a').length) {
+						//has link
+				}
+				else {
+					// require fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+				}
+			}
+			else {
+				// hide fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+				// remove validation
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+			}
+		}
+		else {
+			// hide fields
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').hide();
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+			// remove validation
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').removeAttr('data-validation');
+			$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+		}
+	
+		//B. quand on click sur ['comp-scenario-scenariste']
+		 $("input#field_<?php echo $kino_fields['comp-scenario-scenariste']; ?>").click(function() {
+		    if($(this).is(":checked")) {
+		        // show fields
+		        $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').show();
+		        // require validation
+		        $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').attr('data-validation', 'required');
+		    }
+		    else {
+				// effacer la valeur si sélectionnée
+				$("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").val('');
+	    		// hide fields
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?>').hide();
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+	    		// remove validation
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-soumission']; ?> select').removeAttr('data-validation');
+	    		$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+			    }
+			});
+			
+		//3. montrer le champ d'upload seulement si ['comp-scenario-soumission'] = OUI au moment du changement de sélection
+		$("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").change(function() {
+			var soumission_scenario = $("#field_<?php echo $kino_fields['comp-scenario-soumission']; ?>").val();
+			if(soumission_scenario == 'OUI') {
+				// show fields
+				 $('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').show();
+				//test s'il y a deja un fichier
+				if($('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').children('a').length) {
+						//has link
+				}
+				else {
+					// require fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').attr('data-validation', 'required');
+				}
+			}
+			else {
+				// hide fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?>').hide();
+				// remove validation
+				$('#profile-edit-form div.field_<?php echo $kino_fields['comp-scenario-file']; ?> input[type="file"]').removeAttr('data-validation');
+			}
+		});
+			
+		 <?php
+		}  // END if edit group ID 7
+		
+		/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profile Group 5 (= Réalisateur)
+		 ******************************
+		 */
+		 if ( bp_get_current_profile_group_id() == 5 ) {
+			//ticket 263 https://bitbucket.org/ms-studio/kinogeneva/issues/263
+			//rendre l'upload ['real-coaching-scenario'] obligatoire si coach ['real-coaching'] = oui ?>
+			
+			//A. onload
+			var soumission_scenario = $("#field_<?php echo $kino_fields['real-coaching']; ?>").val();
+			if(soumission_scenario == 'OUI' ) {
+				// show fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').show();
+				//test s'il y a deja un fichier
+				if($('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').children('a').length) {
+						//has link
+				}
+				else {
+					// require fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+				}
+			}
+			else {
+				// hide fields
+				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').hide();
+				// remove validation
+				$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').removeAttr('data-validation');
+			}
+			
+			//B. au moment du changement de sélection
+			$("#field_<?php echo $kino_fields['real-coaching']; ?>").change(function() {
+				var soumission_scenario = $("#field_<?php echo $kino_fields['real-coaching']; ?>").val();
+				if(soumission_scenario == 'OUI') {
+					// show fields
+					 $('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').show();
+					//test s'il y a deja un fichier
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').children('a').length) {
+							//has link
+					}
+					else {
+						// require fields
+						$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').attr('data-validation', 'required');
+					}
+				}
+				else {
+					// hide fields
+					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?>').hide();
+					// remove validation
+					$('#profile-edit-form div.field_<?php echo $kino_fields['real-coaching-scenario']; ?> input[type="file"]').removeAttr('data-validation');
+				}
+			});
+		<?php
+		 }  // END if edit group ID 5
+		
+		
+	 	/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profile Group 16 (= Aide Bénévole)
+		 ******************************
+		 */
 		 			
 		 if ( bp_get_current_profile_group_id() == 16 ) {
+			 
+			 /*
+					* Cf https://bitbucket.org/ms-studio/kinogeneva/issues/116/
+					* et https://bitbucket.org/ms-studio/kinogeneva/issues/71/
+					en rouge si aucun choix n'est coché (le caractère obligatoire du champ ne fonctionne pas)
+					
+					   Méthode : 
+					   - On teste le groupe de champ. = defined in $kino_fields['benevole-kabaret'] = 1320
+					   - Si le groupe est entièrement vide, on affiche l'avertissement par Javascript.
+					   Ceci étant, on ne force pas la validation, pour éviter des bugs.
+					*/
+ 							
+				$kino_field_dispo = bp_get_profile_field_data( array(
+						'field'   => $kino_fields['benevole-kabaret'],
+						'user_id' => $userid
+				 ) );
+ 							
+				if ( empty( $kino_field_dispo ) ) {
+					
+					// rien sélectionné : 
+					// afficher avertissement!
+					// + rendre le groupe obligatoire
+					
+					kino_validate_chekbox( $kino_fields['benevole-kabaret'] );
+				
+				} // if empty($kino_field_dispo)
+			 
 		 		
 		 		// rendre obligatoire les cases "Aide Bénévole: activités Kinogeneva"
 		 		// $kino_fields['benevole-kabaret']
@@ -353,223 +503,326 @@ jQuery(document).ready(function($){
 		 		// NOTE: validation does not work, see
 		 		// https://bitbucket.org/ms-studio/kinogeneva/issues/71/bug-aide-b-n-vole
 		 		
+		 		// Disable Bénévole Checkbox if Checked... + message de contacter l'équipe!
+		 		/*
+	 			$ids_of_benevoles = get_objects_in_term( 
+	 				$kino_fields['group-benevoles-kabaret'] , 
+	 				'user-group' 
+	 			);
+				 			
+	 			if ( in_array( $userid, $ids_of_benevoles ) ) {	
+		?>
+					//$('#profile-edit-form input#check_acc_field_<?php echo $kino_fields['benevole']; ?>').prop('disabled', true);						 						
+					$('#profile-edit-form div.field_<?php echo $kino_fields['benevole-kabaret']; ?> label[for="field_<?php echo $kino_fields['benevole-kabaret-yes']; ?>"]').css({display: "none"});
+					$('#profile-edit-form div.field_<?php echo $kino_fields['benevole-kabaret']; ?>').append('<b>Vous vous êtes inscrit comme bénévole pour cette édition du Kino Kabaret</b>. Pour des questions d\'organisation, Si vous ne souhaitez plus être bénévole pour le Kino Kabaret, merci de contact l\'équipe!');
+		<?php
+	 			}
+		 		*/
+		 		
 		 }
  			
  			
- 			/*************************************
- 				 * CONDITIONAL CODE 
- 				 * for Profile Group 17 (= Kino Kabaret 2017)
- 			******************************
- 				*/
+		/*************************************
+		 * CONDITIONAL CODE 
+		 * for Profile Group 17 (= Kino Kabaret 2017)
+		 ******************************
+		 */
  			
  			
- 			if ( bp_get_current_profile_group_id() == 17 ) {
+		if ( bp_get_current_profile_group_id() == 17 ) {
+			
+			/**
+			 * D'abord, on teste si le profil est complet.
+			 * Si c'est le cas, on désactive tous les champs!
+			 *
+			 *
+			 * Sinon, diverses opérations:
+			 * Kab.Dispo.Oblig
+			 * Kab.Role.Oblig
+			*/
  				
- 				/**
- 				 * D'abord, on teste si le profil est complet.
- 				 * Si c'est le cas, on désactive tous les champs!
- 				 *
- 				 *
- 				 * Sinon, diverses opérations:
- 				 * Kab.Dispo.Oblig
- 				 * Kab.Role.Oblig
- 				*/
- 				
- 					$ids_group_kino_complete = get_objects_in_term( 
- 							$kino_fields['group-kino-complete'], 
- 							'user-group' 
- 						);
- 						
- 				if ( in_array( $userid, $ids_group_kino_complete ) ) {
- 					
- 					if ( current_user_can('subscriber') ) {
- 					
- 					?>
- 					
+			$ids_group_kino_complete = get_objects_in_term( 
+				$kino_fields['group-kino-complete'], 
+				'user-group' 
+			);
+ 			
+ 			//profil complet?
+			if ( in_array( $userid, $ids_group_kino_complete ) ) {
+				
+				if ( current_user_can('subscriber') ) {
+
+ 					//ne fonctionne pas de désactiver quelques champs si ils sont obligatoire
+ 					//cf. bug https://bitbucket.org/ms-studio/kinogeneva/issues/277/
+ 					 
+ 					/*
  					// désactiver l'édition de tous les champs!
- 					
  					$('#profile-edit-form input[type="checkbox"]').prop('disabled', true);
 					
 					$('#profile-edit-form .field_type_selectbox select').prop('disabled', true);
 					
 					$('#profile-edit-form .field_type_textbox input[type="text"]').prop('disabled', true);
 					
+					$('#profile-edit-form .field_type_number input[type="number"]').prop('disabled', true);
+					
+					$('#profile-edit-form .field_type_textarea textarea').prop('disabled', true);
+					
+					$('#profile-edit-form .field_type_image input[type="file"]').prop('disabled', true);
+					
 					$('#profile-edit-form .submit input[type="submit"]').prop('disabled', true).prop('value', 'Inscription Terminée');
+					
+					//alors on cache les champs et on affiche les infos remplies par les utilisateurs
+					*  */
+			?>
+				// Je m'inscris au Kino Kabaret en tant que 
+					$('#profile-edit-form #field_<?php echo $kino_fields['role-kabaret'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> p.description').hide();
+					
+					var role_kab_value = ''
+					//display comédien checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-comed']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-comed']?> ').val() + '</div>';
+					}
+					//display technicien checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-tech']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-tech']?> ').val() + '</div>';
+					}
+					//display réal checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-real']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-real']?> ').val() + '</div>';
+					}
+					//display bénévole checked
+					if($('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-bene']?> ').is(":checked")){
+						role_kab_value += '<div>' + $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?> input#field_<?php echo $kino_fields['role-kabaret-bene']?> ').val() + '</div>';
+					}
+					
+					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret'] ?>').append(role_kab_value);
+					
+				//choix de session
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-un']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-un'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-un']; ?>').val());
+		    		
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-deux']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-deux'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-deux']; ?>').val());
+		    		
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-trois']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois'] ?> p.description').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-trois']; ?>').val());
+		    		
+		    		$('#profile-edit-form #field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').hide();
+		    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').val());
+		    	//cherche logement
+					$('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement'] ?>').val());
  					
- 					<?php		
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['cherche-logement-remarque'] ?>').val());
  					
- 					} // end if current_user_can('subscriber')
+ 				//offre logement
+					$('#profile-edit-form #field_<?php echo $kino_fields['offre-logement'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement'] ?> p.description').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['offre-logement'] ?>').val());
+					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-remarque'] ?> p.description').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-remarque'] ?>').val());
+ 					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-nb'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-nb'] ?> p.description').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['offre-logement-nb'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['offre-logement-nb'] ?>').val());
+ 				//possible tournage
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage'] ?>').hide()
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage'] ?>').val())
+ 					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-remarque'] ?> p.description').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['possible-tournage-remarque'] ?>').val());
+ 					
+				//vehicule
+					$('#profile-edit-form #field_<?php echo $kino_fields['vehicule'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule'] ?> p.description').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['vehicule'] ?>').val());
+					
+ 					$('#profile-edit-form #field_<?php echo $kino_fields['vehicule-remarque'] ?>').hide();
+ 					$('#profile-edit-form div.field_<?php echo $kino_fields['vehicule-remarque'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['vehicule-remarque'] ?>').val());
+ 				//permis
+					$('#profile-edit-form #field_<?php echo $kino_fields['permis'] ?>').hide();
+					$('#profile-edit-form div.field_<?php echo $kino_fields['permis'] ?>').append($('#profile-edit-form #field_<?php echo $kino_fields['permis'] ?>').val());
+
+		<?php		//renommer le bouton d'enregistrement si profil déjà complet
+					//https://bitbucket.org/ms-studio/kinogeneva/issues/274/
+		?>
+ 					$('#profile-edit-form .submit input[type="submit"]').prop('value', 'Enregistrer les modifications');
+ 					
+		<?php		
+ 					
+ 				} // end if current_user_can('subscriber')
  				
- 				}	else {
+ 			}
+ 			//profil incomplet
+ 			else {
  				
- 					/**
- 						 * Profil non complet: diverses opérations:
- 						 * Kab.Dispo.Oblig
- 						 * Kab.Role.Oblig
- 						*/
+				/**
+					 * Profil non complet: diverses opérations:
+					 * Kab.Dispo.Oblig
+					 * Kab.Role.Oblig
+					*/
  						
- 						/*
- 							 * Cf https://bitbucket.org/ms-studio/kinogeneva/issues/116/
+				/*
+					 * Cf https://bitbucket.org/ms-studio/kinogeneva/issues/116/
+					
+					 * Kab.Dispo.Oblig:  Mettre "Mes disponibilités (obligatoires)" en rouge si aucune date n'est cochée (le caractère obligatoire du champ ne fonctionne pas)
+					
+					 * Kab.Role.Oblig:  Rendre obligatoire "je m'inscris au kino kabaret en tant que"
+					
+					 * Kab.Dispo.Oblig 
+					   Méthode : 
+					   - On teste le groupe de champ. = defined in $kino_fields['dispo'] = 1917
+					   - Si le groupe est entièrement vide, on affiche l'avertissement par Javascript.
+					   Ceci étant, on ne force pas la validation, pour éviter des bugs.
+					*/
  							
- 							 * Kab.Dispo.Oblig:  Mettre "Mes disponibilités (obligatoires)" en rouge si aucune date n'est cochée (le caractère obligatoire du champ ne fonctionne pas)
+				$kino_field_dispo = bp_get_profile_field_data( array(
+						'field'   => $kino_fields['dispo'],
+						'user_id' => $userid
+				 ) );
  							
- 							 * Kab.Role.Oblig:  Rendre obligatoire "je m'inscris au kino kabaret en tant que"
- 							
- 							 * Kab.Dispo.Oblig 
- 							   Méthode : 
- 							   - On teste le groupe de champ. = defined in $kino_fields['dispo'] = 1917
- 							   - Si le groupe est entièrement vide, on affiche l'avertissement par Javascript.
- 							   Ceci étant, on ne force pas la validation, pour éviter des bugs.
- 							*/
- 							
- 							$kino_field_dispo = bp_get_profile_field_data( array(
- 							 		'field'   => $kino_fields['dispo'],
- 							 		'user_id' => $userid
- 							 ) );
- 							
- 							if ( empty( $kino_field_dispo ) ) {
+				if ( empty( $kino_field_dispo ) ) {
+					
+					// rien sélectionné : 
+					// afficher avertissement!
+					// + rendre le groupe obligatoire
+					
+					kino_validate_chekbox( $kino_fields['dispo'] );
+				
+				} // if empty($kino_field_dispo)
+
+				/*
+					 * Kab.Role.Oblig
+					 * = 1872 defined in $kino_fields['role-kabaret']
+					*/
  								
- 								// rien sélectionné : 
- 								// afficher avertissement!
- 								// + rendre le groupe obligatoire
- 								
- 								kino_validate_chekbox( $kino_fields['dispo'] );
- 							
- 							} // if empty($kino_field_dispo)
- 							
- 							
- 							/*
- 								 * Kab.Role.Oblig
- 								 * = 1872 defined in $kino_fields['role-kabaret']
- 								*/
- 								
- 								$kino_role_kab = bp_get_profile_field_data( array(
- 								 				 		'field'   => $kino_fields['role-kabaret'],
- 								 				 		'user_id' => $userid
- 								 				 ) );
+				$kino_role_kab = bp_get_profile_field_data( array(
+					'field'   => $kino_fields['role-kabaret'],
+					'user_id' => $userid
+				) );
  								 				
- 								if ( empty( $kino_role_kab ) ) {
- 									
- 									// rien sélectionné : 
- 									
- 									kino_validate_chekbox( $kino_fields['role-kabaret'] );
- 								
- 								} // if empty($kino_field_dispo)
+				if ( empty( $kino_role_kab ) ) {
+					
+					// rien sélectionné : 
+					
+					kino_validate_chekbox( $kino_fields['role-kabaret'] );
+				
+				} // if empty($kino_field_dispo)
  								
  								
  				
  				} // fin test si profil complet
  				
- 				
- 				
- 			
- 				
  				// Désactiver l'option "Réalisateur", une fois la demande soumise
- 				
  				if ( current_user_can('subscriber') ) {
  							
- 							$kabaret_disable_real_checkbox = false;
- 							
-				 					/* test for Groups: 
-				 					 * group-real-kabaret-pending? 
-				 					 * group-real-kabaret?
-				 					 * group-real-kabaret-rejected
-				 					*/
+					$kabaret_disable_real_checkbox = false;
+					
+ 					/* test for Groups: 
+ 					 * group-real-kabaret-pending? 
+ 					 * group-real-kabaret?
+ 					 * group-real-kabaret-rejected
+ 					*/
+ 					
+ 					// build ID arrays:
 				 					
-				 					// build ID arrays:
+ 					$ids_group_real_kabaret = get_objects_in_term( 
+ 						$kino_fields['group-real-kabaret'], 
+ 						'user-group' 
+ 					);
+ 					$ids_group_real_kabaret_pending = get_objects_in_term( 
+ 						$kino_fields['group-real-kabaret-pending'], 
+ 						'user-group' 
+ 					);
+ 					$ids_group_real_kabaret_rejected = get_objects_in_term( 
+ 						$kino_fields['group-real-kabaret-rejected'], 
+ 						'user-group' 
+ 					);
 				 					
-				 					$ids_group_real_kabaret = get_objects_in_term( 
-				 						$kino_fields['group-real-kabaret'], 
-				 						'user-group' 
-				 					);
-				 					$ids_group_real_kabaret_pending = get_objects_in_term( 
-				 						$kino_fields['group-real-kabaret-pending'], 
-				 						'user-group' 
-				 					);
-				 					$ids_group_real_kabaret_rejected = get_objects_in_term( 
-				 						$kino_fields['group-real-kabaret-rejected'], 
-				 						'user-group' 
-				 					);
-				 					
-				 					if ( in_array( $userid, $ids_group_real_kabaret ) ) {
-				 					
-				 								$kabaret_disable_real_checkbox = true;
-				 								
-				 								$kino_real_kab_notification = 'Vous êtes réalisateur-trice <b>pour le Kino Kabaret</b>.<br/><br/>';
-				 					
-				 					} else if ( in_array( $userid, $ids_group_real_kabaret_pending ) ) {
-				 					
-				 								 $kabaret_disable_real_checkbox = true;
-				 								
-				 								$kino_real_kab_notification = 'Votre statut de réalisateur-trice <b>pour le Kino Kabaret</b> est <b>en attente de validation</b>.<br/><br/>';
-				 					
-				 					} else if ( in_array( $userid, $ids_group_real_kabaret_rejected ) ) {
-				 					
-				 								$kabaret_disable_real_checkbox = true;
-				 								
-				 								$kino_real_kab_notification = '&nbsp;';
-				 					
-				 					}
+ 					if ( in_array( $userid, $ids_group_real_kabaret ) ) {
+ 					
+						$kabaret_disable_real_checkbox = true;
+						
+						$kino_real_kab_notification = 'Vous êtes réalisateur-trice <b>pour le Kino Kabaret</b>.<br/><br/>';
+ 					
+ 					} else if ( in_array( $userid, $ids_group_real_kabaret_pending ) ) {
+ 					
+						$kabaret_disable_real_checkbox = true;
+						
+						$kino_real_kab_notification = 'Votre statut de réalisateur-trice <b>pour le Kino Kabaret</b> est <b>en attente de validation</b>.<br/><br/>';
+ 					
+ 					} else if ( in_array( $userid, $ids_group_real_kabaret_rejected ) ) {
+ 					
+						$kabaret_disable_real_checkbox = true;
+						
+						$kino_real_kab_notification = '&nbsp;';
+ 					
+ 					}
 				 				
-				 				
-				 			if ( $kabaret_disable_real_checkbox == true ) {
+		 				
+		 			if ( $kabaret_disable_real_checkbox == true ) {
+		 			
+		 				?>
+		 						
+		 					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> label[for="field_<?php echo $kino_fields['role-kabaret-real']; ?>"]').hide();
+		 					
+		 				<?php
+		 			}
 				 			
-				 				?>
-				 						
-				 					$('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> label[for="field_<?php echo $kino_fields['role-kabaret-real']; ?>"]').hide();
-				 					
-				 				<?php
-				 			}
-				 			
-				 			if ( !empty($kino_real_kab_notification) ) {
-				 						
-				 						?>
-				 							 $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> p.description').prepend('<?php echo $kino_real_kab_notification; ?>');
-				 							<?php
-				 			} 	
+		 			if ( !empty($kino_real_kab_notification) ) {
+		 						
+		 						?>
+		 							 $('#profile-edit-form div.field_<?php echo $kino_fields['role-kabaret']; ?> p.description').prepend('<?php echo $kino_real_kab_notification; ?>');
+		 							<?php
+		 			}
 				 				
 				} // if user = subscriber
 				
 				
 				// Interaction: 
 				// montrer les Checkbox si Realisateur est "Checked":
+		?>
 					
-					?>
-					
-					$("input#field_<?php echo $kino_fields['role-kabaret-real']; ?>").click(function() {
-					    if($(this).is(":checked")) // "this" refers to the element that fired the event
-					    {
-					        // show fields
-					        
-					        $('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').show();
-					        $('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').show();
-					        $('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').show();
-					        
-					        // require validation
-					        $("#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?> select").attr('data-validation', 'required');
-					        $("#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?> select").attr('data-validation', 'required');
-					        $("#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?> select").attr('data-validation', 'required');
-					        
-					    } else {
+				$("input#field_<?php echo $kino_fields['role-kabaret-real']; ?>").click(function() {
+				    if($(this).is(":checked")) // "this" refers to the element that fired the event
+				    {
+				        // show fields
+				        
+				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').show();
+				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').show();
+				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').show();
+				        $('#profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').show();
+				        
+				        // require validation
+				        $("#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?> select").attr('data-validation', 'required');
+				        $("#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?> select").attr('data-validation', 'required');
+				        $("#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?> select").attr('data-validation', 'required');
+				        
+				    } else {
 					    		
-					    		// hide fields
-					    		
-					    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').hide();
-					    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').hide();
-					    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').hide();
-					    		// remove validation
-					    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?> select").removeAttr('data-validation');
-					    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?> select").removeAttr('data-validation');
-					    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?> select").removeAttr('data-validation');
+			    		// hide fields
+			    		
+			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>').hide();
+			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>').hide();
+			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>').hide();
+			    		$('#profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime']; ?>').hide();
+			    		// remove validation
+			    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?> select").removeAttr('data-validation');
+			    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?> select").removeAttr('data-validation');
+			    		$("#profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?> select").removeAttr('data-validation');
 					    }
 					});
 					
-					<?php
+		<?php
 
 
  		} // END if edit group ID 17 - Kino Kabaret 2017
  		
- 
    		
    		/*
    		 * Mixpanel Link Tracking Code:
@@ -592,15 +845,13 @@ jQuery(document).ready(function($){
    		 	?>
    		  mixpanel.track_links('#button-nav li a', 'Clicked Edit Profile');
    		  <?php 
-   		 
-   		 }
-   		 
+   		 } 
    		  ?>
 
- });
- </script>
- <?php 
- 
+});
+</script>
+<?php 
+
  		// Conditional CSS styles for Kino Kabaret 2017
  		// NOTE: We use inline CSS to prevent delay
  		
@@ -623,7 +874,7 @@ jQuery(document).ready(function($){
  				</style>
  				<?php
  			}
- 			if (!in_array( "comedien", $kino_user_role )) { 				
+ 			if (!in_array( "comedien", $kino_user_role )) {				
  				?>
  				<style type="text/css">
  				 #buddypress div.field_<?php echo $kino_fields['role-kabaret']; ?> label[for=field_<?php echo $kino_fields['role-kabaret-comed']; ?>] {
@@ -640,7 +891,16 @@ jQuery(document).ready(function($){
  				}
  				</style>
  				<?php
- 			} // technicien
+ 			} // bénévole
+ 			if (!in_array( "benevole", $kino_user_role )) {
+ 				?>
+ 				<style type="text/css">
+ 				#buddypress div.field_<?php echo $kino_fields['role-kabaret']; ?> label[for=field_<?php echo $kino_fields['role-kabaret-bene']; ?>] {
+ 					display: none;
+ 				}
+ 				</style>
+ 				<?php
+ 			} // bénévole
  			
  			
  			/*
@@ -664,7 +924,9 @@ jQuery(document).ready(function($){
  					<style type="text/css">
  					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-un']; ?>,
  					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-deux']; ?>,
- 					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?> {
+ 					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-trois']; ?>,
+ 					 #buddypress #profile-edit-form div.field_<?php echo $kino_fields['session-geneve-je-taime']; ?>
+ 					  {
  					 	display:none;
  					 }
  					</style>
@@ -672,6 +934,15 @@ jQuery(document).ready(function($){
  				}
  			
  		} // end profile group #17
-
- 
-  ?>
+ 		
+ 		
+//cacher le dernier onglet
+/*
+<style type="text/css">
+#buddypress ul.button-nav li:last-child,
+#buddypress #profile-edit-form .editfield.field_2097 {
+	display:none;
+}
+</style>
+*/
+?>

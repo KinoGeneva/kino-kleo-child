@@ -59,7 +59,7 @@
 	      				$kino_session_attrib = mb_substr($kino_session_attrib, 0, 9);
 	      				if (!empty($kino_session_attrib) ) {
 	      					echo '<span class="kp-pointlist"><b>'.ucfirst($kino_session_attrib).'</b></span>';
-	      				}
+	      				}	      				
 	      			}	
       				
       				if ( $user->ID == 420 ) {
@@ -110,7 +110,7 @@
       			// Participe commme Réal Plateforme ?	
       			// ********************
       			
-      			if ( in_array( "real-platform-valid", $kino_user_role ) ) {          				            				
+      			if ( in_array( "real-platform-valid", $kino_user_role ) ) {      				            				
     				  echo '<td class="success">Accepté</td>';
     				  
     				  // add checkbox!
@@ -163,6 +163,30 @@
     					echo '<td></td>';
     				}
       			
+      			//Session GE t’aime
+      			echo '<td>';
+      			echo bp_get_profile_field_data( array(
+	      			'field'   => $kino_fields['session-geneve-je-taime'],
+	      			'user_id' => $user->ID
+	      		) );
+      			echo '</td>';
+      			
+      			//Scénario d’un autre
+      			echo '<td>';
+      			echo bp_get_profile_field_data( array(
+	      			'field'   => $kino_fields['real-scenar-other'],
+	      			'user_id' => $user->ID
+	      		) );
+      			echo '</td>';
+      			
+      			//Atelier écriture
+      			echo '<td>';
+      			echo bp_get_profile_field_data( array(
+	      			'field'   => $kino_fields['real-coaching'] ,
+	      			'user_id' => $user->ID
+	      		) );
+      			echo '</td>';
+      			
       			// Profil complet ?	
       			// ********************
       			
@@ -210,7 +234,7 @@
       			 			echo '<a class="admin-action pending-accept" data-action="kabaret-session1">session 1</a>';
       			 			echo '<a class="admin-action pending-accept" data-action="kabaret-session2">session 2</a>';
       			 			echo '<a class="admin-action pending-accept" data-action="kabaret-session3">session 3</a>';
-      			 			echo '<a class="admin-action pending-accept" data-action="kabaret-sessions8">super 8</a>';
+      			 			//echo '<a class="admin-action pending-accept" data-action="kabaret-sessions8">super 8</a>';
       			 		echo '</td>'; 
       			 		
       			 } 

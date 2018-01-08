@@ -1,15 +1,7 @@
 <?php
-/**
- * The template for displaying all pages
- *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages and that
- * other 'pages' on your WordPress site will use a different template.
- *
- * @package Wordpress
- * @subpackage Kleo
- * @since Kleo 1.0
- */
+/* dépend de buddypress, bp-groups
+ * affiche les projets (bp-groups) et leurs besoins (post)
+ * copie et modif du template de kleo-child > buddypress > groups > groups-loop.php */
 
 get_header(); ?>
 
@@ -17,227 +9,197 @@ get_header(); ?>
 
 <?php get_template_part('page-parts/general-before-wrap'); ?>
 
-<?php 
-//recherche de tous les groupes associés à un article
-if ( bp_has_groups()) {
-	$fiche_projet_groups_id = array();
-	$include_post_ids = array();
+<div id="buddypress">
+<div id="groups-dir-list" class="groups dir-list">
+
+<?php
+//recherche des projets et de la valeur meta du portfolio associé
+$portfolio_ids = array();
+
+if ( bp_has_groups( bp_ajax_querystring( 'groups' ). '&per_page=100' ) ) {
 	while ( bp_groups() ) {
 		bp_the_group();
-		$groupid = bp_get_group_id();
-		//echo 'test:'. bp_get_group_id() .'<br/>';
-		$fiche_groupe_id = groups_get_groupmeta($groupid, 'fiche-projet-post-id');
-		if($fiche_groupe_id){
-			//$fiche_projet_groups_id[$fiche_groupe_id] = bp_get_group_id();
-			$include_post_ids[$groupid] = $fiche_groupe_id;
+		$group_id = bp_get_group_id();
+				
+		if($portfolio_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id')){
+			$portfolio_ids[$group_id] = $portfolio_id;
 		}
 	 }
-	 //print_r($include_post_ids);
 }
 
-//tous les articles qui sont associés à un projet (BP group) 
-$projets_post = get_posts(array(
-	'posts_per_page'	=> -1,
-	'post_type'			=> 'post',
-	'include' => $include_post_ids
-	//'meta_query' => $meta_query 
-));
+//affiche les filtres de recherche
 
-/*
-echo '<pre>';
-print_r($projets_post);
-echo '</pre>';
-*/
+get_template_part('page-parts/besoins-search');
 
-if ( $projets_post ) {
-$p = 1;
-    foreach ( $projets_post as $post ) {
-        setup_postdata( $post ); 
 
-		//$groupid = array_search( $post->ID , $include_post_ids );
-		
-		//une ligne tous les 2 projets
-		if($p % 2 ==1){
-			echo '<div class="row">';
-		}
-		?>
-		
-		<div class="col-sm-6 projet" style="border-left: 1px solid #E5E5E5; margin-bottom: 20px;">		
+$feed_back = '';
 
-		<?php
+//test sur la recherche de l'utilisateur
+//la recherche dans la BDD avec un meta_query sur un grand nombre de données meta etant trop lourde, on test d'abord les différents champs pour sélectionner les ids à rechercher dans la BDD
+$include_portfolio_ids = array();
+if(	!empty( $_POST ) ){
+	/*
+	echo '<pre>';
+	print_r($_POST);
+	echo '</pre>';
+	*/
+	foreach( $portfolio_ids as $group_id => $portfolio_id){
+		//get ACF data
+		$portfolio_fields = get_fields($portfolio_id);
 		/*
-		$project_values = array();
-		$project_values = get_post_meta( $post->ID );
-		* */
-		?>
-		
-		<h2><?php the_title(); ?></a></h2>
-		Un film de <span class="strong">
-		<?php 
-		$id_real = get_field('realisateur')['ID'];
-		echo bp_core_get_user_displayname($id_real) .' | ';
-		the_field('duree'); ?> | <?php the_field('genre'); 
-		echo '</span>';
-		
-		//obtenir la session automatiquement
-		$sessions_terms = get_terms( array(
-			'taxonomy' => 'user-group',
-			'name__like' => 'session' ,
-			'fields' => 'names',
-		) );
-		$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
-		
-		echo '<h3 class="red">'. current( ( array_intersect( $sessions_terms,$user_terms ) ) ) .'</h3>';
-		?>
-		
-		
-		<?php
-		if(get_field('besoin_equipe')){
-			echo '<h4>Équipe</h4>
-			<div><ul>';
-			foreach(get_field('besoin_equipe') as $need){
-				echo '<li>'. $need .'</li>';
+		echo '<pre>';
+		print_r($portfolio_fields);
+		echo '</pre>';
+		*/
+		//recherche de besoin en équipe
+		if( !empty( $_POST['besoin_equipe'] ) ){
+			if(!empty($portfolio_fields['besoin_equipe'])  && in_array($_POST['besoin_equipe'], $portfolio_fields['besoin_equipe'])){
+				$include_portfolio_ids[$group_id] = $portfolio_id;
 			}
-			echo '</ul>
-			</div>';
 		}
-		?>
-
-		<?php
-		if( have_rows('besoin_comediens') ){
-			echo '<h4>Casting</h4>
-			<div><ul>';
-			while ( have_rows('besoin_comediens') )  {
-				the_row();
-				$casting = array();
-				if(get_sub_field('besoin_comedien_sexe') && get_sub_field('besoin_comedien_sexe')!='Indifférent'){
-					$casting[] = get_sub_field('besoin_comedien_sexe');
-				}
-
-				if(get_sub_field('besoin_comedien_age_minimum') && get_sub_field('besoin_comedien_age_maximum')) {
-					$casting[] = 'âge caméra de '. get_sub_field('besoin_comedien_age_minimum') .' à '. get_sub_field('besoin_comedien_age_maximum') .' ans';
-				}
-				
-				if(get_sub_field('besoin_comedien_cheveux') && get_sub_field('besoin_comedien_cheveux')!='Indifférent'){
-					$casting[] = 'cheveux '. get_sub_field('besoin_comedien_cheveux');
-				}
-				
-				if(get_sub_field('besoin_comedien_yeux') && get_sub_field('besoin_comedien_yeux')!='Indifférent'){
-					$casting[] = 'Yeux '. get_sub_field('besoin_comedien_yeux');
-				}
-				
-				if(get_sub_field('besoin_comedien_langues_jouees')){
-					$casting[] = 'parlant '. implode(' + ', get_sub_field('besoin_comedien_langues_jouees'));
-				}
-				
-				if(get_sub_field('besoin_comedien_talents')){
-					$casting[] = implode(', ', get_sub_field('besoin_comedien_talents'));
-				}
-				
-				//display casting
-				echo '<li>';
-				foreach($casting as $n => $need){
-					$need = strtolower($need);
-					if($n == 0){
-						echo ucfirst($need);
+		
+		//recherche de besoin en comédien 
+		if( !empty($_POST['besoin_comedien_sexe']) || !empty($_POST['besoin_comedien_age_minimum']) || !empty($_POST['besoin_comedien_age_maximum'])) {
+			if(!empty($portfolio_fields['besoin_comediens'] ) ) {
+				foreach( $portfolio_fields['besoin_comediens'] as $key => $values){
+					//sexe
+					if(!empty($_POST['besoin_comedien_sexe'])){
+						if( $_POST['besoin_comedien_sexe'] == $values['besoin_comedien_sexe'] ) {
+							$include_portfolio_ids[$group_id] = $portfolio_id;
+						}
+					}
+					//age
+					if(!empty($_POST['besoin_comedien_age_minimum']) && !empty($_POST['besoin_comedien_age_maximum'])){
+						if(( $_POST['besoin_comedien_age_minimum'] >= $values['besoin_comedien_age_minimum'] ||  empty($values['besoin_comedien_age_minimum']) ) && ($_POST['besoin_comedien_age_maximum'] <= $values['besoin_comedien_age_maximum']  || empty($values['besoin_comedien_age_maximum']) )) {
+							$include_portfolio_ids[$group_id] = $portfolio_id;
+							}
 					}
 					else {
-						echo $need;
+						//age minimum
+						if( !empty($_POST['besoin_comedien_age_minimum']) ){
+							if( $_POST['besoin_comedien_age_minimum'] >= $values['besoin_comedien_age_minimum'] ||  empty($values['besoin_comedien_age_minimum'])) {
+								$include_portfolio_ids[$group_id] = $portfolio_id;
+							}
+						}
+						//age maximum
+						if(!empty($_POST['besoin_comedien_age_maximum'])) {
+							if( $_POST['besoin_comedien_age_maximum'] <= $values['besoin_comedien_age_maximum']  || empty($values['besoin_comedien_age_maximum']) ){
+								$include_portfolio_ids[$group_id] = $portfolio_id;
+							}
+						}
 					}
-					if($n < (count($casting)-1)){
-						echo ', ';
-					}
 				}
-				echo '</li>';
 			}
-			echo '</ul></div>';
 		}
-		?>
-
-		<?php
-		if(get_field('casting_et_direction_acteur')) {
-			echo "<h4>Casting et direction d'acteur</h4>";
-		}
-		?>
 		
-		<?php 
-		if(get_field('besoin_lieux_de_tournage')){
-			echo '<h4>Lieux de tournage</h4><div>';
-			the_field('besoin_lieux_de_tournage');
-			$images = get_field('besoin_lieux_de_tournage_photos');
-
-			if( $images ) {
-				foreach( $images as $image ) {
-					echo '
-					<div class="image">
-						<a href="'. $image['url'] .'">
-							 <img src="'. $image['sizes']['thumbnail'] .'" alt="'. $image['alt'] .'" />
-						</a>
-					</div>';
+		//'casting_et_direction_acteur'
+		if(!empty( $_POST['casting_et_direction_acteur'] )){
+			if( !empty($portfolio_fields['casting_et_direction_acteur'] ) ){
+				if($_POST['casting_et_direction_acteur'] == $portfolio_fields['casting_et_direction_acteur']){
+					$include_portfolio_ids[$group_id] = $portfolio_id;
 				}
-
 			}
-			echo '<div style="clear: both"></div></div>';
 		}
-		?>
-		 
-		 <?php 
-		if(get_field('besoin_accessoires')){
-			echo '<h4>Accessoires</h4><div>';
-			the_field('besoin_accessoires');
-			echo '</div>';
-		}
-		 ?>
 		
-		 <?php 
-		if(get_field('besoin_costumes')){
-			echo '<h4>Costumes</h4><div>';
-			the_field('besoin_costumes');
-			echo '</div>';
+		//'besoin_maquillage'
+		if( !empty( $_POST['besoin_maquillage'] ) ){
+			if( !empty($portfolio_fields['besoin_maquillage']) && $_POST['besoin_maquillage'] == $portfolio_fields['besoin_maquillage']){
+				$include_portfolio_ids[$group_id] = $portfolio_id;
+			}
 		}
-		 ?>
-
 		
-			<?php
-			//besoin_maquillage
-			if(get_field('besoin_maquillage')) {
-				echo '<h4>Maquillage</h4>
-				<div><ul>';
-				if(get_field('maquillage_1')) {
-					echo '<li>'. get_field('maquillage_1') .' comédien(s) | naturel | PAT '. get_field('jour_et_horaire_pat_1') .'</li>';
-				}
-				if(get_field('maquillage_2')) {
-					echo '<li>'. get_field('maquillage_2') . ' comédien(s) | soutenu | PAT '. get_field('jour_et_horaire_pat_2') .'</li>';
-				}
-				if(get_field('maquillage_3')) {
-					echo '<li>'. get_field('maquillage_3') .' comédien(s) | vieillir | PAT '. get_field('jour_et_horaire_pat_3') .'</li>';
-				}
-				if(get_field('maquillage_4')) {
-					echo '<li>'. get_field('maquillage_4') .' comédien(s) | FX | PAT '. get_field('jour_et_horaire_pat_4') .'</li>';
-				}
-				echo '</ul></div>';
+		//'besoin_coiffure'
+		if( !empty( $_POST['besoin_coiffure'] ) ){
+			if(!empty($portfolio_fields['besoin_coiffure']) && $_POST['besoin_coiffure'] == $portfolio_fields['besoin_coiffure']){
+				$include_portfolio_ids[$group_id] = $portfolio_id;
 			}
-			?>
-	
-			<?php
-			if(get_field('besoin_coiffure')) {
-				echo '<h4>Coiffure</h4>';
-				echo '<div>'. get_field('coiffure_nombre_de_comedien') .' comédien(s) | coiffure type '. get_field('type_de_coiffure') .' | PAT: '. get_field('coiffure_jour_et_horaire_pat') .'<br/></div>';
-			}
-			?>
-		</div>
-			
-		<?php
-		//une ligne tous les 2 projets
-		if($p % 2 ==0){
-			echo '</div>';
 		}
-		$p++;
 	}
+	//fin de la recherche POST: y a t'il des portfolio qui correspondent?
+	if(empty($include_portfolio_ids)){
+		$feed_back.= "Aucun projet n'a les besoins que vous avez sélectionnés. ";
+		//$include_portfolio_ids = $portfolio_ids;
+	}
+}
+if(empty($include_portfolio_ids)){
+	$include_portfolio_ids = $portfolio_ids;
+}
+
+//récupère les portfolios qui sont associés à un projet (BP group) /qui correspondent à la recherche de l'utilisateur/ et qui sont en mode "draft" (= édition en cours, film non publié)
+$projets_portfolio = array();
+if(!empty($include_portfolio_ids)){
+	$projets_portfolio = get_posts(array(
+		'posts_per_page'	=> -1,
+		'post_type'			=> 'portfolio',
+		'post_status'		=> 'draft',
+		'include' => $include_portfolio_ids,
+	));
+	if(empty($projets_portfolio)){
+		$feed_back.=  "Aucun projet en cours. ";
+	}
+	else {
+		$feed_back.= 'Affichage de '. count($projets_portfolio) .' projets. ';
+	}
+}
+
+//template groups-loop.php
+?>
+
+<div class="pagination">
+	<div class="pag-count" id="group-dir-count-top">
+		<?php
+		if(isset($feed_back)){
+			echo $feed_back;
+		}
+		?>
+		
+	</div>
+</div>
+
+<ul id="groups-list" class="item-list kleo-isotope masonry">
+
+<?php
+
+//affiche les projets
+foreach ( $projets_portfolio as $portfolio ) {
+
+	setup_postdata( $portfolio );
+
+	$portfolio_id = $portfolio->ID;
+	$group_id = array_search( $portfolio_id , $include_portfolio_ids );
+	//echo '<h3>'. $group_id .'</h3>';
+
+	
+	$portfolio_fields = get_fields($portfolio_id);
+	
+	get_template_part('page-parts/besoins-single-projet');
+	//echo 'projet affiché';
 	wp_reset_postdata();
 }
 ?>
+</ul>
 
+<script>
+jQuery(document).ready(function($){	
+		//toogle
+		$('.toogleneed').next().hide();
+		$('.toogleneed').click(function() {
+			$(this).next().toggle(200);
+			
+			//effacer les champs
+			$(':input','#formneed')
+			  .removeAttr('checked')
+			  .removeAttr('selected')
+			  .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+			  .val('');
+			  
+			return false;
+        
+    });
+});
+</script>
+
+</div></div>
 
 <?php get_template_part('page-parts/general-after-wrap'); ?>
 

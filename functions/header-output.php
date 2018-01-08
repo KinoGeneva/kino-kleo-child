@@ -55,7 +55,6 @@ function kino_wp_head(){
     	
     	// Hide Membres & My account
     	?>
-    	 #menu-item-1795,
     	 #menu-item-633 {
     		display: none;
     	}
@@ -81,7 +80,6 @@ function kino_wp_head(){
     if ( !current_user_can( 'publish_pages' ) ) {
     	// Hide Admin , Recherche = 2011, Impression = 2012
     	?>
-    	#menu-item-2045,
     	.top-menu .kino-menu-hidden
     	 {
     		display: none;

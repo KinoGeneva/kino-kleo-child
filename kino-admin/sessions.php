@@ -1,6 +1,16 @@
 <?php
 /**
- * Un template pour les Sessions
+ * page kino-admin pour afficher et modifier les sessions attribuées aux réalisateurs validés
+ * modif 22.11.2017
+ * commit liés:
+ * /wp-content/plugins/kinogeneva-settings/buddypress/bp-fields.php 
+ * ajout des clé numériques mailpoet
+ * 
+ * /wp-content/plugins/kinogeneva-settings/mailpoet-add.php
+ * ajout d'une fonction pour supprimer de plusieurs listes en même temps
+ * 
+ * /wp-content/themes/kleo-child/kino-admin/sessions-loop.php
+ * suppression de la session super8
  */
 ?>
 
@@ -25,7 +35,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         $kino_fields = kino_test_fields();
         
-        $ids_real_kabaret_accepted = get_objects_in_term( 
+        $ids_real_kabaret_accepted = get_objects_in_term(
         	$kino_fields['group-real-kabaret'] , 
         	'user-group' 
         );
@@ -53,226 +63,78 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	'user-group' 
         );
         
-        $ids_real_kabaret_accepted = array_filter($ids_real_kabaret_accepted);
+        //on cherche les kinoïtes dans chaque session
+        $kinoites_session_all = array();
+        $kinoites_session_sans = array();
         
-        // user query
-        //***************************************
+        foreach($ids_real_kabaret_accepted as $id) {
+			$user_fields = kino_user_fields_superlight( get_user_by('id', $id), $kino_fields );
+
+			//3 sessions
+			for ($i = 1; $i <= 3; $i++) {
+				$kino_title_session = 'ids_real_session'. $i;
+				if ( in_array( $id , $$kino_title_session) ) {
+					$kinoites_session_all[$i][] = $user_fields;
+				}
+			}
+			ksort($kinoites_session_all);
+
+			//sans session
+			if ( !in_array( $id , $ids_real_session1) &&  !in_array( $id , $ids_real_session2) &&  !in_array( $id , $ids_real_session3)){
+				$kinoites_session_sans[] = $user_fields;
+			}
+			
+		}
         
-        $user_query = new WP_User_Query( array( 
-        	'include' => $ids_real_kabaret_accepted, // IDs incluses 
-        	'orderby' => 'registered',
-        	'order' => 'DESC' 
-        ) );
-        
-        if ( ! empty( $user_query->results ) ) {
-        	foreach ( $user_query->results as $user ) {
-        			
-        			// infos about WP_user object
-        			$id = $user->ID ;
-        			/*
-        			// test session info
-        			$kino_session_attrib = bp_get_profile_field_data( array(
-        					'field'   => $kino_fields['session-attribuee'],
-        					'user_id' => $id
-        			) );
-        			$kino_session_short = mb_substr($kino_session_attrib, 0, 9);
-        			*/
-        			
-        			if ( in_array( $id , $ids_real_session1) ) {
-						$kino_session_un_title = 'session 1';  				            				
-			          	$kinoites_session_un[] = kino_user_fields_superlight( $user, $kino_fields );
-		          		//Add and remove to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							$mailpoet_id = getMailpoetId($id);
-							kino_add_to_mailpoet_list( 
-								$mailpoet_id, 
-								$kino_fields['mailpoet-session-un'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-deux'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-trois'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-superhuit'] 
-							);
-						}
-			         }
-			         if ( in_array( $id , $ids_real_session2) ) {
-						$kino_session_deux_title = 'session 2';  				            				
-			          	$kinoites_session_deux[] = kino_user_fields_superlight( $user, $kino_fields );
-			          	//Add to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							$mailpoet_id = getMailpoetId($id);
-							kino_add_to_mailpoet_list( 
-								$mailpoet_id, 
-								$kino_fields['mailpoet-session-deux'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-un'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-trois'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-superhuit'] 
-							);
-						}
-			         }
-			         if ( in_array( $id , $ids_real_session3) ) {
-						$kino_session_trois_title = 'session 3';  				            				
-			          	$kinoites_session_trois[] = kino_user_fields_superlight( $user, $kino_fields );
-			          	//Add to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							$mailpoet_id = getMailpoetId($id);
-							kino_add_to_mailpoet_list( 
-								$mailpoet_id, 
-								$kino_fields['mailpoet-session-trois'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-un'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-deux'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-superhuit'] 
-							);
-						}
-			         }
-			         if ( in_array( $id , $ids_real_sessions8) ) {
-						$kino_session_superhuit_title = 'session super huit';  				            				
-			          	$kinoites_session_superhuit[] = kino_user_fields_superlight( $user, $kino_fields );
-			          	//Add to Mailpoet List si id trouvé
-						if(getMailpoetId($id)){
-							$mailpoet_id = getMailpoetId($id);
-							kino_add_to_mailpoet_list( 
-								$mailpoet_id, 
-								$kino_fields['mailpoet-session-superhuit'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-un'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-deux'] 
-							);
-							kino_remove_from_mailpoet_list( 
-								$mailpoet_id,  
-								$kino_fields['mailpoet-session-trois'] 
-							);
-						}
-			         }
-			         if ( !in_array( $id , $ids_real_sessions8) &&  !in_array( $id , $ids_real_session1) &&  !in_array( $id , $ids_real_session2) &&  !in_array( $id , $ids_real_session3)){
-						$kino_session_sans_title = "sans session";
-						$kinoites_session_sans[] = kino_user_fields_superlight( $user, $kino_fields );
-					}	
-        		
-        			/*if ( $kino_session_short == 'session 1' ) {
-        				$kino_session_un_title = $kino_session_attrib;
-        				$kinoites_session_un[] = kino_user_fields_superlight( $user, $kino_fields );
-        				
-        			} else if ( $kino_session_short == 'session 2' ) {
-        				
-        				$kino_session_deux_title = $kino_session_attrib;
-        				$kinoites_session_deux[] = kino_user_fields_superlight( $user, $kino_fields );
-        				
-        			} else if ( $kino_session_short == 'session 3' ) {
-        				
-        				$kino_session_trois_title = $kino_session_attrib;
-        				$kinoites_session_trois[] = kino_user_fields_superlight( $user, $kino_fields );
-        				
-        			} else if ( $kino_session_short == 'session 4' ) {
-        			
-        				$kino_session_superhuit_title = $kino_session_attrib;
-        				$kinoites_session_superhuit[] = kino_user_fields_superlight( $user, $kino_fields );
-        			
-        			} else {
-						$kino_session_superhuit_title = "sans session";
-						$kinoites_session_sans[] = kino_user_fields_superlight( $user, $kino_fields );
-					}*/
-        			// end session testing
-        			
-        	} // End foreach
-        } // End testing User_Query
-        //***************************************
-        
-        $kino_session_table_header = '<table class="table table-hover table-bordered table-condensed pending-form">
-        	<thead>
-        		<tr>
-        			<th>#</th>
-        			<th>Nom</th>
+        //affichage
+        /* la classe pending-form permet d'enclencher le script dans /wp-content/themes/kleo-child/js/kino-admin.js
+         * => ajout et suppression des groupes d'utilisateurs buddypress
+         * voir aussi /wp-content/plugins/kinogeneva-settings/ajax.php
+         */
+         //on créé un tbody avec un identifiant unique pour refléter le changement de session en affichant le réal dans le nouveau tableau
+         function kino_session_table_header($session) {
+			echo '<table class="table table-hover table-bordered table-condensed pending-form">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nom</th>
 					<th>Email</th>
 					<th>Changement de session</th>
-        		</tr>
-        	</thead>
-        	<tbody>';
-        
-        // OUTPUT!
-        if ( !empty($kinoites_session_un) ) {
-        	echo '<h2>'.count($kinoites_session_un).' réalisateurs-trices en '.$kino_session_un_title.':</h2>';
-	        echo $kino_session_table_header;
-        	$metronom = 1;
-    				foreach ($kinoites_session_un as $key => $item) {
-    						include('sessions-loop.php');
-    				}
-        	echo '</tbody></table>';
-        }
-        // Session 2
-        if ( !empty($kinoites_session_deux) ) {
-        	echo '<h2>'.count($kinoites_session_deux).' réalisateurs-trices en '.$kino_session_deux_title.':</h2>';
-          echo $kino_session_table_header;
-        	$metronom = 1;
-        		foreach ($kinoites_session_deux as $key => $item) {
-        				include('sessions-loop.php');
-        		}
-        	echo '</tbody></table>';
-        }
-        // Session 3
-        if ( !empty($kinoites_session_trois) ) {
-        	echo '<h2>'.count($kinoites_session_trois).' réalisateurs-trices en '.$kino_session_trois_title.':</h2>';
-          echo $kino_session_table_header;
-        	$metronom = 1;
-        		foreach ($kinoites_session_trois as $key => $item) {
-        				include('sessions-loop.php');
-        		}
-        	echo '</tbody></table>';
-        }
-        // Session 4
-        if ( !empty($kinoites_session_superhuit) ) {
-        	echo '<h2>'.count($kinoites_session_superhuit).' réalisateurs-trices en '.$kino_session_superhuit_title.':</h2>';
-          echo $kino_session_table_header;
-        	$metronom = 1;
-        		foreach ($kinoites_session_superhuit as $key => $item) {
-        				include('sessions-loop.php');
-        		}
-        	echo '</tbody></table>';
-        }
-        //sans session
-        if ( !empty($kinoites_session_sans) ) {
-        	echo '<h2>'.count($kinoites_session_sans).' réalisateurs-trices sans session attribuée:</h2>';
-          echo $kino_session_table_header;
-        	$metronom = 1;
-        		foreach ($kinoites_session_sans as $key => $item) {
-        				include('sessions-loop.php');
-        		}
-        	echo '</tbody></table>';
-        }
-         ?>
-        
+				</tr>
+			</thead>
+		<tbody id="session'. $session .'">';
+		}
+		
+		//3 sessions
+		foreach($kinoites_session_all as $session => $kinoites_session) {
+			echo '<h2>'. count($kinoites_session) .' réalisateurs-trices en session '. $session .':</h2>';
+			kino_session_table_header($session);
+			if(!empty($kinoites_session)){
+				
+				$metronom = 1;
+					foreach ($kinoites_session as $key => $item) {
+						include('sessions-loop.php');
+					}
+			}
+			echo '
+				</tbody></table>';
+		}
+		
+		//sans session
+		echo '<h2>'. count($kinoites_session_sans) .' réalisateurs-trices sans session attribuée:</h2>';
+		$session = 0;
+		if(!empty($kinoites_session_sans)){
+			kino_session_table_header($session);
+			$metronom = 1;
+				foreach ($kinoites_session_sans as $key => $item) {
+					include('sessions-loop.php');
+				}
+			echo '
+			</tbody></table>';
+		}        
+?>
+
     </div><!--end article-content-->
 
-    <?php  ?>
 </article>
 <!-- End  Article -->

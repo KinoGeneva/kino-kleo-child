@@ -114,7 +114,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	 					$metronom = 1;
 	 					$kino_show_validation = 'plateforme';
 	 					echo '<h2>En attente: Réalisateurs Plateforme ('.count($user_query->results).')</h2>';
-	 					echo kino_table_header($kino_show_validation);
+	 					echo kino_table_header($kino_show_validation, 'real-pending-plateforme');
 	 					foreach ( $user_query->results as $user ) {
 	 						include('validation-real-loop.php');
 	 					}
@@ -193,3 +193,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
     <?php  ?>
 </article>
 <!-- End  Article -->
+<?php 
+kino_js_tablesort("real-pending-plateforme");
+
+?>
+

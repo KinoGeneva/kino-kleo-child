@@ -30,7 +30,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         $kino_fields = kino_test_fields();
         
-        // Kinoites qui cherchent un logement
+        // Kinoites bénévoles
         $kinoites_benevoles = array();
 
 				$ids_of_benevoles = get_objects_in_term( 
@@ -38,7 +38,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 					'user-group' 
 				);
 				
-				// tester aussi si la personne participe au Kabaret 2017 :
+				// tester aussi si la personne participe au Kabaret
 				
 				$ids_of_participants = get_objects_in_term( 
 					$kino_fields['group-kino-pending'] , 
@@ -56,7 +56,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				
 //				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_participants );
 				
-				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_complete );
+				//$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_complete );
 				
 //				echo '<pre>$ids_of_benevoles:';
 //				var_dump($ids_of_benevoles);
@@ -69,7 +69,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         
         // user query 1
         //***************************************
-        
+        /*
         if ( !empty($ids_of_benevoles) ) {
         
 	        $user_query = new WP_User_Query( array( 
@@ -93,21 +93,19 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 //        	);
         
         }
-        
+        */
         // Function to generate users
-        // kino_user_fields_logement()
+        // kino_user_fields_benevoles()
         // in : bp-user-fields.php
         
-        if ( ! empty( $user_query->results ) ) {
-        	foreach ( $user_query->results as $user ) {
-        		
-        		// infos about WP_user object
-        		$kino_userid = $user->ID ;
+        //if ( ! empty( $user_query->results ) ) {
+        if( ! empty( $ids_of_benevoles ) ) {
+        	foreach ( $ids_of_benevoles as $kino_userid ) {
         		
         		// $kinoite_participation = kino_user_participation( $kino_userid, $kino_fields );
         		
         			// add to array
-        			$kinoites_benevoles[] = kino_user_fields_logement( $user, $kino_fields );
+        			$kinoites_benevoles[] = kino_user_fields_benevoles( get_user_by('id', $kino_userid), $kino_fields );
         			
         			// 	    
         			
@@ -125,25 +123,31 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         // ***********************************
         
         if ( !empty($kinoites_benevoles) ) {
-        	echo '<h2>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=benevoles-kabaret">Bénévoles</a> ('.count($kinoites_benevoles).'):</h2>';
+        	echo '<h2>Gestion des bénévoles Kabaret</h2>
+        	<h3>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=benevoles-kabaret">Bénévoles</a> ('.count($kinoites_benevoles).'):</h3>';
         	
         	echo '<p>Liste des kinoïtes bénévoles ayant coché "l’organisation du Kino Kabaret".';
         	
         	?>
-        	<table id="gestion-benevoles" class="table table-hover table-bordered table-condensed">
+        	<table id="gestion-benevoles" class="table table-hover table-bordered table-condensed pending-form">
         		<thead>
           		<tr>
           			<th>#</th>
           			<th>Nom</th>
-          			<th>Real?</th>
+          			<?php //<th>Real?</th> ?>
           			<th>Rôle Kino</th>
-          			<th>Fonction?</th>
-          			<th>Choix admin</th>
-          			<th>Activités Kino?</th>
+          			<?php //<th>Fonction?</th> ?>
+          			<?php //<th>Choix admin</th> ?>
+          			<?php //<th>Activités Kino?</th> ?>
+          			<th>Dispo</th>
+          			<th>Dispo partielle</th>
           			<th>Adresse</th>
-        		    <th>Email / Tel.</th>
-        		    <th>Inscription Kabaret</th>
-        		    <th>Inscription bénévole</th>
+        		    <th>Email</th>
+        		    <th>Tél.</th>
+        		    <th>Véhicule?</th>
+        		    <th>Permis conduire?</th>
+        		    <th>Inscription</th>        		    
+        		    <th>Note</th>
           		</tr>
           	</thead>
           	<tbody>
@@ -168,7 +172,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 //        							);
         							
         						?>
-        						<tr>
+        						<tr class="pending-candidate" data-id="<?php echo $item["user-id"] ?>">
         							<th><?php echo $metronom++; ?></th>
         							<?php 
         							
@@ -177,7 +181,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							
         							// Real?
         							// ******************
-        							  							  								
+        							  /*							  								
 				  								if ( in_array( "real-kab-valid", $item["participation"] ) ) {          				            				
 				          				  echo '<td class="success">Approved</td>';
 				          				
@@ -194,7 +198,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				          					echo '<td></td>';
 				  								}
         							
-        							
+        							*/
         							// Rôles Kino
         							// ******************
         							
@@ -212,12 +216,17 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         								if ( in_array( "comedien-kab", $item["participation"] )) {
         									echo '<span class="kp-pointlist">Comédien-ne</span>';
         								}
+        								// Bénévole ?
+        								if ( in_array( "benevole-kab", $item["participation"] )) {
+        									echo '<span class="kp-pointlist">Bénévole</span>';
+        								}
         								
         							echo '</td>';
         							
         							// ******************
         							
         							// Fonction
+        							/*
         							echo '<td>';
         							if ( $item["benevole-fonction"] ) {
         										foreach ( $item["benevole-fonction"] as $key => $value) {
@@ -245,6 +254,19 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							}
         							
         							echo '</td>';
+        							*/
+        							//dispo
+        							echo '<td style="white-space:nowrap;">';
+        							if ( $item["dispo"] ) {
+        										foreach ( $item["dispo"] as $key => $value) {
+        											echo $value.'<br/>';
+        										}
+        							}
+        							echo '</td>';
+        							
+        							echo '<td>';
+									echo $item["dispo-partiel"];
+        							echo '</td>';
         							
         							// ******************
         							
@@ -252,11 +274,26 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							echo '<td>'.$item["rue"].', '.$item["code-postal"].' '.$item["ville"].', '.$item["pays"].'</td>';
         							
         							// Email
-        							?><td><a href="mailto:<?php echo $item["user-email"] ?>?Subject=Kino%20Kabaret" target="_top"><?php echo $item["user-email"] ?></a> - <?php echo $item["tel"] ?></td>
-        							
+        							?><td><a href="mailto:<?php echo $item["user-email"] ?>?Subject=Kino%20Kabaret" target="_top"><?php echo $item["user-email"] ?></a></td>
+										<td>
         					<?php
-        					
+									//tel
+									echo $item["tel"] ?>
+									</td>
+							<?php
+									//véhicule ?>
+									<td>
+							<?php echo $item["vehicule"] ?>
+									</td>
+									
+        					<?php
+									//permis de conduire ?>
+									<td>
+							<?php echo $item["permis"] ?>
+									</td>
+        					<?php
 									//date d'inscription kino
+									//date d'inscription bénévole
 									$user_timestamp_complete = get_user_meta( 
 										$item["user-id"], 
 										'kino_timestamp_complete_2017', 
@@ -265,10 +302,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 									$user_timestamp_complete = str_replace("T", " ", $user_timestamp_complete);
 									// supprimer secondes:
 									$user_timestamp_complete = substr($user_timestamp_complete, 0, 16);
-									echo '<td>'. $user_timestamp_complete .'</td>';
+									echo '<td>Kino: '. $user_timestamp_complete .'<br/>';
 									
-									//date d'inscription bénévole
-
 									$timestamp_benevole = get_user_meta( 
 										$item["user-id"], 
 										'kino_timestamp_benevole_2017', 
@@ -277,7 +312,16 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 									$timestamp_benevole = str_replace("T", " ", $timestamp_benevole);
 									// supprimer secondes:
 									$user_timestamp_complete = substr($user_timestamp_complete, 0, 16);
-									 echo '<td>'. $timestamp_benevole .'</td>';
+									echo 'Bénévole: '. $timestamp_benevole .'</td>';
+									
+									//note admin
+									echo '<td>';
+									$note_admin = get_user_meta( $item["user-id"], 'kino-admin-gestion-benevole-remarque', true );
+									echo '<div id="note_admin_'. $item["user-id"] .'_db">'. $note_admin .'</div>';
+									echo '<textarea id="note_admin_'. $item["user-id"] .'" rows="3" cols="20"></textarea>
+									<a class="admin-action pending-other" data-action="benevole-add-info">ajouter</a>';
+
+        							echo '</td>';
 									
 									// fin de la rangée
         					echo '</tr>';

@@ -26,7 +26,6 @@ if ( defined('WP_INSTALLING') && WP_INSTALLING == true && ! function_exists('kle
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	
 	<!-- Fav and touch icons -->
 	<?php if (sq_option_url('favicon')) { ?>

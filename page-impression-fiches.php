@@ -19,6 +19,8 @@
     <body>
 <?php
 
+if ( current_user_can( 'publish_pages' ) ) {
+
 $url = get_stylesheet_directory_uri();
 
 ?>
@@ -157,13 +159,23 @@ body {
 	padding-right: 0mm;
 }
 
+	
 /*
- * 170 - 140 : reste 30 
- */
+Largeur bloc calendrier
+Bloc total : 17 mm
+
+En 2018, 14 jours
+14 * 10 mm = 140 mm
+Marges: 2,3 mm
+Donc: 2mm
+13 * 2 = 26mm
+Total: 166mm
+
+*/
 
 .calendrier {
-	width: 156mm;
-	margin-left: 8.5mm;
+	width: 170mm;
+	margin-left: 0mm;
 	margin-top: 5mm;
 	margin-bottom: 5mm;
 }
@@ -179,7 +191,7 @@ body {
 	font-size: 18pt;
 	color: #fff;
 	width: 10mm;
-	margin-right: 3mm;
+	margin-right: 2mm;
 	text-align: center;
 	padding-top: 2mm;
 	padding-bottom: 1mm;
@@ -426,6 +438,18 @@ body {
 		
 
 	} // end $kinorole_var testing
+	
+	
+	// Retirer les comptes de test de la liste des ID
+	
+	$kino_test_accounts = kino_test_accounts();
+	
+	$ids_of_kino_participants = array_diff(
+		$ids_of_kino_participants, 
+		$kino_test_accounts
+	);
+	
+	
 	
 	$kinodate_var = ( get_query_var('kinodate') ) ? get_query_var('kinodate') : false;
 	
@@ -743,18 +767,20 @@ body {
         	 echo '<div class="calendrier-list">';
         	 
         	 $kabaret_dates = array(
-					'8' => 'Di',
-	        	 	'9' => 'Lu',
-	        	 	'10' => 'Ma',
-	        	 	'11' => 'Me',
-	        	 	'12' => 'Je',
-	        	 	'13' => 'Ve',
-	        	 	'14' => 'Sa',
-	        	 	'15' => 'Di',
-	        	 	'16' => 'Lu',
-	        	 	'17' => 'Ma',
-	        	 	'18' => 'Me',
-	        	 	'19' => 'Je'
+							'13' => 'Sa',
+							'14' => 'Di',
+	        	 	'15' => 'Lu',
+	        	 	'16' => 'Ma',
+	        	 	'17' => 'Me',
+	        	 	'18' => 'Je',
+	        	 	'19' => 'Ve',
+	        	 	'20' => 'Sa',
+	        	 	'21' => 'Di',
+	        	 	'22' => 'Lu',
+	        	 	'23' => 'Ma',
+	        	 	'24' => 'Me',
+	        	 	'25' => 'Je',
+	        	 	'26' => 'Ve'
         	 );
         	 	
 //        	 echo '<pre> dispo: ';
@@ -1092,7 +1118,11 @@ body {
     <?php  ?>
 </article>
 <!-- End  Article -->
+<?php } else {
 
+echo '<h1>Désolé, l’accès à cette page est réservé aux administrateurs-trices de Kino Geneva!</h1>';
+
+} // end if current user can...  ?>  
 
     </body>
 </html>

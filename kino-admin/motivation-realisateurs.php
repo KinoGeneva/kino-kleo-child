@@ -127,9 +127,57 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 						        	"pays" => bp_get_profile_field_data( array(
 						        			'field'   => $kino_fields["pays"],
 						        			'user_id' => $kino_userid
-						        	) )
+						        	) ),
 						        	// "title" => get_the_title(),
 						        	// "permalink" => get_permalink(),
+						        	//champs liens onglet identité
+						  	    	"autres-liens" => bp_get_profile_field_data( array(
+						  	    			'field'   => 33,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//autres champs de l'onglet réal
+						  	    	//motiv à jour checkbox
+						  	    	"motiv-a-jour" => bp_get_profile_field_data( array(
+						  	    			'field'   => 2159,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//scenario d'un autre
+						  	    	"scenario-autre" => bp_get_profile_field_data( array(
+						  	    			'field'   => 2144,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//atelier d'écriture ou coaching
+						  	    	"atelier-ou-coaching" => bp_get_profile_field_data( array(
+						  	    			'field'   => 2147,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//lien vers le scénario
+						  	    	"scenario-link" => bp_get_profile_field_data( array(
+						  	    			'field'   => 2150,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//films réalisés
+									"films-links" => bp_get_profile_field_data( array(
+											'field'   => 2165,
+											'user_id' => $kino_userid
+									) ),
+									//onglet kabaret, choix de sessions
+									"session-un" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-un'],
+											'user_id' => $kino_userid
+									) ),
+									"session-deux" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-deux'],
+											'user_id' => $kino_userid
+									) ),
+									"session-trois" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-trois'],
+											'user_id' => $kino_userid
+									) ),
+									"session-geneve-je-taime" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-geneve-je-taime'],
+											'user_id' => $kino_userid
+									) )
 						     );
 						     
 			
@@ -161,11 +209,58 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 						        	"pays" => bp_get_profile_field_data( array(
 						        			'field'   => $kino_fields["pays"],
 						        			'user_id' => $kino_userid
-						        	) )
+						        	) ),
 						        	// "title" => get_the_title(),
 						        	// "permalink" => get_permalink(),
-						     );
-						     
+						        	//champs liens onglet identité
+						  	    	"autres-liens" => bp_get_profile_field_data( array(
+						  	    			'field'   => 33,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//autres champs de l'onglet réal
+						  	    	//motiv à jour checkbox
+						  	    	"motiv-a-jour" => bp_get_profile_field_data( array(
+						  	    			'field'   => 2159,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//scenario d'un autre
+						  	    	"scenario-autre" => bp_get_profile_field_data( array(
+						  	    			'field'   => 2144,
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//atelier d'écriture ou coaching
+						  	    	"atelier-ou-coaching" => bp_get_profile_field_data( array(
+						  	    			'field'   => $kino_fields['real-coaching'],
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//lien vers le scénario
+						  	    	"scenario-link" => bp_get_profile_field_data( array(
+						  	    			'field'   => $kino_fields['real-coaching-scenario'],
+						  	    			'user_id' => $kino_userid
+						  	    	) ),
+						  	    	//films réalisés
+									"films-links" => bp_get_profile_field_data( array(
+											'field'   => 2165,
+											'user_id' => $kino_userid
+									) ),
+									//onglet kabaret, choix de sessions
+									"session-un" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-un'],
+											'user_id' => $kino_userid
+									) ),
+									"session-deux" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-deux'],
+											'user_id' => $kino_userid
+									) ),
+									"session-trois" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-trois'],
+											'user_id' => $kino_userid
+									) ),
+									"session-geneve-je-taime" => bp_get_profile_field_data( array(
+											'field'   => $kino_fields['session-geneve-je-taime'],
+											'user_id' => $kino_userid
+									) )
+									);
 						} else {
 						
 							// else :
@@ -197,7 +292,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 								  	    	"user-email" => $user->user_email,
 								  	    	// "user-profile" => "Incomplet",
 								  	    	"user-presentation" => bp_get_profile_field_data( array(
-								  	    			'field'   => $kino_fields['id-presentation'],
+								  	    			'field'   => $kino_fields['id-presentation'], //motivations
 								  	    			'user_id' => $kino_userid
 								  	    	) ),
 								  	    	"user-presentation-real" => bp_get_profile_field_data( array(
@@ -211,10 +306,58 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 								  	    	"pays" => bp_get_profile_field_data( array(
 								  	    			'field'   => $kino_fields["pays"],
 								  	    			'user_id' => $kino_userid
-								  	    	) )
+								  	    	) ),
 								  	    	// "title" => get_the_title(),
 								  	    	// "permalink" => get_permalink(),
-								  	 );
+								  	    	//champs liens onglet identité
+											"autres-liens" => bp_get_profile_field_data( array(
+													'field'   => 33,
+													'user_id' => $kino_userid
+											) ),
+											//autres champs de l'onglet réal
+											//motiv à jour checkbox
+											"motiv-a-jour" => bp_get_profile_field_data( array(
+													'field'   => 2159,
+													'user_id' => $kino_userid
+											) ),
+											//scenario d'un autre
+											"scenario-autre" => bp_get_profile_field_data( array(
+													'field'   => 2144,
+													'user_id' => $kino_userid
+											) ),
+											//atelier d'écriture ou coaching
+											"atelier-ou-coaching" => bp_get_profile_field_data( array(
+													'field'   => 2147,
+													'user_id' => $kino_userid
+											) ),
+											//lien vers le scénario
+											"scenario-link" => bp_get_profile_field_data( array(
+													'field'   => 2150,
+													'user_id' => $kino_userid
+											) ),
+											//films réalisés
+											"films-links" => bp_get_profile_field_data( array(
+													'field'   => 2165,
+													'user_id' => $kino_userid
+											) ),
+											//onglet kabaret, choix de sessions
+											"session-un" => bp_get_profile_field_data( array(
+													'field'   => $kino_fields['session-un'],
+													'user_id' => $kino_userid
+											) ),
+											"session-deux" => bp_get_profile_field_data( array(
+													'field'   => $kino_fields['session-deux'],
+													'user_id' => $kino_userid
+											) ),
+											"session-trois" => bp_get_profile_field_data( array(
+													'field'   => $kino_fields['session-trois'],
+													'user_id' => $kino_userid
+											) ),
+											"session-geneve-je-taime" => bp_get_profile_field_data( array(
+													'field'   => $kino_fields['session-geneve-je-taime'],
+													'user_id' => $kino_userid
+											) )
+											);
 								  	
 								  }
 								  
@@ -244,7 +387,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 				if (!empty($kino_pending_real_kab) ) {
 						
 						echo '<div>';
-						echo '<h2>Réalisateurs-trices en attente : Kabaret 2017 ('.count($kino_pending_real_kab).')</h2>';
+						echo '<h2>Réalisateurs-trices en attente : Kabaret 2018 ('.count($kino_pending_real_kab).')</h2>';
 						echo '<div class="kino-admin-view">';
 				
 						foreach ($kino_pending_real_kab as $key => $item) {
@@ -260,11 +403,31 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 									?><b>Email:</b> <a href="mailto:<?php echo $item["user-email"] ?>?Subject=Kino%20Kabaret" target="_top"><?php echo $item["user-email"] ?></a>
 								
 								<br/>
+								<b>Motivations à jour?</b> <?php echo $item["motiv-a-jour"] ?>
+								<br/>
+								<b>Scénario d'un autre?</b> <?php echo $item["scenario-autre"] ?>
+								<br/>
+								<b>Atelier d'écriture ou coaching?</b> <?php echo $item["atelier-ou-coaching"] ?>
+								<br/>
+								<b>Lien vers le scénario</b> <?php echo $item["scenario-link"] ?>
+								<br/>
 								<b>Présentation:</b> <?php echo $item["user-presentation"] ?>
 								<br/>
 								<b>Motivation:</b> <?php echo $item["user-presentation-real"] ?>
 								<br/>
+								<b>Liens vers les films réalisés: </b> <?php echo $item["films-links"] ?>
+								<br/>
+								<b>Autres liens: </b> <?php echo $item["autres-liens"] ?>
 								
+								<br/>
+								<b>Choix de sessions, premier choix: </b> <?php echo $item["session-un"] ?>
+								<br/>
+								<b>Deuxième choix:</b> <?php echo $item["session-deux"] ?>
+								<br/>
+								<b>Troisième choix: </b><?php echo $item["session-trois"] ?>
+								<br/>
+								<b>Session "Genève je t'aime"? </b> <?php echo $item["session-geneve-je-taime"] ?>
+								<br/>
 								<a href="<?php echo $url; ?>/members/<?php echo $item["user-slug"]; ?>/" target="_blank" class="btn btn-default">Voir le profil complet</a> 
 								
 								<a href="<?php echo $url; ?>/wp-admin/user-edit.php?user_id=<?php echo $item["user-id"] ?>#user-group" target="_blank" class="btn btn-default">Modifier groupes</a>

@@ -398,11 +398,16 @@ body.admin-bar #buddypress #profile-edit-form ul.button-nav a {
 }
 
 .kino-edit-profile .field_type_checkbox legend,
-.kino-edit-profile .field_type_radio legend {
+.kino-edit-profile .field_type_radio legend,
+.kino-edit-profile legend {
 	margin-left:  -20px;
 	margin-bottom: 10px;
 	font-weight: bold;
 	font-size: 14px;
+}
+
+.kino-edit-profile input[type="checkbox"] {
+	margin-right: 10px;
 }
 
 #buddypress .field-visibility-settings, 
@@ -1040,4 +1045,26 @@ table.calendar th {
 .main-color #buddypress div.generic-button a.join-group {
 	background-color: #c11119;
 	border-color: #c11119;
+}
+
+/* bp-groups > besoins */
+#buddypress .besoins-projets{
+	text-align: left;
+}
+#buddypress .besoins-projets ul {
+padding: 0px;
+}
+#buddypress #groups-list .besoins-projets li {
+	text-align: left;
+	padding: 0px;
+	display:list-item;
+}
+#formneed .toogleneed {
+	border: 1px solid #e5e5e5;
+	color: #777777;
+	cursor: pointer;
+	padding: 0 10px;
+}
+#formneed .toogleneed:hover {
+	background-color: #eee;
 }

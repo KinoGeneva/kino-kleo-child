@@ -177,3 +177,14 @@
 	}
 }
 
+/*
+ * Menu de navigation
+ * Correctif
+*/
+
+@media (max-width: 991px) {
+	
+	#header .navbar-nav > li > a {
+		padding-right: 2.5em;
+	}
+}

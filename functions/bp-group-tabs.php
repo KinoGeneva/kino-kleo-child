@@ -18,7 +18,6 @@ function kino_list_of_excluded_profile_fields() {
 	
 	} else {
 		
-		
 		// exclude Session Attribuée (admin only)
 		
 		$kino_excluded_id[] = $kino_fields['session-attribuee'];
@@ -41,11 +40,15 @@ function kino_list_of_excluded_profile_fields() {
 		
 			// conditions d'utilisation:
 			$kino_excluded_id[] = $kino_fields['conditions-generales'];
+			
+			// Vidéo checkbox pour Comédiens
+			$kino_excluded_id[] = $kino_fields['video-presentation'];
+			
 		}
 		
 		if ( !is_user_logged_in() ) {
 		
-			// cacher le champ email:
+			// cacher le champ email, pour protéger contre le spam.
 			$kino_excluded_id[] = $kino_fields['courriel'];
 		
 		}
@@ -81,7 +84,7 @@ function kino_hide_some_profile_fields( $retval ) {
 			
 			$kino_user_role = kino_user_participation( bp_loggedin_user_id(), $kino_fields );
 			
-			if ( !in_array( "realisateur", $kino_user_role ) && !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) ) {
+			if ( !in_array( "realisateur", $kino_user_role ) && !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) && !in_array( "benevole", $kino_user_role ) ) {
 			
 				// Don't show role options for Kino Kabaret!
 				
@@ -96,10 +99,12 @@ function kino_hide_some_profile_fields( $retval ) {
 				$kino_excluded_id[] = $kino_fields['session-un'];
 				$kino_excluded_id[] = $kino_fields['session-deux'];
 				$kino_excluded_id[] = $kino_fields['session-trois'];
+				//Genève je t'aime 2018
+				$kino_excluded_id[] = $kino_fields['session-geneve-je-taime'];
 				
 				
 				// And in addition to that...
-				if ( !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) ) {
+				if ( !in_array( "comedien", $kino_user_role ) && !in_array( "technicien", $kino_user_role ) && !in_array( "benevole", $kino_user_role ) ) {
 				
 					// Don't show ANY role options for Kino Kabaret
 					
@@ -157,14 +162,15 @@ function kino_get_the_profile_group_edit_form_action() {
 			
 					$j = $i+1;
 					if ( $j < $count) { 
-						
+						/*
 						//04.12.2016 #118 - rediriger vers page courant si id=17
 						if($current_group_id==17) {
 							$next_group_id = '/edit/group/17/';
 						}
 						else {
 							$next_group_id = '/edit/group/' . $groups[ $j ]->id .'/';
-						}
+						}*/
+						$next_group_id = '/edit/group/' . $groups[ $j ]->id .'/';
 					} else {
 					
 					// $next_group_id = '/change-avatar/'; 
@@ -221,12 +227,18 @@ function kino_get_field_group_conditions( $groups ) {
   	// Displayed User:
   	$kino_user_role = kino_user_participation( bp_displayed_user_id(), $kino_fields );
 		
-		// No need to show Conditions, they are filled at account creation...
-		
-		if ( bp_is_profile_edit() == false ) {
-			$forbidden_groups[] = "Conditions";
-		}
-		
+	// No need to show Conditions, they are filled at account creation...
+	
+	if ( bp_is_user_profile_edit() == false ) {
+		$forbidden_groups[] = "Conditions";
+	}
+	
+	//#239 - https://bitbucket.org/ms-studio/kinogeneva/issues/239/cacher-longlet-quand-le-profil-b-n-vole
+	//cacher l'onglet bénévole si complet
+	if( in_array( "benevole-complete", $kino_user_role ) && !current_user_can( 'publish_pages' ) ){
+		$forbidden_groups[] = "Aide bénévole";
+	}
+	
   	if (!in_array( "realisateur", $kino_user_role )) {
   		if (!in_array( "realisateur-kab", $kino_user_role )) {
   			$forbidden_groups[] = "Compétence Réalisateur";
@@ -245,31 +257,36 @@ function kino_get_field_group_conditions( $groups ) {
   		$forbidden_groups[] = "Aide bénévole";
   	}
   	
-  	if (!in_array( "kabaret-2017", $kino_user_role )) {
-  		// pas inscrit au kabaret ?
+  	if (!in_array( "kabaret-2018", $kino_user_role )) {
+  		// pas bénévole ?
   		if (!in_array( "benevole-kabaret", $kino_user_role )) {
-  			// pas bénévole ?
-  			$forbidden_groups[] = "Kino Kabaret 2016";
+  			//$forbidden_groups[] = "Kino Kabaret 2018";
   		}
+  		// pas inscrit au kabaret ?
+		$forbidden_groups[] = "Kino Kabaret 2018";
   	}
   	
   	
-  	if (!current_user_can( 'publish_pages' )) {
-  		  		
-  		if (!in_array( "kabaret-2017", $kino_user_role )) {
-  			// pas inscrit au kabaret ?
-  			$forbidden_groups[] = "Kino Kabaret 2017";
+  	if ( is_user_logged_in() ) {
+  	
+  		if (!current_user_can( 'publish_pages' )) {
+  			  		
+  			if (!in_array( "kabaret-2018", $kino_user_role )) {
+  				// Membre pas inscrit au kabaret ?
+  				$forbidden_groups[] = "Kino Kabaret 2018";
+  			}
+  		
   		}
+  		
+  	} else {
   	
-  	}
+  		// Champs à masquer pour visiteurs non-connectés:
+  		$forbidden_groups[] = "Profil Kinoïte";
+  		$forbidden_groups[] = "Kino Kabaret 2018";
+  		
+  	}	
   	
-
-  	$forbidden_group_ids = array(
-  		// 7, // Technicien = 7
-  		// 9, // Kabaret = 9
-  		// 12, // Kabaret = 12
-  	);
-  	
+  
   	$groups_updated = array();
   
   	for ( $i = 0, $count = count( $groups ); $i < $count; ++$i ) {
@@ -290,3 +307,37 @@ function kino_get_field_group_conditions( $groups ) {
   return $groups_updated;
 }
 
+/* test des champs de profil 2018
+ * on cache l'onglet kino kabaret 2018 si pas admin
+ */
+
+//add_filter( 'bp_profile_get_field_groups', 'kino_get_field_group_temporaire2018', 10 );
+
+function kino_get_field_group_temporaire2018( $groups ) {
+	$forbidden_groups = array();
+	if ( current_user_can( 'publish_pages' ) ) {
+		// we show everything for: Admin and Editor roles
+	}
+	else {
+		$forbidden_groups[] = "Kino Kabaret 2018";
+	}
+	
+	$groups_updated = array();
+  
+  	for ( $i = 0, $count = count( $groups ); $i < $count; ++$i ) {
+			
+			$group_name = $groups[ $i ]->name;
+			$group_id= $groups[ $i ]->id;
+			
+			// hide forbidden groups
+			if (in_array( $group_name, $forbidden_groups)) {
+				// Do Nothing = group is hidden
+			} else {
+				// Add to array
+				$groups_updated[] = $groups[ $i ];
+			}
+			
+  	} // end for loop.
+  	  	
+  return $groups_updated;
+}

@@ -56,28 +56,59 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	'user-competences' 
         );
         
-        $ids_of_kino_techniciens = get_objects_in_term( 
+        $ids_of_kino_techniciens = get_objects_in_term(
         	$kino_fields['group-comp-technicien'] , 
         	'user-competences' 
         );
-        
-        $ids_of_paid_25 = get_objects_in_term( 
+        //inscription
+        $ids_of_paid_25 = get_objects_in_term(
         	$kino_fields['compta-paid-25'] , 
         	'user-compta' 
         );
-        $ids_of_paid_100 = get_objects_in_term( 
+         $ids_of_paid_offert_25 = get_objects_in_term(
+        	$kino_fields['compta-paid-offert-25'] , //offert: inscription 25.-
+        	'user-compta' 
+        );
+        $ids_of_paid_40 = get_objects_in_term(
+        	$kino_fields['compta-paid-40'] , //tarif de soutien
+        	'user-compta' 
+        );
+        $ids_of_paid_100 = get_objects_in_term(
         	$kino_fields['compta-paid-100'] , 
         	'user-compta' 
         );
+        $ids_of_paid_125 = get_objects_in_term(
+        	$kino_fields['compta-paid-125'] , //inscription 125.-
+        	'user-compta' 
+        );
+         $ids_of_paid_offert_125 = get_objects_in_term( 
+        	$kino_fields['compta-paid-offert-125'] , //offert:inscription 125.-
+        	'user-compta' 
+        );
+
+        //repas
         $ids_of_repas_60 = get_objects_in_term( 
         	$kino_fields['compta-repas-60'] , 
+        	'user-compta' 
+        );
+        $ids_of_repas_offert_60 = get_objects_in_term( 
+        	$kino_fields['compta-repas-offert-60'] , //offert 60.- repas
         	'user-compta' 
         );
         $ids_of_repas_100 = get_objects_in_term( 
         	$kino_fields['compta-repas-100'] , 
         	'user-compta' 
         );
+        $ids_of_repas_125 = get_objects_in_term( 
+        	$kino_fields['compta-repas-125'] , //repas 125.-
+        	'user-compta' 
+        );
+         $ids_of_repas_offert_125 = get_objects_in_term( 
+        	$kino_fields['compta-repas-offert-125'] , //offert 125.- repas
+        	'user-compta' 
+        );
         
+         
 //        $ids_of_kino_participants = get_objects_in_term( 
 //        	$kino_fields['group-kino-complete'] , 
 //        	'user-group' 
@@ -137,11 +168,22 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	$metronom = 1;
         	
         	$somme_paiements = 0;
+        	$somme_paiements_offert = 0;
         	$somme_repas = 0;
+        	$somme_repas_offert = 0;
+        	
         	$nombre_entrees_25 = 0;
+        	$nombre_entrees_offert_25 = 0;
+        	$nombre_entrees_40 = 0;
         	$nombre_entrees_100 = 0;
+        	$nombre_entrees_125 = 0;
+        	$nombre_entrees_offert_125 = 0;
+        	
         	$nombre_repas_60 = 0;
+        	$nombre_repas_offert_60 = 0;
         	$nombre_repas_100 = 0;
+        	$nombre_repas_125 = 0;
+        	$nombre_repas_offert_125 = 0;
         	
         	?>
         	<div id="table-container">
@@ -152,10 +194,14 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         				<th>ID</th>
         				<th width="200">Nom/Email</th>
         				<th>Profil complet?</th>
-        		    <th width="200">Rôle Kabaret</th>
-        		    <th>Réal?</th>
-        		    <th>Inscription</th>
-        		    <th>Carte Repas</th>
+						<th width="200">Rôle Kabaret</th>
+						<th>Réal?</th>
+						<th>Inscription<br/>payée</th>
+						<th>Action<br/>Inscription</th>
+						<th>Carte Repas<br/>payée</th>
+						<th>Action<br/>Carte repas</th>
+						<th>Offerts</th>
+						<th>Action offrir</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -182,15 +228,15 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         					echo '<td>';
         					
         					if ( !empty($user->display_name) ) {
-        						echo '('.$user->display_name .') ';
+        						echo $user->display_name .'<br/>';
         					}
         					
         					echo '<a href="'.$url.'/members/'.$user->user_nicename.'/profile/" target="_blank">';
 		        					echo $user->user_nicename;
-        					echo '</a>';
+        					echo '</a><br/>';
         					
         					// Email
-        			echo ' – <a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
+							echo '<a href="mailto:'. $user->user_email .'?Subject=Kino%20Kabaret" target="_top">'. $user->user_email .'</a></td>';
         					
         					
         					// Profil complet ?
@@ -248,21 +294,36 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 	            				$nombre_entrees_25++;
 	            			}
 	            			
+	            			if ( in_array( $id, $ids_of_paid_40 ) ) {
+	            				echo '<span class="has-paid">Payé: 40.-</span>';
+	            				$somme_paiements = ( $somme_paiements + 40) ;
+	            				$nombre_entrees_40++;
+	            			}
+	            			
 	            			if ( in_array( $id, $ids_of_paid_100 ) ) {
 	            				echo '<span class="has-paid">Payé: 100.-</span>';
 	            				$somme_paiements = ( $somme_paiements + 100) ;
 	            				$nombre_entrees_100++;
-	            			}	
+	            			}
 	            			
-	            			if ( ( in_array( $id, $ids_of_paid_25 ) ) || ( in_array( $id, $ids_of_paid_100 ) ) ) {
+	            			if ( in_array( $id, $ids_of_paid_125 ) ) {
+	            				echo '<span class="has-paid">Payé: 125.-</span>';
+	            				$somme_paiements = ( $somme_paiements + 125) ;
+	            				$nombre_entrees_125++;
+	            			}	
+            			echo '</td>';
+            			echo '<td>';
+	            			if ( in_array( $id, $ids_of_paid_25 ) || in_array( $id, $ids_of_paid_40 ) || in_array( $id, $ids_of_paid_100 ) || in_array( $id, $ids_of_paid_125 ) ) {
 	            				
 	            				echo '<a class="admin-action payment-reset pending-reject" data-action="payment-reset">Reset</a>';
 	            			} else {
 	            				
 	            				echo '<a class="admin-action payment-25 pending-other" data-action="payment-25">Payer 25</a>';
+	            				echo '<a class="admin-action payment-40 pending-other" data-action="payment-40">Payer 40</a>';
 	            				echo '<a class="admin-action payment-100 pending-other" data-action="payment-100">Payer 100</a>';
+	            				echo '<a class="admin-action payment-125 pending-other" data-action="payment-125">Payer 125</a>';
 	            			}
-            			
+      	
             			echo '</td>';
             			
             			// Actions Carte Repas
@@ -282,73 +343,246 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
             					$nombre_repas_100++; 
             				}
             				
-            				if ( ( in_array( $id, $ids_of_repas_60 ) ) || ( in_array( $id, $ids_of_repas_100 ) ) ) {
+            				if ( in_array( $id, $ids_of_repas_125 ) ) {
+            					echo '<span class="has-paid">Payé: 125.-</span>';
+            					$somme_repas = ( $somme_repas + 125 );
+            					$nombre_repas_125++; 
+            				}
+						echo '</td>';
+						echo '<td>';
+            				if ( in_array( $id, $ids_of_repas_60 ) || in_array( $id, $ids_of_repas_100 ) || in_array( $id, $ids_of_repas_125 ) ) {
             					
             					echo '<a class="admin-action repas-reset pending-reject" data-action="repas-reset">Reset</a>';
-            				} else {
-            					
-            					echo '<a class="admin-action repas-60 pending-other" data-action="repas-60">Carte 60</a>';
-            					
-            					echo '<a class="admin-action repas-100 pending-other" data-action="repas-100">Carte 100</a>';
             				}
-            				
+            				else {
+            					echo '<a class="admin-action repas-60 pending-other" data-action="repas-60">Carte 60</a>';
+            					echo '<a class="admin-action repas-100 pending-other" data-action="repas-100">Carte 100</a>';
+            					echo '<a class="admin-action repas-125 pending-other" data-action="repas-125">Carte 125</a>';
+            				}
+            			echo '</td>';
+            			//offert
+            			echo '<td>';
+							if ( in_array( $id, $ids_of_paid_offert_25 ) ) {
+	            				echo '<span class="has-paid">Offert inscription: 25.-</span>';
+	            				$somme_paiements_offert = ( $somme_paiements_offert + 25) ;
+	            				$nombre_entrees_offert_25++;
+	            			}
+							if ( in_array( $id, $ids_of_paid_offert_125 ) ) {
+	            				echo '<span class="has-paid">Offert inscription: 125.-</span>';
+	            				$somme_paiements_offert = ( $somme_paiements_offert + 125) ;
+	            				$nombre_entrees_offert_125++;
+	            			}	
+							if ( in_array( $id, $ids_of_repas_offert_60 ) ) {
+            					echo '<span class="has-paid">Offert repas: 60.-</span>';
+            					$somme_repas_offert = ( $somme_repas_offert + 60 );
+            					$nombre_repas_offert_60++; 
+            				}
+            				if ( in_array( $id, $ids_of_repas_offert_125 ) ) {
+            					echo '<span class="has-paid">Offert repas: 125.-</span>';
+            					$somme_repas_offert = ( $somme_repas_offert + 125 );
+            					$nombre_repas_offert_125++; 
+            				}
+            			echo '</td>';
+            			echo '<td>';
+            				if ( in_array( $id, $ids_of_paid_offert_25 ) || in_array( $id, $ids_of_paid_offert_125 ) ) {
+            					echo '<a class="admin-action offert-reset pending-reject" data-action="offert-entree-reset">Reset entrée</a><br/>';
+            				}
+            				else {
+								echo '<a class="admin-action offert-25 pending-accept" data-action="offert-entree-25">25.- offert</a>';
+								echo '<a class="admin-action offert-125 pending-accept" data-action="offert-entree-125">125.- (entrée) offert</a>';
+            				}
+            				if ( in_array( $id, $ids_of_repas_offert_60 ) || in_array( $id, $ids_of_repas_offert_125 ) ) {
+            					echo '<a class="admin-action offert-reset pending-reject" data-action="offert-repas-reset">Reset repas</a>';
+            				}
+            				else {
+            					echo '<a class="admin-action offert-60 pending-accept" data-action="offert-repas-60">60.- offert</a>';
+            					echo '<a class="admin-action offert-125 pending-accept" data-action="offert-repas-125">125.- (repas) offert</a>';
+            				}
             			echo '</td>';
         			
         		echo '</tr>';
         		
         	}
-        	
+        	echo '</tbody>';
         			// Somme des Payements:
-        			
+        			//éviter que les totaux soient déplacés par les filtres
+        	echo '<tfoot>';
         			?>
         			<tr>
-        				<th></th>
-        				<th></th>
-        				<th></th>
-        				<th></th>
-        			  <th></th>
-        			  <th></th>
-        			  <th><?php 
+						<th colspan="5"></th>
+						<th>Somme Inscriptions: </th>
+						<?php 
         			  	// Somme Inscriptions
-        			  	echo '<span class="has-paid"><b>Somme Inscriptions: '.$somme_paiements.'.-</b></span>';
-        			   ?></th>
-        			  <th><?php 
+        			  	echo '<th><span class="has-paid">'.$somme_paiements.'.-</span></th>'; ?>
+						<th>Somme Cartes Repas: </th>
+						<?php 
         			  	// Somme Carte Repas 
-        			  	echo '<span class="has-paid"><b>Somme Cartes Repas: '.$somme_repas.'.-</b></span>';
-        			  	?></th>
+        			  	echo '<th><span class="has-paid">'.$somme_repas.'.-</span></th>'; ?>
+        			  	</th>
+						<th colspan="3"></th>
         			</tr>
-        			<?php
-        			
-        			// Somme finale
-        			
-        			?>
         			<tr>
-        				<th></th>
-        				<th></th>
-        				<th></th>
-        				<th></th>
-        			  <th></th>
-        			  <th></th>
-        			  <th><?php 
-        			  
-        			  	echo '<span class="has-paid"><b>';
-        			  	echo 'Entrées à 25 : '.$nombre_entrees_25.' <br/>';
-        			  	echo 'Entrées à 100 : '.$nombre_entrees_100.' <br/>';
-        			  	echo 'Cartes Repas à 60 : '.$nombre_repas_60.' <br/>';
-        			  	echo 'Cartes Repas à 100 : '.$nombre_repas_100.' <br/>';
-        			  	echo '</b></span>';
-        			  
-        			   ?></th>
-        			  <th><?php 
-        			  	// Somme Totale 
-        			  	$somme_totale = ( $somme_paiements + $somme_repas );
-        			  	echo '<span class="has-paid"><b>Somme Totale: '.$somme_totale.'.-</b></span>';
-        			  	?></th>
+						<th colspan="5"></th>
+						<th>Somme inscriptions offertes</th>
+						<?php
+						// Somme Inscriptions offertes
+        			  	echo '<th><span class="has-paid">'.$somme_paiements_offert.'.-</span></th>'; ?>
+						<th>Somme repas offerts</th>
+						<?php
+						// Somme Inscriptions offertes
+        			  	echo '<th><span class="has-paid">'.$somme_paiements_offert.'.-</span></th>'; ?>
+        			  	<th colspan="3"></th>
+        			</tr>
+        			<tr>
+						<th colspan="5"></th>
+						<th>Sommes totale inscriptions (payé + offert)</th>
+						<?php
+						// Somme totale Inscriptions
+        			  	echo '<th><span class="has-paid">'. ($somme_paiements + $somme_paiements_offert) .'.-</span></th>'; ?>
+        			  	<th>Sommes totale repas (payé + offert)</th>
+        			  	<?php
+						// Somme totale Repas
+        			  	echo '<th><span class="has-paid">'. ($somme_repas + $somme_repas_offert) .'.-</span></th>'; ?>
+        			  	<th colspan="3"></th>
+        			</tr>
+        			<tr>
+						<th colspan="5"></th>
+						<th colspan="4">
+							<?php
+							// Somme Totale payée
+							$somme_totale = ( $somme_paiements + $somme_repas );
+							echo '<div><b>Somme Totale payée: '.$somme_totale.'.-</b></div>';
+
+							// Somme Totale offerte
+							$somme_totale_offert = ( $somme_paiements_offert + $somme_repas_offert );
+							echo '<div"><b>Somme Totale offerte: '.$somme_totale_offert .'.-</b></div>';
+							
+							// Somme Totale
+							echo '<div><b>Somme Totale: '. ($somme_totale + $somme_totale_offert) .'.-</b></div>';
+							?>
+						</th>
+						<th colspan="3"></th>
+        			</tr>
+        			<tr>
+						<?php
+						$all_days_compta = array();
+						$term_ids =  array( $kino_fields['compta-paid-25'], $kino_fields['compta-paid-40'], $kino_fields['compta-paid-100'], $kino_fields['compta-paid-125'], $kino_fields['compta-repas-60'], $kino_fields['compta-repas-100'], $kino_fields['compta-repas-125'], $kino_fields['compta-paid-offert-25'], $kino_fields['compta-paid-offert-125'], $kino_fields['compta-repas-offert-60'], $kino_fields['compta-repas-offert-125']);
+						foreach( $term_ids as $term_id ){
+							$all_compta_each_days[$term_id] = get_term_meta( $term_id );
+						}
+						/*
+						echo '<pre>';
+						print_r($all_compta_each_days);
+						echo '</pre>';
+						*/
+						// todo: entrées / carte / offert par jour ?>
         			</tr>
         			<?php
-        	
-        	echo '</tbody></table></div>';
-        
+        	echo '</tfoot></table></div>';
+
+
+//nombres totaux et par jour
+echo '<h4>Entrées à 25 : '. $nombre_entrees_25. '</h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-paid-25']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Entrées offertes à 25 : '.$nombre_entrees_offert_25.' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-paid-offert-25']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Entrées à 40 : '.$nombre_entrees_40 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-paid-40']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Entrées à 100 : '.$nombre_entrees_100 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-paid-100']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Entrées à 125 : '.$nombre_entrees_125 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-paid-125']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Entrées offertes à 125 : '.$nombre_entrees_offert_125 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-paid-offert-125']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Cartes Repas à 60 : '.$nombre_repas_60 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-repas-60']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Cartes Repas offertes à 60 : '.$nombre_repas_offert_60 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-repas-offert-60']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Cartes Repas à 100 : '.$nombre_repas_100 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-repas-100']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Cartes Repas à 125 : '.$nombre_repas_125 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-repas-125']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+echo '<h4>Cartes Repas offertes à 125 : '.$nombre_repas_offert_125 .' </h4>
+	<ul>';
+foreach($all_compta_each_days[$kino_fields['compta-repas-offert-125']] as $day => $total){
+	echo '<li>';
+		echo $day .': '. $total[0];
+	echo '</li>';
+}
+echo '</ul>';
+
+
+
         	// Ajouter à Mailpoet: Participants Kabaret
 //        	kino_add_to_mailpoet_list( 
 //        	 	$ids_of_kino_complete, 
@@ -365,3 +599,5 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 </article>
 <!-- End  Article -->
 
+<?php
+kino_js_tablesort("inscription-table");

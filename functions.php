@@ -53,8 +53,22 @@ require_once('functions/bp-messages.php');
 
 require_once('functions/bp-field-validation.php');
 
-require_once('functions/bp-group-add.php');
+//d'abord tester que le plugin ACF est actif
+/**
+ * Detect plugin. For use on Front End only.
+ */
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
+// check for plugin using plugin name
+if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
+  //plugin is activated
+  require_once('functions/bp-group-add.php');
+} 
+
+/* Portfolio aka Film  Pages
+******************************/
+
+require_once('functions/portfolio-films.php');
 
 /* Admin Pages
 ******************************/
@@ -95,61 +109,80 @@ add_filter('kleo_title_args', 'kino_title_filter',10,1);
 
 function kino_title_filter( $args ) {
 	
-	if ( bp_is_user() ) {
+	if ( function_exists( 'bp_is_user' ) ) {
 	
-		$title_content = $args['title'];
+		if ( bp_is_user() ) {
 		
-		$member_avatar = '<div class="item-avatar rounded kino-title-avatar">'. bp_get_member_avatar( array("class"  => "avatar kleo-rounded", "alt" => "") ) .'</div>';
-		
-		$args['title'] = $member_avatar . $title_content ;
-		
-		// ajouter le @username... ou pas.
-		
-		$title_username = ' <span class="user-nicename">@'. bp_get_displayed_user_mentionname() .'</span>';
-		
-		// $args['title'] .= $title_username;
-		
-		
-		// ajouter les boutons:
-		// do_action( 'bp_member_header_actions' ); 
-		
-		// bp_send_public_message_button
-		
-		// bp_send_private_message_button = OK
-		
-		// $title_buttons = do_action( 'bp_member_header_actions' );
-		
-		$title_buttons = '';
-		
-		// Test if function exists: bp_get_send_message_button()
-		
-		 if ( function_exists( 'bp_get_send_message_button' ) ) {
-		 	
-		 	$title_buttons = bp_get_send_message_button();
-		 
-		 }
-		 
-		 if ( function_exists( 'bp_get_send_public_message_button' ) ) {
-		 	
-		 	$title_buttons = bp_get_send_public_message_button();
-		 
-		 }
-		
-
-		$args['title'] .= $title_buttons;
-		
-		// class="user-nicename">@<?php bp_displayed_user_mentionname(); 
-		
-		
-	}
+			$title_content = $args['title'];
+			
+			$member_avatar = '<div class="item-avatar rounded kino-title-avatar">'. bp_core_fetch_avatar( array("class"  => "avatar kleo-rounded", "alt" => "") ) .'</div>';
+			
+			$args['title'] = $member_avatar . $title_content ;
+			
+			// ajouter le @username... ou pas.
+			
+			$title_username = ' <span class="user-nicename">@'. bp_get_displayed_user_mentionname() .'</span>';
+			
+			// $args['title'] .= $title_username;
+			
+			
+			// ajouter les boutons:
+			// do_action( 'bp_member_header_actions' ); 
+			
+			// bp_send_public_message_button
+			
+			// bp_send_private_message_button = OK
+			
+			// $title_buttons = do_action( 'bp_member_header_actions' );
+			
+			$title_buttons = '';
+			
+			// Test if function exists: bp_get_send_message_button()
+			
+			 if ( function_exists( 'bp_get_send_message_button' ) ) {
+			 	
+			 	$title_buttons = bp_get_send_message_button();
+			 
+			 }
+			 
+			 if ( function_exists( 'bp_get_send_public_message_button' ) ) {
+			 	
+			 	$title_buttons = bp_get_send_public_message_button();
+			 
+			 }
+			
+	
+			$args['title'] .= $title_buttons;
+			
+			// class="user-nicename">@<?php bp_displayed_user_mentionname(); 
+			
+			
+		}
+			
+	} // if function_exists
 	
 	return $args;
 	
+} // end kino_title_filter
+
+#https://bitbucket.org/ms-studio/kinogeneva/issues/118/a-la-fin-de-l-dition-du-profil-redirection
+#https://buddypress.org/support/topic/how-to-redirect-users-to-their-profile-after-they-edit-their-profile/
+add_action( 'xprofile_updated_profile', 'SaveEditsRedirect', 12 );
+function SaveEditsRedirect() {
+	global $bp;
+	if ( is_user_logged_in() && bp_get_current_profile_group_id()==22 ) {
+		wp_redirect( $bp->displayed_user->domain );
+		exit;
+	}
 }
 
-
-
-
-
-
-
+//redir sur l'onglet profil à l'édition
+//https://bitbucket.org/ms-studio/kinogeneva/issues/265/
+add_action( 'xprofile_screen_edit_profile', 'conditionsEditsRedirect', 12 );
+function conditionsEditsRedirect() {
+	global $bp;
+	if ( is_user_logged_in() && bp_get_current_profile_group_id()==1 ) {
+		wp_redirect( $bp->displayed_user->domain .'/profile/edit/group/19/');
+		exit;
+	}
+}
