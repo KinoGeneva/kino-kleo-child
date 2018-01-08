@@ -33,6 +33,29 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         // Kinoites bénévoles
         $kinoites_benevoles = array();
 
+//ticket 313: afficher *tous les bénévoles*
+		$args = array( 'fields' => array( 'ID', 'user_nicename', 'user_email', 'display_name', 'user_registered' ) );
+		//all users
+		$users = get_users( $args );
+		
+		foreach($users as $user) {
+			//check if benevoles
+			$kino_particiation_boxes = array();
+			$kino_particiation_boxes = bp_get_profile_field_data( array(
+					'field'   => $kino_fields['profile-role'],
+					'user_id' => $user->ID
+			) );
+			//if yes, save user
+			if ($kino_particiation_boxes) {
+				foreach ($kino_particiation_boxes as $key => $value) {
+					$value = mb_substr($value, 0, 4);
+					 if ( $value == "Béné" ) {
+						 $kinoites_benevoles[] = kino_user_fields_benevoles( $user, $kino_fields );
+					 }
+				 }
+			}
+		}
+		/*
 				$ids_of_benevoles = get_objects_in_term( 
 					$kino_fields['group-benevoles-kabaret'] , 
 					'user-group' 
@@ -57,16 +80,16 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 //				$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_participants );
 				
 				//$ids_of_benevoles = array_intersect( $ids_of_benevoles, $ids_of_complete );
-				
+			
 //				echo '<pre>$ids_of_benevoles:';
 //				var_dump($ids_of_benevoles);
 //				echo '</pre>';
 				
 				// enlever les champs zéro: 
 				$ids_of_benevoles = array_filter($ids_of_benevoles);
-        
+	     
         echo '<p>Nombre de bénévoles: '.count($ids_of_benevoles).'</p>';
-        
+        */
         // user query 1
         //***************************************
         /*
@@ -97,7 +120,7 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         // Function to generate users
         // kino_user_fields_benevoles()
         // in : bp-user-fields.php
-        
+       /* 
         //if ( ! empty( $user_query->results ) ) {
         if( ! empty( $ids_of_benevoles ) ) {
         	foreach ( $ids_of_benevoles as $kino_userid ) {
@@ -119,14 +142,14 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	
         	} // End foreach
         } // End testing user_query_cherche	
-        
+        */
         // ***********************************
         
         if ( !empty($kinoites_benevoles) ) {
         	echo '<h2>Gestion des bénévoles Kabaret</h2>
         	<h3>Kinoïtes <a href="'.$url.'/wp-admin/users.php?user-group=benevoles-kabaret">Bénévoles</a> ('.count($kinoites_benevoles).'):</h3>';
         	
-        	echo '<p>Liste des kinoïtes bénévoles ayant coché "l’organisation du Kino Kabaret".';
+        	echo '<p>Liste des kinoïtes bénévoles ayant coché "bénévole" sous "Inscription comme membre de la plateforme KinoGeneva en tant que".';
         	
         	?>
         	<table id="gestion-benevoles" class="table table-hover table-bordered table-condensed pending-form">
@@ -134,7 +157,8 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
           		<tr>
           			<th>#</th>
           			<th>Nom</th>
-          			<?php //<th>Real?</th> ?>
+          			<th>Rôle plateforme</th>
+          			<th>Kino?</th>
           			<th>Rôle Kino</th>
           			<?php //<th>Fonction?</th> ?>
           			<?php //<th>Choix admin</th> ?>
@@ -179,26 +203,35 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							// Nom
         							echo '<td><a href="'.$url.'/members/'.$item["user-slug"].'/" target="_blank">'.$item["user-name"].'</a></td>';
         							
-        							// Real?
-        							// ******************
-        							  /*							  								
-				  								if ( in_array( "real-kab-valid", $item["participation"] ) ) {          				            				
-				          				  echo '<td class="success">Approved</td>';
-				          				
-				          				} else if ( in_array( "real-kab-rejected", $item["participation"] ) ) {
-				          				
-				          				  echo '<td class="error">Rejected</td>';
-				          				
-				          				} else if ( in_array( "real-kab-pending", $item["participation"] ) ) {
-				          				
-				          					echo '<td class="warning">Pending</td>';
-				          				
-				          				} else {
-				
-				          					echo '<td></td>';
-				  								}
+        							//rôle plateforme
+        							echo '<td>'; 
         							
-        							*/
+        								// Réalisateur ?
+        								if ( in_array( "realisateur", $item["participation"] )) {
+        									echo '<span class="kp-pointlist">Réalisateur-trice</span>';
+        								}
+        								// Technicien ?
+        								if ( in_array( "technicien", $item["participation"] )) {
+        									echo '<span class="kp-pointlist">Artisan-ne / technicien-ne</span>';
+        								}
+        								// Comédien ?
+        								if ( in_array( "comedien-", $item["participation"] )) {
+        									echo '<span class="kp-pointlist">Comédien-ne</span>';
+        								}
+        								// Bénévole ?
+        								if ( in_array( "benevole", $item["participation"] )) {
+        									echo '<span class="kp-pointlist">Bénévole</span>';
+        								}
+        								
+        							echo '</td>';
+        							
+        							//participant au kino
+        							echo '<td>';
+        							if ( in_array( "kabaret-2018", $item["participation"] )) {
+										echo 'oui';
+									}
+									echo '</td>';
+        							
         							// Rôles Kino
         							// ******************
         							
@@ -256,11 +289,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         							echo '</td>';
         							*/
         							//dispo
-        							echo '<td style="white-space:nowrap;">';
+        							echo '<td>';
         							if ( $item["dispo"] ) {
-        										foreach ( $item["dispo"] as $key => $value) {
-        											echo $value.'<br/>';
-        										}
+										foreach ( $item["dispo"] as $key => $value) {
+											echo '<span class="jour-dispo"> '. substr($value, 0, 5) .'</span>';
+										}
         							}
         							echo '</td>';
         							
