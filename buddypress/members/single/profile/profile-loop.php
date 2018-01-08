@@ -2,6 +2,10 @@
 
 <?php if ( bp_has_profile() ) : 
 	
+		
+	bp_get_template_part( 'members/single/profile/personal' );
+		
+	
 	echo '<div class="bp-profile-loop-container">';
 
 	// NOTE: 

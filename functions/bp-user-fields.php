@@ -786,3 +786,51 @@ function kino_user_fields( $kino_userid, $kino_fields ) {
 	return $kino_userdata;
 	
 }
+
+/*
+ * kino_user_fields_auto()
+ * Fonction pour produire une liste de champs
+ 
+ * Arguments à fournir: 
+ 
+ * $kino_userid ID utilisateur
+ * $kino_fields = les définitions de champs
+ * $kino_query_fields = un array avec les champs à interroger
+
+*/
+function kino_user_fields_auto( $kino_userid, $kino_fields, $kino_query_fields ) {
+	
+	$kino_userdata = array();
+	
+	if ($kino_query_fields) {
+		foreach ($kino_query_fields as $value) {
+			
+			$kino_userdata[$value] = bp_get_profile_field_data( array(
+					'field'   => $kino_fields[$value],
+					'user_id' => $kino_userid
+			) );
+			
+		}
+	}
+	
+	return $kino_userdata;
+
+}
+
+/*
+ * kino_make_user_field_markup()
+ * Fonction pour produire un champ <dl>
+ 
+ * Arguments à fournir: 
+ 
+ * $label = étiquette
+ * $content = définition
+
+*/
+function kino_make_user_field_markup( $label, $content ) {
+	$html = '<dl class="">';
+	$html .= '<dt>'.$label.'</dt>';
+	$html .= '<dd>'.$content.'</dd>';
+	$html .= '</dl>';
+	return $html;
+}
