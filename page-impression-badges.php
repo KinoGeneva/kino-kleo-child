@@ -813,9 +813,9 @@ body {
         	 						
         	 				}
         	 				
-        	 				if ( $kino_userdata["comp-autres-liste"] ) {
-        	 						echo '<span class="kp-pointlist">Autres&nbsp;talents </span>';
-        	 				}
+//        	 				if ( $kino_userdata["comp-autres-liste"] ) {
+//        	 						echo '<span class="kp-pointlist">Autres&nbsp;talents </span>';
+//        	 				}
         	 				
         	 				if ( !empty($kino_userdata["fonctions-staff"]) ) {
   	 								foreach ( $kino_userdata["fonctions-staff"] as $key => $value) {
@@ -830,7 +830,7 @@ body {
         	 
         	 // Baseline - Is staff?
         	 
-        	 echo '<div class="baseline">Kino Kabaret de Genève 2017';
+        	 echo '<div class="baseline">Kino Kabaret de Genève 2018';
         	 
         	 	if ( !empty($kino_is_staff ) ) {
         	 		echo ' – <span class="staff">staff</staff>';
