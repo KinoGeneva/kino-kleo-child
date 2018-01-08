@@ -18,7 +18,6 @@ function kino_list_of_excluded_profile_fields() {
 	
 	} else {
 		
-		
 		// exclude Session Attribuée (admin only)
 		
 		$kino_excluded_id[] = $kino_fields['session-attribuee'];
@@ -41,11 +40,15 @@ function kino_list_of_excluded_profile_fields() {
 		
 			// conditions d'utilisation:
 			$kino_excluded_id[] = $kino_fields['conditions-generales'];
+			
+			// Vidéo checkbox pour Comédiens
+			$kino_excluded_id[] = $kino_fields['video-presentation'];
+			
 		}
 		
 		if ( !is_user_logged_in() ) {
 		
-			// cacher le champ email:
+			// cacher le champ email, pour protéger contre le spam.
 			$kino_excluded_id[] = $kino_fields['courriel'];
 		
 		}
@@ -226,7 +229,7 @@ function kino_get_field_group_conditions( $groups ) {
 		
 	// No need to show Conditions, they are filled at account creation...
 	
-	if ( bp_is_user_profile_edit() == false ) { // Notice: bp_is_profile_edit est déprécié depuis la version 1.5 ! Utilisez bp_is_user_profile_edit() à la place.
+	if ( bp_is_user_profile_edit() == false ) {
 		$forbidden_groups[] = "Conditions";
 	}
 	
@@ -261,24 +264,29 @@ function kino_get_field_group_conditions( $groups ) {
   		}
   		// pas inscrit au kabaret ?
 		$forbidden_groups[] = "Kino Kabaret 2018";
-  	}	
-  	
-  	if (!current_user_can( 'publish_pages' )) {
-  		  		
-  		if (!in_array( "kabaret-2018", $kino_user_role )) {
-  			// pas inscrit au kabaret ?
-  			$forbidden_groups[] = "Kino Kabaret 2018";
-  		}
-  	
   	}
   	
-
-  	$forbidden_group_ids = array(
-  		// 7, // Technicien = 7
-  		// 9, // Kabaret = 9
-  		// 12, // Kabaret = 12
-  	);
   	
+  	if ( is_user_logged_in() ) {
+  	
+  		if (!current_user_can( 'publish_pages' )) {
+  			  		
+  			if (!in_array( "kabaret-2018", $kino_user_role )) {
+  				// Membre pas inscrit au kabaret ?
+  				$forbidden_groups[] = "Kino Kabaret 2018";
+  			}
+  		
+  		}
+  		
+  	} else {
+  	
+  		// Champs à masquer pour visiteurs non-connectés:
+  		$forbidden_groups[] = "Profil Kinoïte";
+  		$forbidden_groups[] = "Kino Kabaret 2018";
+  		
+  	}	
+  	
+  
   	$groups_updated = array();
   
   	for ( $i = 0, $count = count( $groups ); $i < $count; ++$i ) {
