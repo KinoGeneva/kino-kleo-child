@@ -491,6 +491,15 @@ $(document).ready(function(){
 		?>
 
 		<?php
+		if(get_field('besoin_figurants', $fiche_projet_post_id)) {
+			echo "<h4>Figurant-e-s</h4><div>";
+			the_field('besoin_figurants', $fiche_projet_post_id);
+			echo '<div style="clear: both"></div>'. $link_2_forum .'</div></div>';
+		}
+		
+		?>
+
+		<?php
 		if(get_field('casting_et_direction_acteur', $fiche_projet_post_id)) {
 			echo "<h4>Casting et direction d'acteur</h4><div>$link_2_forum</div>";
 		}
