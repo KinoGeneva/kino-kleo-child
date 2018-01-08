@@ -8,20 +8,14 @@
  */
 
 ?>
-<div id="bp-kino-personal" class="bp-kino-personal">
+<div id="bp-kino-personal" class="bp-kino-personal bp-widget">
 <?php
-
 
 // define displayed user
 $d_user = bp_displayed_user_id();
-// echo 'ID: '.$d_user.'<br>';
 
 // define $kino_fields
 $kino_fields = kino_test_fields();
-
-//- Name
-
-
 
 $d_user_contact_info = kino_user_fields_auto( 
 	$d_user, 
@@ -47,18 +41,14 @@ foreach ( $user_query->results as $user ) {
   	
   	$d_user_personal_info = kino_user_fields_superlight( $user, $kino_fields );
   	
-//  	echo '<pre>';
-//  	var_dump($d_user_personal_info);
-//  	echo '</pre>';
-  	
-} // End foreach
+}
 
 //  Retourne:
-//  'user-id' => int 266
-//  'user-name' => string 'Oscar García Martín'
-//  'user-slug' => string 'oscaraligarci'
-//  'user-email' => string 'oscar.garciamartin@hotmail.com'
-//  'user-registered' => string '2015-12-03 18:00:39'
+//  'user-id'
+//  'user-name'
+//  'user-slug'
+//  'user-email'
+//  'user-registered'
 
 /*
  * First part = kino-personal-info
@@ -73,11 +63,6 @@ echo '<h2 class="kino-personal-name">'.$d_user_personal_info["user-name"].'</h2>
  Age, Country, Professional Status, CV link
  ******************************************
 */
-
-//$d_user_birthday = bp_get_profile_field_data( array(
-//  'field'   => $kino_fields['birthday'],
-//  'user_id' => $d_user
-//) );
 
 if (!empty( $d_user_contact_info['birthday'] )) {
 
@@ -96,7 +81,6 @@ if (!empty( $d_user_contact_info['pays'] )) {
 	$d_user_shortinfo .= $d_user_contact_info['pays'];
 }
 
-
 /*
  * Professional status
   
@@ -109,10 +93,6 @@ $d_user_role = bp_get_profile_field_data( array(
 	'field'   => $kino_fields['profile-role'],
 	'user_id' => $d_user
 ) );
-
-//echo 'Role Plateforme:<pre>';
-//var_dump($d_user_role);
-//echo '</pre>';
 
 if ($d_user_role) {
 	foreach ($d_user_role as $key => $value) {
@@ -143,20 +123,17 @@ if (!empty($d_user_cv)) {
 	
 	$d_user_shortinfo .= ' &ndash; ';
 	
-	$d_user_shortinfo .= '<a href="';
+	// rename Télécharger le fichier
+	$d_user_shortinfo .= str_replace( 
+		"Télécharger le fichier", 
+		"Télécharger le CV", 
+		$d_user_cv );
 
-	$d_user_shortinfo .= content_url('uploads');
-	
-	$d_user_shortinfo .= $d_user_cv ;
-	
-	$d_user_shortinfo .= '">Télécharger le CV</a>';
-	
 }
 
 echo '<div class="kino-personal-shortinfo">'.$d_user_shortinfo.'</div>';
 
 /*
- *
  * Description:
  ****************
  *
@@ -168,7 +145,6 @@ $d_user_presentation = bp_get_profile_field_data( array(
   'field'   => $kino_fields['id-presentation'],
   'user_id' => $d_user
 ) );
-
 
 if (!empty($d_user_presentation)) {
 
@@ -232,37 +208,10 @@ if ( !empty($kino_img_url) ) {
 }    	 	
         	 	
 
-
 /*
- * Third part
- ****************
- * List of infos
- 
- 	
- 
- 
- - Name
- - Gender
- - Birth date
- - Address
- - PostCode
- - City
- - Country
- - Phone Nr
- - Email
- - Website
- - Other links
- 
- 'birthday',
- 'rue',
- 'code-postal',
- 'ville',
- 'pays',
- 'tel',
- 'sexe',
- 'site-web',
- 'autres-liens'
- 
+ * Third part - List of infos
+ ****************************
+ * 
 */
 
 ?>
@@ -292,8 +241,6 @@ if ( !empty($kino_img_url) ) {
 			$d_user_contact_info["code-postal"] );
 	}
 	
-	
-		
 	echo kino_make_user_field_markup( 
 		'Ville', 
 		$d_user_contact_info["ville"] );
@@ -318,8 +265,6 @@ if ( !empty($kino_img_url) ) {
 		'site-web', 
 		make_clickable( $d_user_contact_info['site-web'] ));
 		
-		// xprofile_filter_link_profile_data( $field_value
-	
 	echo kino_make_user_field_markup( 
 		'autres-liens', 
 		make_clickable( 
