@@ -219,16 +219,11 @@
  		// Q -1: is user in group "Participants Kino (profil complet)"?
  		
  		if ( in_array( $userid, $ids_group_kino_complete ) ) {
-			$kino_notification = '
-			<p style="font-style: normal; font-weight: normal; font-size: 100%">Bravo, vous êtes inscrit au Kino Kabaret de Genève 2018. Vos frais d\'inscription contribuent à permettre à ce que l\'évènement ait lieu ainsi qu\'aux coûts de location du KinoLab, des salles de projection, de préparation des repas, des assurances, etc. En contrepartie vous bénéficiez de repas à un prix en dessous du prix coûtant, d\'un magnifique KinoLab avec accès internet, d\'une imprimante à disposition, d\'un espace de montage, d\'une plateforme internet, d\'impressions de fiches de tous les participants et l\'entrée aux trois projections.</p>
-
-			<p style="font-style: normal; font-weight: normal; font-size: 100%">Merci de payer vos frais d\'inscription sur notre plateforme de financement participatif, en choisissant Inscription Kinoïte ou Inscription Kinoïte de soutien.
-			<a href="https://www.lokalhelden.ch/5me-kino-kabaret-de-geneve" target="_blank">www.lokalhelden.ch/5me-kino-kabaret-de-geneve</a>.</p>
-
-			<p style="font-style: normal; font-weight: 100; font-size: 100%">Afin qu\'il reste accessible pour tous et parce qu\'à ce jour nos recherches de soutiens ne suffisent pas à couvrir tous les frais liés à l\'organisation du Kino Kabaret tel que vous, et nous, l’aimons, nous convions la communauté à le soutenir, et merci d\'encourager votre entourage à aussi soutenir le Kino Kabaret de Genève.</p>
-			';
+ 		
+			$kino_notification = '';
 			// already complete, do nothing
  			break;
+ 		
  		}
  		
  		/*Q0 : taking part in Kino Kabaret? */
@@ -324,13 +319,24 @@
 		
 			
 		// If we continue... User just completed profile - give notifications !
+		
+			$kino_notification = '
+							<p style="font-style: normal; font-weight: normal; font-size: 100%">Bravo, vous êtes inscrit au Kino Kabaret de Genève 2018. Vos frais d\'inscription contribuent à permettre à ce que l\'évènement ait lieu ainsi qu\'aux coûts de location du KinoLab, des salles de projection, de préparation des repas, des assurances, etc. En contrepartie vous bénéficiez de repas à un prix en dessous du prix coûtant, d\'un magnifique KinoLab avec accès internet, d\'une imprimante à disposition, d\'un espace de montage, d\'une plateforme internet, d\'impressions de fiches de tous les participants et l\'entrée aux trois projections.</p>
+				
+							<p style="font-style: normal; font-weight: normal; font-size: 100%">Merci de payer vos frais d\'inscription sur notre plateforme de financement participatif, en choisissant Inscription Kinoïte ou Inscription Kinoïte de soutien.
+							<a href="https://www.lokalhelden.ch/5me-kino-kabaret-de-geneve" target="_blank">www.lokalhelden.ch/5me-kino-kabaret-de-geneve</a>.</p>
+				
+							<p style="font-style: normal; font-weight: 100; font-size: 100%">Afin qu\'il reste accessible pour tous et parce qu\'à ce jour nos recherches de soutiens ne suffisent pas à couvrir tous les frais liés à l\'organisation du Kino Kabaret tel que vous, et nous, l’aimons, nous convions la communauté à le soutenir, et merci d\'encourager votre entourage à aussi soutenir le Kino Kabaret de Genève.</p>
+							';
 			
 			// Q7 : is "Photo du Profil" already complete?
 			
 			if( in_array( "avatar-complete", $kino_user_role ) ) {
 			 
-			 		$kino_notification = '<p>Votre profil est complet. Vous pouvez régulièrement mettre à jour les informations de votre profil en vous connectant avec votre mot de passe.</p>
-			 			<script>
+			 		// $kino_notification = '<p>Votre profil est complet. Vous pouvez régulièrement mettre à jour les informations de votre profil en vous connectant avec votre mot de passe.</p>';
+
+			 		$kino_notification .= '
+			 		  <script>
 			 				mixpanel.track(
 			 				    "Completed Profile"
 			 				);
@@ -338,16 +344,17 @@
 			 		';
 			 		
 			 } else {
+
+			 		$kino_notification .= '<p>PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avatar/">choisir une photo d’avatar</a>!</p>';
 			 		
-			 		$kino_notification = '<p>Votre profil est complet. Vous pouvez régulièrement mettre à jour les informations de votre profil en vous connectant avec votre mot de passe.			 		
-					PS: pensez à <a href="'.bp_core_get_user_domain( $userid ).'profile/change-avatar/">choisir une photo d’avatar</a>!</p>
-			 		<script>
-			 				mixpanel.track(
-			 				    "Completed Profile"
-			 				);
-			 			</script>
-			 		';
-					 
+			 		$kino_notification .= '
+		 			  <script>
+		 					mixpanel.track(
+		 					    "Completed Profile"
+		 					);
+		 				</script>
+		 			';
+				 
 			 }
 				
 				// Final Actions for complete user:
@@ -376,8 +383,7 @@
 				$headers[] = 'From: KinoGeneva <onvafairedesfilms@kinogeneva.ch>';
 				
 				$kino_notification_email .= '
-Nous nous réjouissons de vous accueillir dans notre KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le samedi 13 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h.  
-
+Nous nous réjouissons de vous accueillir dans notre KinoLab à la Fonderie Kugler ( 19 av. de la Jonction, 1205 Genève - entrée par l’arrière du bâtiment) pour la soirée de lancement du Kabaret le samedi 13 janvier à 17h. Finalisation des inscriptions et paiement des frais de participation (en liquide) dès 14h. 
 Vos frais d’inscription contribuent à permettre à ce que l’évènement ait lieu ainsi qu’aux coûts de location du KinoLab, des salles de projection, de préparation des repas, des assurances, etc. En contrepartie vous bénéficiez de repas à un prix en dessous du prix coûtant, d’un magnifique KinoLab avec accès internet, d’une imprimante à disposition, d’un espace de montage, d’une plateforme internet, d’impressions de fiches de tous les participants et l’entrée aux trois projections.
 
 Merci de payer vos frais d’inscription sur notre plateforme de financement participatif, en choisissant Inscription Kinoïte ou Inscription Kinoïte de soutien.
