@@ -124,7 +124,7 @@
 
 
 .bbp-user-page #buddypress #item-header {
-	display:none;
+	/*display:none;*/
 }
 
 .profile-edit #buddypress #item-nav, 
@@ -245,6 +245,10 @@
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-bottom: 0.5em;
+}
+
+.personal-contact dd p {
+	margin-top: 0;
 }
 
 /* @end */

@@ -8,13 +8,19 @@
  */
 
 // Navigation de 2ème niveau
-// Afficher seulement si utilisateur connecté
+// Afficher seulement si: 
+// a. C'est un admin 
+// b. C'est son propre profil
 
-if ( is_user_logged_in() ) {
+	
+$admin_view = kino_admin_view();
+
+if ( $admin_view === true ) {
 
 	bp_get_template_part( 'members/single/profile/subnav' );
 
 }
+	
 
 do_action( 'bp_before_profile_content' ); ?>
 
