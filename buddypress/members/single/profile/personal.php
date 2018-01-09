@@ -14,6 +14,25 @@
 // define displayed user
 $d_user = bp_displayed_user_id();
 
+// test if we use admin view
+// either Admin or Editor
+// or : owner of this profile
+
+$admin_view = false;
+
+if ( is_user_logged_in() ) {
+
+	if ( current_user_can( 'publish_pages' ) ) {
+	
+		$admin_view = true;
+	
+	} else if ( $d_user == bp_loggedin_user_id() ) {
+		
+		$admin_view = true;
+	
+	}
+}
+
 // define $kino_fields
 $kino_fields = kino_test_fields();
 
@@ -27,9 +46,10 @@ $d_user_contact_info = kino_user_fields_auto(
 		'ville',
 		'pays',
 		'tel',
-		'sexe',
 		'site-web',
-		'autres-liens'
+		'autres-liens',
+		'real-links', // films réalisés réal
+		'id-cv'
 	)
 );
 
@@ -112,23 +132,23 @@ if ($d_user_role) {
 
 /*
  * CV Link
+ * uniquement pour membres connectés
 */
 
-$d_user_cv = bp_get_profile_field_data( array(
-  'field'   => $kino_fields['id-cv'],
-  'user_id' => $d_user
-) );
-
-if (!empty($d_user_cv)) {
+if ( is_user_logged_in() ) {
+		
+	if (!empty($d_user_contact_info['id-cv'])) {
+		
+		$d_user_shortinfo .= ' &ndash; ';
+		
+		// rename Télécharger le fichier
+		$d_user_shortinfo .= str_replace( 
+			"Télécharger le fichier", 
+			"Télécharger le CV", 
+			$d_user_contact_info['id-cv'] );
 	
-	$d_user_shortinfo .= ' &ndash; ';
+	}
 	
-	// rename Télécharger le fichier
-	$d_user_shortinfo .= str_replace( 
-		"Télécharger le fichier", 
-		"Télécharger le CV", 
-		$d_user_cv );
-
 }
 
 echo '<div class="kino-personal-shortinfo">'.$d_user_shortinfo.'</div>';
@@ -222,15 +242,21 @@ if ( !empty($kino_img_url) ) {
 		'Nom', 
 		$d_user_personal_info["user-name"] );
 		
-	echo kino_make_user_field_markup( 
-		'Sexe', 
-		$d_user_contact_info['sexe'] );
-	
 	if ( is_user_logged_in() ) {
+	
+		// Date de naissance:
+		// Uniquement visible pour membres
 		
 		echo kino_make_user_field_markup( 
 			'Date de naissance', 
 			$d_user_contact_info['birthday'] );
+		
+	}
+	
+	// Uniquement pour Admin:
+	// Rue, Code Postal
+	
+	if ( $admin_view == true ) {
 	
 		echo kino_make_user_field_markup( 
 			'Adresse: rue, n°', 
@@ -239,17 +265,22 @@ if ( !empty($kino_img_url) ) {
 		echo kino_make_user_field_markup( 
 			'Code postal', 
 			$d_user_contact_info["code-postal"] );
+	
 	}
 	
-	echo kino_make_user_field_markup( 
-		'Ville', 
-		$d_user_contact_info["ville"] );
-			
-	echo kino_make_user_field_markup( 
-		'Pays', 
-		$d_user_contact_info["pays"] );
 	
 	if ( is_user_logged_in() ) {
+	
+		// Ville, Pays, Tel, Email:
+		// Uniquement visible pour membres
+	
+		echo kino_make_user_field_markup( 
+			'Ville', 
+			$d_user_contact_info["ville"] );
+				
+		echo kino_make_user_field_markup( 
+			'Pays', 
+			$d_user_contact_info["pays"] );
 			
 		echo kino_make_user_field_markup( 
 			'Téléphone', 
@@ -261,15 +292,29 @@ if ( !empty($kino_img_url) ) {
 				$d_user_personal_info["user-email"] ));
 	}
 	
-	echo kino_make_user_field_markup( 
-		'site-web', 
-		make_clickable( $d_user_contact_info['site-web'] ));
-		
-	echo kino_make_user_field_markup( 
-		'autres-liens', 
-		make_clickable( 
-			wpautop( 
-				$d_user_contact_info['autres-liens'], true )));
+	// Liens
+	
+	if ( !empty( $d_user_contact_info['site-web'] ) ) {
+		echo kino_make_user_field_markup( 
+			'Site web', 
+			make_clickable( $d_user_contact_info['site-web'] ));
+	}
+	
+	if ( !empty( $d_user_contact_info['autres-liens'] ) ) {
+		echo kino_make_user_field_markup( 
+			'Autres liens', 
+			make_clickable( 
+				wpautop( 
+					$d_user_contact_info['autres-liens'], true )));
+	}
+	
+	if ( !empty( $d_user_contact_info['real-links'] ) ) {
+		echo kino_make_user_field_markup( 
+			'Films réalisés', 
+			make_clickable( 
+				wpautop( 
+					$d_user_contact_info['real-links'], true )));
+	}
 		
 	
 	 ?>
