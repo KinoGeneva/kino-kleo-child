@@ -14,24 +14,8 @@
 // define displayed user
 $d_user = bp_displayed_user_id();
 
-// test if we use admin view
-// either Admin or Editor
-// or : owner of this profile
-
-$admin_view = false;
-
-if ( is_user_logged_in() ) {
-
-	if ( current_user_can( 'publish_pages' ) ) {
-	
-		$admin_view = true;
-	
-	} else if ( $d_user == bp_loggedin_user_id() ) {
-		
-		$admin_view = true;
-	
-	}
-}
+// define admin_view
+$admin_view = kino_admin_view();
 
 // define $kino_fields
 $kino_fields = kino_test_fields();
@@ -77,22 +61,26 @@ foreach ( $user_query->results as $user ) {
 echo '<div id="kino-personal-info" class="kino-personal-info">';
  
 // Name
-echo '<h2 class="kino-personal-name">'.$d_user_personal_info["user-name"].'</h2>';
+// echo '<h2 class="kino-personal-name">'.$d_user_personal_info["user-name"].'</h2>';
 
 /*
  Age, Country, Professional Status, CV link
  ******************************************
 */
 
-if (!empty( $d_user_contact_info['birthday'] )) {
+if ( is_user_logged_in() ) {
 
-	$d_user_age = date_diff(
-		date_create($d_user_contact_info['birthday']), 
-		date_create('now')
-	)->y;
-	// https://stackoverflow.com/questions/3776682/
+	if (!empty( $d_user_contact_info['birthday'] )) {
 	
-	$d_user_shortinfo = $d_user_age .' ans, ';
+		$d_user_age = date_diff(
+			date_create($d_user_contact_info['birthday']), 
+			date_create('now')
+		)->y;
+		// https://stackoverflow.com/questions/3776682/
+		
+		$d_user_shortinfo = $d_user_age .' ans, ';
+	
+	}
 
 }
 
