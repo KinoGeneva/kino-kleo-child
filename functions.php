@@ -141,21 +141,24 @@ function kino_title_filter( $args ) {
 			
 			 if ( function_exists( 'bp_get_send_message_button' ) ) {
 			 	
-			 	$title_buttons = bp_get_send_message_button();
+			 	$title_buttons .= bp_get_send_message_button();
 			 
 			 }
 			 
 			 if ( function_exists( 'bp_get_send_public_message_button' ) ) {
 			 	
-			 	$title_buttons = bp_get_send_public_message_button();
+			 	$title_buttons .= bp_get_send_public_message_button();
 			 
 			 }
-			
+			 
+			 if ( function_exists( 'bp_follow_get_add_follow_button' ) ) {
+			 
+			 	$title_buttons .= bp_follow_get_add_follow_button();
+			 }
 	
 			$args['title'] .= $title_buttons;
 			
 			// class="user-nicename">@<?php bp_displayed_user_mentionname(); 
-			
 			
 		}
 			

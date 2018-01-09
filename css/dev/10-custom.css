@@ -206,8 +206,12 @@
 /*	vertical-align: baseline;*/
 }
 
-.bp-user h1.page-title .generic-button .send-message,
-.bp-user h1.page-title .generic-button .activity-button {
+/*
+* Note: 
+Needs to override kleo-plugins-css
+Which is loaded at the end of CSS...
+*/
+.buddypress .kleo-page div.generic-button a {
 	background-color: #fff;
 	color: #666;
 	border-color: #E5E5E5;
