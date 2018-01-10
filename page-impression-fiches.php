@@ -511,7 +511,7 @@ Total: 166mm
         	'orderby'  => 'last_name',
         	'meta_query' => array(
         	        array(
-        	            'key' => 'kino_timestamp_complete_2017',
+        	            'key' => 'kino_timestamp_complete_2018',
         	            'value' => $kinodate_offset,
         	            'type' => 'CHAR',
         	            'compare' => '>'
