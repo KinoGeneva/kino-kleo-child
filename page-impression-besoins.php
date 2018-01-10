@@ -29,8 +29,10 @@
 		<!-- Begin Article -->
 		<article>
 			<div class="article-content">
-			<b>Filtres par type de besoins:</b>
-			<a href="<?php echo $current_url; ?>?besointype=maquillage-coiffure">Maquillage &amp; coiffure</a> | <a href="<?php echo $current_url; ?>?besointype=costumes-accessoires">Costumes &amp; accessoires</a>
+				<div class="no-print">
+					<b>Filtres par type de besoins:</b>
+					<a href="<?php echo $current_url; ?>?besointype=maquillage-coiffure">Maquillage &amp; coiffure</a> | <a href="<?php echo $current_url; ?>?besointype=costumes-accessoires">Costumes &amp; accessoires</a>
+				</div>
 			<?php
 			//affichge des besoins
 			$besoin_type = ( get_query_var('besointype') ) ? get_query_var('besointype') : false;
