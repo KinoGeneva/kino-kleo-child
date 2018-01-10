@@ -1,23 +1,24 @@
 <?php
-#ajout ACF en frontend sur les projets buddypress
-#https://www.advancedcustomfields.com/resources/acf_form/
-#http://thestizmedia.com/front-end-posting-with-acf-pro/
 
-//lors de l'enregistrement d'un article avec ACF, le lier au projet
+/* hooks lors de l'enregistrement d'un portfolio avec la fiche-projet et ACF
+ * https://www.advancedcustomfields.com/resources/acf-save_post/
+ */
 
 add_action('acf/save_post', 'custom_acf_save_post', 20);
-function custom_acf_save_post( $post_id ) {
+function custom_acf_save_post( $post_id ) { //$post_id (int|string) the ID of the post (or user, term, etc) being saved
 	
-	//1. si pas de date ACF ou pas d'id groupe on sort
+	//si pas de data ACF ou pas d'id de groupe on sort (=> ne concerne que le formulaire "fiche-projet")
 	if( empty($_POST['acf']) || empty($_POST['acf']['group_id'] ) ) {
 		return;
 	}
-
-	//1. id du nouvel article
+		
+	//mises à jour du post avec les informations du groupe
+		
+	//1. id du post
 	
 	$data['ID'] = $post_id;
 	
-	//2. définit le titre du groupe/projet comme titre du nouvel article
+	//2. définit le titre du groupe/projet comme titre du nouveau portfolio
 
 	$project_title = wp_strip_all_tags($_POST['acf']['group-name']);
 	
@@ -26,11 +27,11 @@ function custom_acf_save_post( $post_id ) {
 	
 	wp_update_post( $data );
 	
-	//3. meta de groupe -> création / mise à jour d'une ligne avec id de l'article
-	
+	//3. meta de groupe -> création d'une ligne avec id de l'article
+
 	$create_meta = groups_update_groupmeta( $_POST['acf']['group_id'],  'fiche-projet-post-id',  $post_id );
-	
-	//4. ajoute les nouveaux membres au groupe
+
+	//4. ajoute les nouveaux membres au groupe:
 	//équipe
 	foreach($_POST['acf']['field_586ed49ca1e4b'] as $i => $fields){
 		//membre kino: field_586ed4aca1e4c
@@ -41,23 +42,16 @@ function custom_acf_save_post( $post_id ) {
 	foreach( $_POST['acf']['field_586e935c45950'] as $i => $new_member){
 		groups_accept_invite( $new_member, $_POST['acf']['group_id'] );
 	}
+
 }
 
 //nettoie le html avant de l'insérer
-
-function my_kses_post( $value ) {
-	// is array
-	if( is_array($value) ) {
-		return array_map('my_kses_post', $value);
-	}
-	// return
-	return wp_kses_post( $value );
-}
-add_filter('acf/update_value', 'my_kses_post', 10, 1);
+//suppression de la fonction  my_kses_post() devenue inutile
+//https://www.advancedcustomfields.com/resources/acf_form/
+//sanitize all $_POST data with the wp_kses_post() function. Defaults to true. Added in v5.6.5
 
 
 //ajoute au header tous les scripts de ACF permettant d'enregistrer les données
-
 add_action( 'get_header', 'tsm_do_acf_form_head', 1 );
 function tsm_do_acf_form_head() {
 	// Bail if not logged in or not able to post
@@ -113,7 +107,7 @@ function remove_group_home_tab() {
 		return;
 	}
 	$hide_home_tabs = array(
-		'announcements' => 1,
+		//'announcements' => 1,
 		'notifications' => 1,
 		'members' => 1,
 	);
@@ -157,5 +151,37 @@ function fiche_projet_form() {
 	bp_get_template_part( 'groups/single/admin-add');
 }
 add_action( 'bp_actions', 'add_group_tab', 30 );
+
+//ajout d'un item "médias" au menu du groupe pour tous les membres du projet
+function add_group_media_tab() {
+	if ( ! bp_is_group() || bp_is_current_action( 'create' ) || (!bp_group_is_admin()  && !is_super_admin() && !bp_group_is_member( groups_get_current_group() )) ){
+		return;
+	}
+	$parent_nav_slug = bp_get_current_group_slug() ;
+	$parent_nav_url =  bp_get_group_permalink( groups_get_current_group() ) ;
+
+	$add_group_tab_args = array( 
+		'name' => 'Médias', 
+		'slug' => 'media-projet',
+		'default_subnav_slug' => 'media-projet',
+		'parent_slug' => $parent_nav_slug,
+		'parent_url' => $parent_nav_url,
+		'screen_function' => 'media_projet_screen',
+		'position' => 101,
+	);
+	$result = bp_core_new_subnav_item($add_group_tab_args, 'groups') ; 
+}
+
+//fonction à appeler:
+function media_projet_screen() {
+    add_action( 'bp_template_content', 'media_projet_form' );
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'groups/single/home' ) );
+}
+
+function media_projet_form() { 
+	bp_get_template_part( 'groups/single/media-add');
+}
+add_action( 'bp_actions', 'add_group_media_tab', 30 );
+
 
 ?>

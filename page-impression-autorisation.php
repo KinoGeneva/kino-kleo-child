@@ -1,6 +1,6 @@
 <?php
 /**
- * Un template pour imprimer les projets de films
+ * Un template pour imprimer les autoridsations
  */
 ?>
 <?php $url = get_stylesheet_directory_uri(); ?>
@@ -20,18 +20,22 @@
     </head>
     <body>
     <?php
+    	//current url
+    	$current_url = home_url(add_query_arg(array(),$wp->request));
     	
-    	if ( current_user_can( "read") ) {
+    	if ( current_user_can( "publish_pages") ) {
     	
     ?>
 		<!-- Begin Article -->
 		<article>
 			<div class="article-content">
-			
+			<h4>Autorisations de tournage</h4>
 			<?php
-			if ( bp_has_groups('per_page=50') ) {
-				//tri du tableau par date...
-				$group_2_display = array(
+
+			//init du tableau des besoins par date
+			$group_2_display = array(
+				//dates 2018
+				'sans date' => array(),
 				'dimanche 14 janvier' => array(),
 				'lundi 15 janvier' => array(),
 				'mardi 16 janvier' => array(),
@@ -45,19 +49,19 @@
 				'mercredi 24 janvier' => array(),
 				'jeudi 25 janvier' => array(),
 				'vendredi 26 janvier' => array(),
-				);
-				
-				$group_2_display = array(
-				'sans date' => array(),
+				//dates 2017
 				'mardi 10 janvier' => array(),
 				'mercredi 11 janvier' => array(),
 				'vendredi 13 janvier' => array(),
 				'samedi 14 janvier' => array(),
 				'lundi 16 janvier' => array(),
 				'mardi 17 janvier' => array(),
-				
-				);
-				
+			);
+			
+			
+//recherche des groupes
+			if ( bp_has_groups('per_page=50') ) {
+
 				while ( bp_groups() ) {
 					bp_the_group();
 
@@ -65,6 +69,7 @@
 					$group_id = bp_get_group_id(); 
 					$fiche_projet_post_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id');
 					$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
+					//$group = groups_get_group( array( 'group_id' => $group_id ) );
 					
 					//obtenir la session automatiquement
 					$sessions_terms = get_terms( array(
@@ -75,17 +80,24 @@
 					$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
 
 					$sessions = current( ( array_intersect( $sessions_terms,$user_terms ) ) );
-					
-					//test si besoin en accessoire ou en costume
-					if( get_field('besoin_accessoires', $fiche_projet_post_id) || get_field('besoin_costumes', $fiche_projet_post_id) ){
 
-						//classement par jour de tournage
-						if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
-							while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
-								the_row();
+					//classement par jour de tournage
+					if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
+						while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
+							the_row();
+							
+							//demande d'autorisation cochée
+							if(get_sub_field('tournage_autorisation', $fiche_projet_post_id)) {
 								$date = get_sub_field('jours', $fiche_projet_post_id);
 								$horaire = 'de '. get_sub_field('tournage_debut', $fiche_projet_post_id) .' à '. get_sub_field('tournage_fin', $fiche_projet_post_id);
-								$adresse = get_sub_field('adresse', $fiche_projet_post_id)['address'];
+								if(get_sub_field('adresse', $fiche_projet_post_id)){
+									$adresse = get_sub_field('adresse', $fiche_projet_post_id)['address'];
+								}
+								else {
+									$adresse = '';
+								}
+								$dispositif = get_sub_field('tournage_dispositif', $fiche_projet_post_id);
+								
 								
 								$group_2_display[$date][] = array(
 									'date' => $date,
@@ -99,26 +111,18 @@
 									'tel_real' => xprofile_get_field_data('Téléphone', $id_real),
 									'sessions' => $sessions,
 									'group_name' => bp_get_group_name(),
+									'dispositif' => $dispositif,
+									'synopsis' => bp_get_group_description()
 								);
 							}
-						}
-						//sans date de tournage définie
-						else {
-							$group_2_display['sans date'][] = array(
-								'date' => '',
-								'horaire' => '',
-								'group_id' => $group_id,
-								'fiche_projet_post_id' => $fiche_projet_post_id,
-								'id_real' => $id_real,
-								'nom_real' => bp_core_get_user_displayname($id_real),
-								'email_real' => xprofile_get_field_data('e-mail', $id_real),
-								'tel_real' => xprofile_get_field_data('Téléphone', $id_real),
-								'sessions' => $sessions,
-								'group_name' => bp_get_group_name(),
-							);
+							
+
 						}
 					}
+					
 				}
+				//
+
 			}
 			/*
 			echo '<pre>';
@@ -126,12 +130,9 @@
 			echo '</pre>';
 */
 
-			?>
-			
-			
-			<?php
-			foreach($group_2_display as $date => $entry){
-				if(!empty($entry)){
+
+		foreach($group_2_display as $date => $entry){
+			if(!empty($entry)){
 				echo '<div class="profile clearfix print-profile">';
 				echo '<h2>'. $date .'</h2>';
 				uasort($entry, function($a, $b) {
@@ -142,58 +143,46 @@
 				});
 				foreach($entry as $projet){
 					echo '<div style="page-break-inside: avoid;">';
-					if($date != 'sans date'){
-						echo '<h3>'. $projet['horaire'] .'<br/>'.  $projet['adresse'] .'</h3>';
-					}
+					echo '<h3>'. $projet['horaire'] .'<br/>'.  $projet['adresse'] .'</h3>';
+					
 					?>			
-					<div>Tournage de <b><?php echo $projet['group_name']; ?></b> (<?php echo $projet['sessions']; ?>)</div>
-					<div>Un film de <b><?php echo $projet['nom_real']; ?></b> | <?php echo $projet['email_real'] ?> | <?php echo $projet['tel_real'] ?></div>
-
-		<div class="besoins">
-		
-
-		 <?php 
-		if(get_field('besoin_accessoires', $projet['fiche_projet_post_id'])){
-			echo '<div><h4 class="red">Besoins en accessoires</h4>';
-			the_field('besoin_accessoires', $projet['fiche_projet_post_id']);
-			$images = get_field('besoin_accessoires_photos', $projet['fiche_projet_post_id']);
-
-			if( $images ) {
-				foreach( $images as $image ) {
-					echo '
-					<div class="image">
-						<a href="'. $image['url'] .'">
-							 <img src="'. $image['sizes']['thumbnail'] .'" alt="'. $image['alt'] .'" />
-						</a>
-					</div>';
-				}
-
-			}
-			echo '</div>';
-		}
-		 ?>
-		
-		 <?php 
-		if(get_field('besoin_costumes', $projet['fiche_projet_post_id'])){
-			echo '<div><h4 class="red">Besoins en costumes</h4>';
-			the_field('besoin_costumes', $projet['fiche_projet_post_id']);
-			$images = get_field('besoin_costumes_photos', $projet['fiche_projet_post_id']);
-
-			if( $images ) {
-				foreach( $images as $image ) {
-					echo '
-					<div class="image">
-						<a href="'. $image['url'] .'">
-							 <img src="'. $image['sizes']['thumbnail'] .'" alt="'. $image['alt'] .'" />
-						</a>
-					</div>';
-				}
-
-			}
-			echo '</div>';
-		}
-		 ?>
-		</div>
+					<ul>
+						<li>Tournage de <b><?php echo $projet['group_name']; ?></b> (<?php echo $projet['sessions']; ?>)</li>
+						<li>Un film de <?php echo $projet['nom_real']; ?> | <?php echo $projet['email_real'] ?> | <?php echo $projet['tel_real'] ?></li>
+						<li>Nombre de personnes sur le plateau: 
+						<?php
+						//on commence à 1 : le réal
+						$nb_personnes = 1;
+						//equipe
+						while ( have_rows('equipe', $projet['fiche_projet_post_id']) ) {
+							the_row();
+							$nb_personnes++;
+						}
+						
+						//comédien membre
+						if( $comediens = get_field('comedien-nes', $projet['fiche_projet_post_id']) ){
+							foreach($comediens as $comedien) {
+								$nb_personnes++;
+							}
+						}
+						
+						//comédien non membre
+						if( $comediens_hors = explode(',', get_field('autres_comediens', $projet['fiche_projet_post_id']) )){
+							foreach($comediens_hors as $comedien) {
+								$nb_personnes++;
+							}
+						}
+						
+						echo $nb_personnes;
+						?>
+						</li>
+						<li>
+							Dispositif de tournage: <?php echo $projet['dispositif']; ?>
+						</li>
+						<li>
+							Scénario: <?php echo $projet['synopsis']; ?>
+						</li>
+					</ul>
 		<hr/>
 			</div>
 			<div style="clear: both;"></div>
