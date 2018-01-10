@@ -501,7 +501,7 @@ $(document).ready(function(){
 		if(get_field('besoin_figurants', $fiche_projet_post_id)) {
 			echo "<h4>Figurant-e-s</h4><div>";
 			the_field('besoin_figurants', $fiche_projet_post_id);
-			echo '<div style="clear: both"></div>'. $link_2_forum .'</div></div>';
+			echo '<div style="clear: both"></div>'. $link_2_forum .'</div>';
 		}
 		
 		?>
