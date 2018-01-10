@@ -370,7 +370,7 @@ $(document).ready(function(){
 			<div class="red">';
 			while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) )  {
 				the_row();
-				echo '<div class="boxcal" style="height: 105px;">';
+				echo '<div class="boxcal" style="height: 120px;">';
 				echo '<div class="day">
 				'. preg_replace('`[^0-9]`', '', get_sub_field('jours', $fiche_projet_post_id)) .'
 				</div>';
@@ -379,8 +379,15 @@ $(document).ready(function(){
 				echo ' à ';
 				the_sub_field('tournage_fin', $fiche_projet_post_id);
 				echo '</div>';
-				echo '<a href="https://www.google.ch/maps/place/'. get_sub_field('adresse', $fiche_projet_post_id)['address'] .'" target="_blank">'. get_sub_field('adresse', $fiche_projet_post_id)['address'] .'</a>';
-				echo '<hr/></div>';
+				echo '<a href="https://www.google.ch/maps/place/'. get_sub_field('adresse', $fiche_projet_post_id)['address'] .'" target="_blank">'. get_sub_field('adresse', $fiche_projet_post_id)['address'] .'</a>
+				<div class="dispositif">Dispositif: ';
+				the_sub_field('tournage_dispositif', $fiche_projet_post_id);
+				echo '</div>';
+				if(get_sub_field('tournage_autorisation', $fiche_projet_post_id)) {
+					echo "Demande d'autorisation";
+				}
+				echo '<hr/>';
+				echo '</div>';
 			}
 			echo '</div>';
 		}
