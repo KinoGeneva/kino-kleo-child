@@ -376,9 +376,9 @@ body {
 
  * kinodate
  **************
- tri par date d'inscription = ancienneté en jours
+ tri par date d'inscription = ancienneté en heures
  query variable : kinodate
- as in : ?kinodate=5 = montre uniquement les utilisateurs inscrits dans les derniers 5 jours
+ as in : ?kinodate=5 = montre uniquement les utilisateurs inscrits dans les dernières 5 heures
  
  * kinodate
  **************
