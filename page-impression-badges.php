@@ -62,36 +62,36 @@ body {
 }
 
 .print-badge {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_STAFF.png")!important;
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_STAFF.png")!important;
 	-webkit-print-color-adjust: exact;
 }
 .print-badge.role-staff {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_STAFF.png")!important;
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_STAFF.png")!important;
 }
 .print-badge.role-comed {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_R.png")!important;
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_R.png")!important;
 }
 .print-badge.role-tech {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_B.png")!important;
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_B.png")!important;
 }
 .print-badge.role-real {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_G.png")!important;
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
 
-.print-badge.role-real.role-tech {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_GB.png")!important;
+.print-badge.role-real.role-tech { /* was : Fond_GB.png */
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
 
-.print-badge.role-real.role-comed {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_RG.png")!important;
+.print-badge.role-real.role-comed { /* was : Fond_RG.png */
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
 
-.print-badge.role-tech.role-comed {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_RB.png")!important;
+.print-badge.role-tech.role-comed { /* was : Fond_RB.png */
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_R.png")!important;
 }
 
-.print-badge.role-real.role-tech.role-comed {
-	background-image: url("<?php echo $url; ?>/img/badges/Fond_RGB.png")!important;
+.print-badge.role-real.role-tech.role-comed { /* was : Fond_RGB.png */
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
 
 .badge-photo,
@@ -360,7 +360,7 @@ body {
 /*
  ** Concept:
  
- Sans paramètres supplémentaires, cette page affiche une liste des participants au Kino Kabaret 2016, triés par: Nom de famille.
+ Sans paramètres supplémentaires, cette page affiche une liste des participants au Kino Kabaret, triés par: Nom de famille.
 
  Paramètres possibles: 
  
@@ -380,6 +380,10 @@ body {
  query variable : kinodate
  as in : ?kinodate=5 = montre uniquement les utilisateurs inscrits dans les derniers 5 jours
  
+ * kinodate
+ **************
+ ajouter ?kinodebug=on
+ 
 */
 
 	//***************************************
@@ -394,6 +398,12 @@ body {
 		$kino_fields['group-kino-complete'], 
 		'user-group' 
 	);
+	
+	if ( $kino_debug_mode == 'on' ) {
+		echo '<pre> $ids_of_kino_participants: ';
+		var_dump( $ids_of_kino_participants );
+		echo '</pre>';
+	}
 
 
 	$kinorole_var = ( get_query_var('kinorole') ) ? get_query_var('kinorole') : false;
