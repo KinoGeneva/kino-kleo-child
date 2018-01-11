@@ -346,9 +346,8 @@ Which is loaded at the end of CSS...
 }
 
 .kab-cal-dispo {
-	/* background-color: #000; */
 	color: #000;
-	background-color: rgb(190, 190, 190);
+	background-color: rgb(191, 223, 133);
 }
 
 .kab-cal .paragraph {
@@ -364,6 +363,25 @@ Which is loaded at the end of CSS...
 	margin-right: 0mm;
 }
 
+.kino-kabaret-infos .role-block {
+	font-weight: bold;
+}
+
+.kino-kabaret-infos .role-comed {
+	color: #fe0000;
+}
+
+.kino-kabaret-infos .role-tech {
+	color: #004799;
+}
+
+.kino-kabaret-infos .role-real {
+	color: #00963f;
+}
+
+.kino-kabaret-infos .role-tech {
+	color: #004799;
+}
 
 /* @end */
 

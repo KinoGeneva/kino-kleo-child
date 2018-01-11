@@ -20,9 +20,9 @@ function kino_register_styles() {
 
 	wp_enqueue_style( 
 		'kino-custom', 
-		get_stylesheet_directory_uri() . '/css/dev/10-custom.css', // main.css
+		get_stylesheet_directory_uri() . '/css/dev/10-custom.2018-01-11b.css', // main.css
 		false, // dependencies
-		'2018.01.09' // version
+		null // version
 	); 
 	
 	wp_enqueue_style( 
