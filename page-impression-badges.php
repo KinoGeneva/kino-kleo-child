@@ -34,8 +34,6 @@ body {
 	color: #000;
 }
 
-
-
 .kp-h2,
 .kp-h3,
 .kp-h4 {
@@ -65,34 +63,50 @@ body {
 	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_STAFF.png")!important;
 	-webkit-print-color-adjust: exact;
 }
-.print-badge.role-staff {
-	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_STAFF.png")!important;
+
+.print-badge.role-tech {
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_B.png")!important;
 }
 .print-badge.role-comed {
 	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_R.png")!important;
-}
-.print-badge.role-tech {
-	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_B.png")!important;
 }
 .print-badge.role-real {
 	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
 
-.print-badge.role-real.role-tech { /* was : Fond_GB.png */
+.print-badge.role-tech-pro {
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_B.png")!important;
+}
+.print-badge.role-comed-pro {
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_R.png")!important;
+}
+.print-badge.role-real-pro {
 	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
 
-.print-badge.role-real.role-comed { /* was : Fond_RG.png */
+.print-badge.role-staff {
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_STAFF.png")!important;
+}
+
+/*
+
+.print-badge.role-real.role-tech { <?php // was : Fond_GB.png ?>
 	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
 
-.print-badge.role-tech.role-comed { /* was : Fond_RB.png */
+.print-badge.role-real.role-comed { <?php // was : Fond_RG.png ?>
+	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
+}
+
+.print-badge.role-tech.role-comed { <?php // was : Fond_RB.png ?>
 	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_R.png")!important;
 }
 
-.print-badge.role-real.role-tech.role-comed { /* was : Fond_RGB.png */
+.print-badge.role-real.role-tech.role-comed { <?php // was : Fond_RGB.png ?>
 	background-image: url("<?php echo $url; ?>/img/badges2018/Fond_G.png")!important;
 }
+
+*/
 
 .badge-photo,
 .identity-block {
@@ -187,7 +201,8 @@ body {
 	height: 22mm;
 }
 
-.stars-3 .starbox {
+.stars-3 .starbox,
+.stars-4 .starbox  {
 	top: 32mm;
 	height: 15mm;
 }
@@ -232,7 +247,8 @@ body {
 	height: 10mm;
 }
 
-.stars-3 .talents {
+.stars-3 .talents,
+.stars-4 .talents {
 	top: 48mm;
 	height: 8mm;
 	
@@ -571,28 +587,39 @@ body {
         	
         		$kino_userid = $user->ID ;
         		
-        		$kino_userdata = kino_user_fields($kino_userid , $kino_fields );
+        		$kino_userdata_base = kino_user_fields($kino_userid , $kino_fields );
+        		
+        		$kino_userdata_plus = kino_user_fields_auto( 
+        			$kino_userid, 
+        			$kino_fields, 
+        			array( 
+        				'session-attribuee',
+        				'fonctions-staff',
+        				'real-niveau',
+        				'tech-niveau',
+        				'comedien-niveau'
+        			)
+        		);
+        		
+        		// Note: array_merge doesn't do anything when one array is empty (unset)
+        		
+        		$kino_userdata = array();
+        		
+        		if ( is_array( $kino_userdata_base ) ) {
+        		    $news_array = array_merge($kino_userdata, $kino_userdata_base);
+        		}
+        		
+        		if ( is_array( $kino_userdata_plus ) ) {
+        		    $news_array = array_merge($kino_userdata, $kino_userdata_plus);
+        		}
+        		
+        		$kino_userdata = array_merge(
+        			$kino_userdata_base, 
+        			$kino_userdata_plus
+        		);
+						
+						
 
-        		// tester si Transient, sinon charger les données.
-        		
-//        		$transientname = 'userdata'.$user->ID;
-//        		
-//    		if ( false === ( $kino_userdata = get_transient( $transientname ) ) ) {
-//    		    
-//    		    // It wasn't there, so regenerate the data and save the transient
-//    		    $kino_userdata = kino_user_fields($kino_userid , $kino_fields ); 
-//    		     
-//    		     set_transient( $transientname, $kino_userdata, 180 );
-//    		     //  * HOUR_IN_SECONDS
-//    		     echo '<p>we just defined transient '.$transientname.'</p>';
-//    		     
-//    		}
-    		
-//    		echo '<pre>';
-//    		var_dump($kino_userdata);
-//    		echo '</pre>';
-        		
-        		
         		// Phase 2 : Générer le HTML de la fiche
         		
         		// define CSS class
@@ -610,13 +637,7 @@ body {
         		}
         		
         		// test if STAFF
-        		
-        		$kino_is_staff = bp_get_profile_field_data( array(
-        						'field'   => 1582,
-        						'user_id' => $kino_userid
-        		) );
-        			
-        		if (!empty($kino_is_staff ) ) {
+        		if (!empty( $kino_userdata["fonctions-staff"] ) ) {
         			$kino_star_number++;
         		}
         		
@@ -624,16 +645,26 @@ body {
       	 			// echo '<span class="kp-pointlist">Réalisateur-trice</span>';
       	 			$kino_role_css .= ' role-real';
       	 			$kino_star_number++;
+      	 			// niveau?
+      	 			if ( kino_process_niveau($kino_userdata["real-niveau"]) == 'pro' ) { $kino_role_css .= ' role-real-pro'; }
       	 		}
       	 		
       	 		if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
       	 			$kino_role_css .= ' role-tech';
       	 			$kino_star_number++;
+      	 			// niveau?
+      	 				if (!empty( $kino_userdata["tech-niveau"] )) {
+      	 					if ( kino_process_niveau($kino_userdata["tech-niveau"]) == 'pro' ) { $kino_role_css .= ' role-tech-pro'; }
+      	 				} 
       	 		}
       	 		
       	 		if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
       	 			$kino_role_css .= ' role-comed';
       	 			$kino_star_number++;
+      	 			// niveau?
+      	 				if (!empty( $kino_userdata["comedien-niveau"] )) {
+      	 					if ( kino_process_niveau($kino_userdata["comedien-niveau"]) == 'pro' ) { $kino_role_css .= ' role-comed-pro'; }
+      	 				} 
       	 		}
       	 		
       	 		// box nr
@@ -707,12 +738,8 @@ body {
 
         	 		echo '<div class="role-real">Réalisateur';
         	 		// niveau?
-        	 			$kino_niveau = bp_get_profile_field_data( array(
-        	 						'field'   => 1079,
-        	 						'user_id' => $kino_userid
-        	 				) );
-        	 			if (!empty($kino_niveau)) {
-        	 						echo ' ['.kino_process_niveau($kino_niveau).']';
+        	 			if (!empty( $kino_userdata["real-niveau"] )) {
+        	 						echo ' ['.kino_process_niveau($kino_userdata["real-niveau"]).']';
         	 			}
         	 			
         	 		// session?
@@ -731,13 +758,8 @@ body {
         	 	if ( in_array( "technicien-kab", $kino_userdata["participation"] )) {
         	 		echo '<div class="role-tech">Artisan-ne / Technicien-ne';
         	 		// niveau?
-        	 		
-        	 		$kino_niveau = bp_get_profile_field_data( array(
-  	 						'field'   => 1075,
-  	 						'user_id' => $kino_userid
-  	 					) );
-  	 					if (!empty($kino_niveau)) {
-  	 							echo ' ['.kino_process_niveau($kino_niveau).']';
+  	 					if (!empty( $kino_userdata["tech-niveau"] )) {
+  	 							echo ' ['.kino_process_niveau( $kino_userdata["tech-niveau"] ).']';
   	 					}
         	 		echo '</div>';
         	 	}
@@ -745,12 +767,8 @@ body {
         	 	if ( in_array( "comedien-kab", $kino_userdata["participation"] )) {
         	 		echo '<div class="role-comed">Comédien-ne';
         	 		// niveau?
-        	 		$kino_niveau = bp_get_profile_field_data( array(
-		 							'field'   => 927,
-		 							'user_id' => $kino_userid
-		 					) );
-        	 		if (!empty($kino_niveau)) {
-        	 					echo ' ['.kino_process_niveau($kino_niveau).']';
+        	 		if (!empty( $kino_userdata["comedien-niveau"] )) {
+        	 					echo ' ['.kino_process_niveau( $kino_userdata["comedien-niveau"] ).']';
         	 			}
         	 		echo '</div>';
         	 	}
@@ -833,11 +851,7 @@ body {
         	 						echo '<span class="kp-pointlist">HMC </span>';
         	 						
         	 				}
-        	 				
-//        	 				if ( $kino_userdata["comp-autres-liste"] ) {
-//        	 						echo '<span class="kp-pointlist">Autres&nbsp;talents </span>';
-//        	 				}
-        	 				
+        	 				        	 				
         	 				if ( !empty($kino_userdata["fonctions-staff"]) ) {
   	 								foreach ( $kino_userdata["fonctions-staff"] as $key => $value) {
   	 										echo '<span class="kp-pointlist"> '.$value.'</span>';
