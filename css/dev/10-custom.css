@@ -257,6 +257,116 @@ Which is loaded at the end of CSS...
 
 /* @end */
 
+/* @group Profile Kabaret */
+
+.bp-kino-kabaret {
+	clear: both;
+	margin-bottom: 2em;
+}
+
+.kino-kabaret-presences,
+.kino-kabaret-infos {
+	width: 100%;
+	clear: both;
+	margin-top: 2em;
+}
+
+/*
+ * week = 100
+ * 7 days = 7x12 = 84%
+ * 6 spaces = 6x2% = 12%
+*/
+
+
+.kab-cal-jour {
+	float: left;
+	display: block;
+	background-color: rgb(235, 235, 235);
+	font-size: 1.2em;
+	color: #fff;
+	width: 12%;
+	margin-right: 2%;
+	text-align: center;
+	padding-top: 0.2em;
+	padding-bottom: 0.3em;
+	margin-bottom: 0.5em;
+}
+
+
+/*
+ * Pas d'espace à droite pour les dimanche:
+*/
+.cal-jour-di {
+	margin-right: 0;
+}
+
+.cal-jour-lu {
+	clear: left;
+}
+
+/*
+ * 1er samedi:
+ Marge à gauche: 5 jours (60%) + 5 espaces (10%) = 70%
+*/
+.kab-cal-jour:first-of-type {
+	margin-left: 70%;
+}
+
+@media only screen and (min-width: 460px) {
+	.kino-kabaret-presences {
+		width: 50%;
+		float: left;
+	}
+	.kino-kabaret-infos {
+		width: 40%;
+		float: right;
+		clear: none;
+	}
+}
+
+@media only screen and (min-width: 800px) {
+	.kino-kabaret-presences {
+		width: 35%;
+	}
+	.kino-kabaret-infos {
+		width: 60%;
+	}
+}
+
+@media only screen and (min-width: 760px) {
+	.kab-cal-jour {
+		font-size: 1.4em;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.kab-cal-jour {
+		font-size: 1.8em;
+	}
+}
+
+.kab-cal-dispo {
+	/* background-color: #000; */
+	color: #000;
+	background-color: rgb(190, 190, 190);
+}
+
+.kab-cal .paragraph {
+	margin-bottom: 0mm;
+}
+
+.kab-cal .jour-name {
+/*	text-transform: uppercase;*/
+	font-size: 0.7em;
+}
+
+.kab-cal-jour:last-of-type {
+	margin-right: 0mm;
+}
+
+
+/* @end */
+
 /* @group Edit Profile */
 
 /* Ajustements et espacements */

@@ -4,7 +4,12 @@
 	
 		
 	bp_get_template_part( 'members/single/profile/personal' );
+	
+	if ( is_user_logged_in() ) {
+	
+		bp_get_template_part( 'members/single/profile/kabaret' );
 		
+	}
 	
 	echo '<div class="bp-profile-loop-container">';
 
