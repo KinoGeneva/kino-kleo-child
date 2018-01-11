@@ -637,6 +637,7 @@ body {
         		}
         		
         		// test if STAFF
+
         		if (!empty( $kino_userdata["fonctions-staff"] ) ) {
         			$kino_star_number++;
         		}
@@ -794,7 +795,7 @@ body {
 							echo '<img class="star" src="'. $url .'/img/badges/Star_R.png" />';
 						}
 						
-						if (!empty($kino_is_staff ) ) {
+						if (!empty( $kino_userdata["fonctions-staff"] ) ) {
 							echo '<img class="star" src="'. $url .'/img/badges/Star_STAFF.png" />';
 						}
 					
@@ -804,7 +805,7 @@ body {
         	 // Talents
         	 
         	 if ( in_array( "technicien-kab", $kino_userdata["participation"] ) 
-        	 || !empty($kino_is_staff ) ) {
+        	 || !empty( $kino_userdata["fonctions-staff"] ) ) {
         	 		
         	 		echo '<div class="talents"><div>';
         	 		
@@ -867,7 +868,7 @@ body {
         	 
         	 echo '<div class="baseline">Kino Kabaret de Genève 2018';
         	 
-        	 	if ( !empty($kino_is_staff ) ) {
+        	 	if ( !empty( $kino_userdata["fonctions-staff"] ) ) {
         	 		echo ' – <span class="staff">staff</staff>';
         	 	}
         	 
