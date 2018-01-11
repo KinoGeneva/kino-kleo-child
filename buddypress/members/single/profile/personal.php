@@ -12,13 +12,19 @@
 <?php
 
 // define displayed user
-$d_user = bp_displayed_user_id();
+if (empty($d_user)) {
+	$d_user = bp_displayed_user_id();
+}
 
 // define admin_view
-$admin_view = kino_admin_view();
+if (empty($admin_view)) {
+	$admin_view = kino_admin_view();
+}
 
 // define $kino_fields
-$kino_fields = kino_test_fields();
+if (empty($kino_fields)) {
+	$kino_fields = kino_test_fields();
+}
 
 $d_user_contact_info = kino_user_fields_auto( 
 	$d_user, 
@@ -33,7 +39,10 @@ $d_user_contact_info = kino_user_fields_auto(
 		'site-web',
 		'autres-liens',
 		'real-links', // films réalisés réal
-		'id-cv'
+		'id-cv',
+		'id-presentation',
+		'profile-role',
+		'photo'
 	)
 );
 
@@ -97,13 +106,8 @@ if (!empty( $d_user_contact_info['pays'] )) {
  Montrer statut plateforme.
 */
 
-$d_user_role = bp_get_profile_field_data( array(
-	'field'   => $kino_fields['profile-role'],
-	'user_id' => $d_user
-) );
-
-if ($d_user_role) {
-	foreach ($d_user_role as $key => $value) {
+if (!empty($d_user_contact_info['profile-role'])) {
+	foreach ($d_user_contact_info['profile-role'] as $key => $value) {
 	
 		// divider
 		$d_user_shortinfo .= ' &ndash; ';
@@ -144,22 +148,13 @@ echo '<div class="kino-personal-shortinfo">'.$d_user_shortinfo.'</div>';
 /*
  * Description:
  ****************
- *
  * Correspond au champ "Présentez-vous !"
- *
 */
 
-$d_user_presentation = bp_get_profile_field_data( array(
-  'field'   => $kino_fields['id-presentation'],
-  'user_id' => $d_user
-) );
-
-if (!empty($d_user_presentation)) {
-
+if (!empty($d_user_contact_info['id-presentation'])) {
 	echo '<div class="personal-presentation">';
-	echo $d_user_presentation;
+	echo $d_user_contact_info['id-presentation'];
 	echo '</div>';
-
 }
 
 ?>
@@ -185,16 +180,9 @@ $kino_img_url = bp_core_fetch_avatar( array(
 
 if ( $kino_img_url == 'https://kinogeneva.ch/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg' ) {
         	 	
- 	// no avatar - 
- 	// check if photo uploaded:
-			$kino_userdata["photo"] = bp_get_profile_field_data( array(
-				   		'field'   => $kino_fields['id-photo'],
-				   		'user_id' => $d_user
-				   ) );
-
-		if ( $kino_userdata["photo"] ) {
+		if ( !empty( $d_user_personal_info["photo"] ) ) {
 		
-			$kino_img_url = str_replace('" alt="" />','',$kino_userdata["photo"] );
+			$kino_img_url = str_replace('" alt="" />','',$d_user_personal_info["photo"] );
 			$kino_img_url = str_replace('<img src="','',$kino_img_url );			
 		
 		} else {
@@ -219,7 +207,6 @@ if ( !empty($kino_img_url) ) {
 /*
  * Third part - List of infos
  ****************************
- * 
 */
 
 ?>
