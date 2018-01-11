@@ -151,25 +151,27 @@ foreach ($kabaret_dates as $key => $value) {
         	 		echo '</div>';
         	 	}
         	 	
+        	 	echo '</div>'; // .role-block
+        	 	
         	 	if ( $d_user_kab_info["real-coaching-scenario"] ) {
         	 				
-        	 			echo '<h4 class="titre-section">Mon scénario</h4>';
-        	 				
-        	 			echo '<p class="paragraphe">'.$d_user_kab_info["real-coaching-scenario"].'</p>';
+        	 			echo kino_make_user_field_markup( 
+        	 					'Mon scénario pour le Kino Kabaret 2018', 
+        	 					$d_user_kab_info['real-coaching-scenario'] );
         	 		}
         	 	
         	 	
         	 	if ( $d_user_kab_info["dispo-partiel"] ) {
         	 			
-        	 		echo '<h4 class="titre-section">Disponibilités partielles</h4>';
-        	 			
-        	 		echo '<p class="paragraphe">'.$d_user_kab_info["dispo-partiel"].'</p>';
+        	 		echo kino_make_user_field_markup( 
+        	 			'Disponibilités partielles', 
+        	 			$d_user_kab_info['dispo-partiel'] );
         	 	}
         	 	
-        	 	echo '</div>'; // .role-block
+        	 	
         	 	
 	 ?>
-</div>
+	</div><!-- .kino-kabaret-infos -->
 
 </div> <!-- bp-kino-kabaret -->
 <?php
