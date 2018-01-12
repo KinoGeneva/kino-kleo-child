@@ -234,29 +234,27 @@
 		
 			<?php
 			//besoin_maquillage
-			if(get_field('besoin_maquillage', $fiche_projet_post_id)) {
+			if( have_rows('besoin_maquillage_oui', $fiche_projet_post_id) ) {
 				echo '<div class="boxneed"><h4 class="red">Maquillage</h4>';
-				if(get_field('maquillage_1', $fiche_projet_post_id)) {
-					echo get_field('maquillage_1', $fiche_projet_post_id) .' comédien(s) | naturel | PAT '. get_field('jour_et_horaire_pat_1', $fiche_projet_post_id) .'<br/>';
-				}
-				if(get_field('maquillage_2', $fiche_projet_post_id)) {
-					echo get_field('maquillage_2', $fiche_projet_post_id) . ' comédien(s) | soutenu | PAT '. get_field('jour_et_horaire_pat_2', $fiche_projet_post_id) .'<br/>';
-				}
-				if(get_field('maquillage_3', $fiche_projet_post_id)) {
-					echo get_field('maquillage_3', $fiche_projet_post_id) .' comédien(s) | vieillir | PAT '. get_field('jour_et_horaire_pat_3', $fiche_projet_post_id) .'<br/>';
-				}
-				if(get_field('maquillage_4', $fiche_projet_post_id)) {
-					echo get_field('maquillage_4', $fiche_projet_post_id) .' comédien(s) | FX | PAT '. get_field('jour_et_horaire_pat_4', $fiche_projet_post_id) .'<br/>';
+				while ( have_rows('besoin_maquillage_oui', $fiche_projet_post_id) ) {
+					the_row();
+					echo get_sub_field('nombre', $fiche_projet_post_id) .' comédien(s) | '. get_sub_field('type', $fiche_projet_post_id) .' | PAT '. get_sub_field('pat', $fiche_projet_post_id) .'<br/>';
 				}
 				echo '</div>';
 			}
 			?>
 			
 			<?php
-			if(get_field('besoin_coiffure', $fiche_projet_post_id)) {
-				echo '<divclass="boxneed"><h4  class="red">Coiffure</h4>'.
-				get_field('coiffure_nombre_de_comedien', $fiche_projet_post_id) .' comédien(s) | coiffure type '. wp_strip_all_tags(get_field('type_de_coiffure', $fiche_projet_post_id)) .' | PAT: '. get_field('coiffure_jour_et_horaire_pat', $fiche_projet_post_id) .'<br/></div>';
+			if( have_rows('besoin_coiffure_oui', $fiche_projet_post_id) ) {
+				echo '<div class="boxneed"><h4 class="red">Maquillage</h4>';
+				while ( have_rows('besoin_coiffure_oui', $fiche_projet_post_id) ) {
+					the_row();
+					echo get_sub_field('nombre', $fiche_projet_post_id) .' comédien(s) | '. get_sub_field('type', $fiche_projet_post_id) .' | PAT '. get_sub_field('pat', $fiche_projet_post_id) .'<br/>';
+				
+				}
+				echo '</div>';
 			}
+
 			?>
 			<div style="clear: both;"></div>
 			</div>
