@@ -99,6 +99,7 @@
 						'author' => bp_displayed_user_id(),
 						'post_status' => 'inherit',
 						'post_type' => 'attachment',
+						'posts_per_page' => 1
 					);
 					$user_video_query = new WP_Query( $args );
 					
