@@ -41,8 +41,8 @@ $d_user_contact_info = kino_user_fields_auto(
 		'real-links', // films réalisés réal
 		'id-cv',
 		'id-presentation',
-		'profile-role',
-		'photo'
+		'id-photo',
+		'profile-role'
 	)
 );
 
@@ -166,31 +166,33 @@ if (!empty($d_user_contact_info['id-presentation'])) {
  ****************
  One or several pictures
  Source: avatar, or uploaded photo?
- 
+ Priorité: uploaded photo
+ Car: l'avatar est déjà affiché plus haut
 */
 
-$kino_img_url = bp_core_fetch_avatar( array( 
- 	'item_id' => $d_user, 
- 	// 'no_grav' => true,
- 	'type' => 'full', 
- 	'object' => 'user',
- 	'width' => 500,  
- 	'height' => 500,
- 	'html' => false) );
+// echo '<pre>photo: '. var_dump($d_user_personal_info["id-photo"]).'</pre>';
 
-if ( $kino_img_url == 'https://kinogeneva.ch/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg' ) {
-        	 	
-		if ( !empty( $d_user_personal_info["photo"] ) ) {
-		
-			$kino_img_url = str_replace('" alt="" />','',$d_user_personal_info["photo"] );
-			$kino_img_url = str_replace('<img src="','',$kino_img_url );			
-		
-		} else {
-			
-			$kino_img_url = '';
-		
-		}
+if ( $d_user_contact_info["id-photo"] ) {
 
+	$kino_img_url = str_replace('" alt="" />','',$d_user_contact_info["id-photo"] );
+	$kino_img_url = str_replace('<img src="','',$kino_img_url );		
+
+} else {
+
+	// utiliser avatar profil: 
+	$kino_img_url = bp_core_fetch_avatar( array( 
+		 	'item_id' => $d_user, 
+		 	// 'no_grav' => true,
+		 	'type' => 'full', 
+		 	'object' => 'user',
+		 	'width' => 500,  
+		 	'height' => 500,
+		 	'html' => false) );
+	
+	if ( $kino_img_url == 'https://kinogeneva.ch/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg' ) {
+	        	 	
+		$kino_img_url = '';
+	}
 }
 
 if ( !empty($kino_img_url) ) {
