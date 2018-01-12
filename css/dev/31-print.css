@@ -1,0 +1,172 @@
+body {
+	-webkit-print-color-adjust: exact;
+    font-family: 'Raleway', sans-serif;
+	font-weight: 400;
+	color: #000;
+}
+
+h1 {
+	font-size: 19px;
+	margin-bottom: 4px;
+	margin-top: 42px;
+}
+
+h2 {
+	font-size: 14px;
+	margin-bottom: 8px;
+	margin-top: 38px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+a {
+	color:#000;
+	text-decoration: none;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid #000;
+	clear: both;
+}
+
+.green {
+	color: #80cc28
+}
+
+.red {
+	color: #ed1c24;
+}
+
+/* each page */
+.profile {
+	width: 200mm;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bandeau {
+	width: 200mm;
+	margin-left: auto;
+	margin-right: auto;
+	background-size: 200mm;
+	background-repeat: no-repeat;
+	background-image: url("https://kinogeneva.ch/wp-content/themes/kleo-child/img/fiches2018/bandeau.png");
+	padding-top: 8px;
+	font-size: 19px;
+	text-transform: uppercase;
+	font-weight: 900;
+}
+
+
+.footer {
+	width: 200mm;
+	margin-left: auto;
+	margin-right: auto;
+	position: fixed;
+	bottom: 0px;
+	background-size: 200mm;
+	background-repeat: no-repeat;
+	background-image: url("https://kinogeneva.ch/wp-content/themes/kleo-child/img/fiches2018/footer.png");
+}
+
+.no-screen {
+	display: none;
+}
+
+table {
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+td {
+	border-width: 1px 0px;
+	border-color: #00;
+	border-style: solid;
+	vertical-align: baseline;
+	text-align: center;
+}
+
+/* fiches besoins */
+span.bg {
+	padding: 1px 2px;
+	display: inline-block;
+	color: #FFF;
+}
+
+.bggreen {
+	background-color: #80cc28;
+}
+
+.bgblack {
+	background-color: #000;
+}
+
+
+/* fiches projet completes */
+
+.besoins h1 {
+	font-size: 17px;
+}
+
+.besoins h2 {
+	font-size: 12px;
+}
+
+.red {
+	color: #ec1f3e;
+}
+
+.right {
+	float: right;
+}
+
+.center {
+	text-align: center;
+}
+
+.besoins {
+}
+
+.strong {
+	font-weight: bold;
+}
+
+@media print {
+
+.print-profile {
+   page-break-after: always;
+   page-break-inside: avoid;
+}
+
+.profile {
+	margin-left: 0mm;
+	margin-right: 0mm;
+}
+
+.no-screen {
+	display: block;
+}
+
+
+@page {
+  size: A4 portrait;
+  
+  /* this affects the margin in the printer settings */ 
+  /* Marges pour les planches de badges:
+   * 20 mm en haut, 17 (auto) en bas, 5 sur les côtés
+  */
+  
+  margin: 5mm 5mm 5mm 5mm;
+  padding: 0mm;
+
+}
+
+.no-print {
+	display: none;
+}
+
+} /* end @media print*/	
