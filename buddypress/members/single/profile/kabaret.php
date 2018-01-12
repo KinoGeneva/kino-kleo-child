@@ -41,7 +41,8 @@ $d_user_kab_info = kino_user_fields_auto(
 		'session-attribuee',
 		'tech-niveau',
 		'comedien-niveau',
-		'real-coaching-scenario'
+		'real-coaching-scenario',
+		'comp-scenario-file'
 	)
 );
 
@@ -153,12 +154,21 @@ foreach ($kabaret_dates as $key => $value) {
         	 	
         	 	echo '</div>'; // .role-block
         	 	
+        	 	// Scénario
+        	 	
         	 	if ( $d_user_kab_info["real-coaching-scenario"] ) {
         	 				
+      	 			echo kino_make_user_field_markup( 
+      	 				'Mon scénario pour le Kino Kabaret 2018', 
+      	 				$d_user_kab_info['real-coaching-scenario'] );
+        	 	}
+        	 	
+        	 	if ( $d_user_kab_info["comp-scenario-file"] ) {
+        	 					
         	 			echo kino_make_user_field_markup( 
-        	 					'Mon scénario pour le Kino Kabaret 2018', 
-        	 					$d_user_kab_info['real-coaching-scenario'] );
-        	 		}
+        	 				'Mon scénario pour le Kino Kabaret 2018', 
+        	 				$d_user_kab_info['comp-scenario-file'] );
+        	 	}
         	 	
         	 	
         	 	if ( $d_user_kab_info["dispo-partiel"] ) {
