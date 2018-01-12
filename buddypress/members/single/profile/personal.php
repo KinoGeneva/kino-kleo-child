@@ -182,7 +182,7 @@ if ( $d_user_contact_info["id-photo"] ) {
 	// utiliser avatar profil: 
 	$kino_img_url = bp_core_fetch_avatar( array( 
 		 	'item_id' => $d_user, 
-		 	// 'no_grav' => true,
+		 	'no_grav' => true,
 		 	'type' => 'full', 
 		 	'object' => 'user',
 		 	'width' => 500,  

@@ -702,7 +702,7 @@ body {
         	 
         	 $kino_img_url = bp_core_fetch_avatar( array( 
         	 	'item_id' => $kino_userid, 
-        	 	// 'no_grav' => true,
+        	 	'no_grav' => true,
         	 	'type' => 'full', 
         	 	'html' => false) );
         	 
