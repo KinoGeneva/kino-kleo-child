@@ -476,6 +476,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 							
 							// Somme Totale
 							echo '<div><b>Somme Totale: '. ($somme_totale + $somme_totale_offert) .'.-</b></div>';
+							
+							// total dans le groupe compta non inclus (pt qui ne participe plus au kino mais qui a payé)
+							$total_group_compta = (count($ids_of_paid_25)*25) + (count($ids_of_paid_offert_25)*25) + (count($ids_of_paid_40)*40) + (count($ids_of_paid_100)*100) + (count($ids_of_paid_125)*125) + (count( $ids_of_paid_offert_125)*125) + (count($ids_of_repas_60)*60) + (count($ids_of_repas_offert_60)*60) + (count($ids_of_repas_100)*100) + (count($ids_of_repas_125)*125) + (count( $ids_of_repas_offert_125)*125);
+							echo '<hr/><div>Somme payée par des non-participants: '. ($total_group_compta - ($somme_totale + $somme_totale_offert)) .'</div>';
+
 							?>
 						</th>
 						<th colspan="3"></th>
