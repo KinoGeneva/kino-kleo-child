@@ -834,3 +834,133 @@ function kino_make_user_field_markup( $label, $content ) {
 	$html .= '</dl>';
 	return $html;
 }
+
+
+/*
+ * Kino Role Testing
+ * Utilisé pour les pages print
+*/
+
+function kinorole_testing( $kinorole_var, $kino_fields ) {
+
+	if ( $kinorole_var == 'realisateur' ) {
+	// on restreint la liste:
+	
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-real-kabaret'], 
+			'user-group' 
+		);
+		
+		// 
+		if ( $kino_debug_mode == 'on' ) {
+			echo '<pre>';
+			echo 'list of IDs in "group-real-kabaret": ';
+				var_dump($ids_of_kino_participants);
+			echo '</pre>';
+		}
+		
+	} // end 'realisateur'
+	
+	// Comédiens
+	if ( $kinorole_var == 'comedien' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-comedien'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Image
+	if ( $kinorole_var == 'image' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-image'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Postprod Image
+	if ( $kinorole_var == 'postprod' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-postprod-image'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Postprod Son
+	if ( $kinorole_var == 'son' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-postprod-son'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Production & Scénario
+	if ( $kinorole_var == 'production' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-prod-scenar'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Direction artistique & HMC
+	if ( $kinorole_var == 'dirart' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-da-hmc'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Autres talents
+	if ( $kinorole_var == 'autres' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-autres'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Staff
+	if ( $kinorole_var == 'staff' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-comp-staff'] , 
+			'user-competences'  
+		);
+	}
+	
+	// Sessions
+	if ( $kinorole_var == 'session1' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-session-un'] , 
+			'user-group'  
+		);
+	}
+	if ( $kinorole_var == 'session2' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-session-deux'] , 
+			'user-group'  
+		);
+	}
+	if ( $kinorole_var == 'session3' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-session-trois'] , 
+			'user-group'  
+		);
+	}
+	if ( $kinorole_var == 'session4' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-session-superhuit'] , 
+			'user-group'  
+		);
+	}
+	
+	// Pending
+	if ( $kinorole_var == 'pending' ) {
+		$ids_of_kino_participants = get_objects_in_term( 
+			$kino_fields['group-kino-pending'], 
+			'user-group' 
+		);
+	} // end 'pending'
+	
+	return $ids_of_kino_participants;
+	
+}
+
+

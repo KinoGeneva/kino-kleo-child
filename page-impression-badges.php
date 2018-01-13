@@ -425,36 +425,8 @@ body {
 	$kinorole_var = ( get_query_var('kinorole') ) ? get_query_var('kinorole') : false;
 	
 	if ( !empty($kinorole_var) ) {
-	
 		
-		if ( $kinorole_var == 'realisateur' ) {
-		// on restreint la liste:
-		
-			$ids_of_kino_participants = get_objects_in_term( 
-				$kino_fields['group-real-kabaret'], 
-				'user-group' 
-			);
-			
-			// 
-			if ( $kino_debug_mode == 'on' ) {
-//				echo '<pre>';
-//				echo 'list of IDs in "group-real-kabaret": ';
-//					var_dump($ids_of_kino_participants);
-//				echo '</pre>';
-			}
-			
-		} // end 'realisateur'
-		
-		// pour comedien, technicien = voir si on créé des groupes.
-		
-		if ( $kinorole_var == 'pending' ) {
-			$ids_of_kino_participants = get_objects_in_term( 
-				$kino_fields['group-kino-complete'], 
-				'user-group' 
-			);
-
-			
-		} // end 'pending'
+		$ids_of_kino_participants = kinorole_testing( $kinorole_var, $kino_fields );
 		
 	} // end $kinorole_var testing
 	
@@ -554,6 +526,38 @@ body {
         if ( ! empty( $user_query->results ) ) {
         	echo '<b>Nombre de badges: </b>'.count($user_query->results).'';
         }
+        
+        echo '<br><b>Exemple de filtre par heure:</b> ';
+        
+        echo '<a href="?kinodate=6">6 heures</a> / ';
+        
+        echo '<a href="?kinodate=12">12 heures</a> / ';
+        
+        echo '<br><b>Filtres par groupe:</b> ';
+        
+        echo '<a href="?kinorole=realisateur">Réalisateurs</a> / ';
+        
+        echo '<a href="?kinorole=comedien">Comédiens</a> / ';
+        
+        echo '<a href="?kinorole=image">Image</a> / ';
+        
+        echo '<a href="?kinorole=postprod">Postproduction Image</a> / ';
+        
+        echo '<a href="?kinorole=son">Son & Postproduction son</a> / ';
+        
+        echo '<a href="?kinorole=production">Production & Scénario</a> / ';
+        
+        echo '<a href="?kinorole=dirart">Direction artistique & HMC</a> / ';
+        
+        echo '<a href="?kinorole=autres">Autres talents</a> / ';
+        
+        echo '<a href="?kinorole=staff">Staff</a> / ';
+        
+        echo '<a href="?id=3,203">Par identifiant (séparés par des virgules)</a> / ';
+        
+//        echo '<a href="?kinodate=2">Par âge du profil en heures (depuis que le profil est complet)</a> </br>';
+        
+        
          ?></p>
         
         <?php
