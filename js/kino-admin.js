@@ -61,31 +61,14 @@ jQuery(document).ready(function($){
                              	 $item.detach();
                              } else if ( state == 'kabaret-bien' ) {
                              	 $item.detach();
-                             } else if ( state == 'payment-25' ) {
-                             	 location.reload(true);
-                             } else if ( state == 'payment-40' ) {
-                             	 location.reload(true);
-                             } else if ( state == 'payment-100' ) {
-                             	 location.reload(true);
-							 } else if ( state == 'payment-125' ) {
-                             	 location.reload(true);
-                             } else if ( state == 'payment-reset' ) {
-                             	 location.reload(true);
-                             } else if ( state == 'repas-60' ) {
-                             	 location.reload(true);
-                             } else if ( state == 'repas-100' ) {
-                             	 location.reload(true);
-                             } else if ( state == 'repas-125' ) {
-                             	 location.reload(true);
-                             } else if ( state == 'repas-reset' ) {
-                             	 location.reload(true);
-                             	 // $("#table-container").load("/kino-admin/inscriptions/ #inscription-table");
                              }
-                              //offert!
-                             else if ( state == 'offert-entree-25' || state == 'offert-entree-125' || state == 'offert-repas-60' || state == 'offert-repas-125' || state == 'offert-entree-reset' || state == 'offert-repas-reset') {
+                             //compta (url /kino-admin/inscriptions/)
+                             else if ( state == 'payment-25' || state == 'payment-40' || state == 'payment-100' || state == 'payment-125' || state == 'payment-reset' || state == 'repas-60' || state == 'repas-100' || state == 'repas-125' || state == 'repas-reset' ||  state == 'offert-entree-25' || state == 'offert-entree-125' || state == 'offert-repas-60' || state == 'offert-repas-125' || state == 'offert-entree-reset' || state == 'offert-repas-reset' ) {
+                             	 $('.pending-candidate[data-id="' + id + '"] .admin-action').detach(); //pour prévenir le double clic
                              	 location.reload(true);
-                            }
-                             //note admin
+                             }                             
+							// $("#table-container").load("/kino-admin/inscriptions/ #inscription-table");
+                            //note admin
                             else if ( state == 'cherche-logement-add-info' || state == 'offre-logement-add-info' || state == 'benevole-add-info' ) {
 								var oldvalue = $('#note_admin_'+ id +'_db').html();
 								//text method to prevent html entities

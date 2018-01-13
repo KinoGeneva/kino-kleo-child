@@ -185,6 +185,11 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         	$nombre_repas_125 = 0;
         	$nombre_repas_offert_125 = 0;
         	
+        	$term_ids =  array( $kino_fields['compta-paid-25'], $kino_fields['compta-paid-40'], $kino_fields['compta-paid-100'], $kino_fields['compta-paid-125'], $kino_fields['compta-repas-60'], $kino_fields['compta-repas-100'], $kino_fields['compta-repas-125'], $kino_fields['compta-paid-offert-25'], $kino_fields['compta-paid-offert-125'], $kino_fields['compta-repas-offert-60'], $kino_fields['compta-repas-offert-125']);
+        	foreach($term_ids as $term_id){
+				$all_days_compta[$term_id] = array();
+			}
+
         	?>
         	<div id="table-container">
         	<table id="inscription-table" class="table table-hover table-bordered table-condensed pending-form">
@@ -402,6 +407,18 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
         			
         		echo '</tr>';
         		
+        		//entrées / carte / offert par jour						
+				
+				foreach( $term_ids as $term_id ){
+					if($date = get_user_meta($id, 'compta-'. $term_id, true)){
+						if(isset($all_days_compta[$term_id][$date])){
+							$all_days_compta[$term_id][$date] ++;
+						}
+						else {
+							$all_days_compta[$term_id][$date] = 1;
+						}
+					}
+				}    		
         	}
         	echo '</tbody>';
         			// Somme des Payements:
@@ -463,120 +480,121 @@ if ( get_cfield( 'centered_text' ) == 1 )  {
 						</th>
 						<th colspan="3"></th>
         			</tr>
-        			<tr>
-						<?php
-						$all_days_compta = array();
-						$term_ids =  array( $kino_fields['compta-paid-25'], $kino_fields['compta-paid-40'], $kino_fields['compta-paid-100'], $kino_fields['compta-paid-125'], $kino_fields['compta-repas-60'], $kino_fields['compta-repas-100'], $kino_fields['compta-repas-125'], $kino_fields['compta-paid-offert-25'], $kino_fields['compta-paid-offert-125'], $kino_fields['compta-repas-offert-60'], $kino_fields['compta-repas-offert-125']);
-						foreach( $term_ids as $term_id ){
-							$all_compta_each_days[$term_id] = get_term_meta( $term_id );
-						}
-						/*
-						echo '<pre>';
-						print_r($all_compta_each_days);
-						echo '</pre>';
-						*/
-						// todo: entrées / carte / offert par jour ?>
-        			</tr>
         			<?php
         	echo '</tfoot></table></div>';
 
+/*
+echo '<pre>';
+print_r($all_days_compta);
+echo '</pre>';
+*/
 
+//note pour édition 2018 /!\ seulement pour cette éditions
+/*
+ * Ajoute les entrées du 11.01.2018 saisies par Anais avant la correction du script (les entrées du financement participatif)
+Entrées à 25 : 35
+Entrées à 40 : 16
+*/
+
+$all_days_compta[$kino_fields['compta-paid-25']]['11.01.2018'] += 35;
+$all_days_compta[$kino_fields['compta-paid-40']]['11.01.2018'] += 16;
+ 
 //nombres totaux et par jour
 echo '<h4>Entrées à 25 : '. $nombre_entrees_25. '</h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-paid-25']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-paid-25']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Entrées offertes à 25 : '.$nombre_entrees_offert_25.' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-paid-offert-25']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-paid-offert-25']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Entrées à 40 : '.$nombre_entrees_40 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-paid-40']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-paid-40']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Entrées à 100 : '.$nombre_entrees_100 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-paid-100']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-paid-100']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Entrées à 125 : '.$nombre_entrees_125 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-paid-125']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-paid-125']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Entrées offertes à 125 : '.$nombre_entrees_offert_125 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-paid-offert-125']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-paid-offert-125']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Cartes Repas à 60 : '.$nombre_repas_60 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-repas-60']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-repas-60']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Cartes Repas offertes à 60 : '.$nombre_repas_offert_60 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-repas-offert-60']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-repas-offert-60']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Cartes Repas à 100 : '.$nombre_repas_100 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-repas-100']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-repas-100']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Cartes Repas à 125 : '.$nombre_repas_125 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-repas-125']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-repas-125']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
 
 echo '<h4>Cartes Repas offertes à 125 : '.$nombre_repas_offert_125 .' </h4>
 	<ul>';
-foreach($all_compta_each_days[$kino_fields['compta-repas-offert-125']] as $day => $total){
+foreach($all_days_compta[$kino_fields['compta-repas-offert-125']] as $day => $total){
 	echo '<li>';
-		echo $day .': '. $total[0];
+		echo $day .': '. $total;
 	echo '</li>';
 }
 echo '</ul>';
