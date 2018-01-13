@@ -93,43 +93,32 @@
 							if( have_rows($besoin, $fiche_projet_post_id) ) {
 								while ( have_rows($besoin, $fiche_projet_post_id) ) {
 									the_row();
-									$date = get_sub_field('pat', $fiche_projet_post_id);
-									$date_PAT = substr($date, 0 , -6);
-									$heure_PAT = substr($date,-5);
+									$date_PAT = get_sub_field('jour_pat', $fiche_projet_post_id);
+									$heure_PAT = get_sub_field('horaire_pat', $fiche_projet_post_id);
 									$type = get_sub_field('type', $fiche_projet_post_id);
 									$nb = get_sub_field('nombre', $fiche_projet_post_id);
-									
+									$heure_pat_comp = substr($heure_PAT, 0, 2);
 									//test sur les lieus de tournage définis
 									if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
-										$heures_tournage = array();
 										$adresses_tournage = array();
-										$l=0;
 										while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
 											the_row();
 											$date_tournage = get_sub_field('jours', $fiche_projet_post_id);
-											
-											if($date_PAT == $date_tournage){
-												if(get_sub_field('tournage_debut', $fiche_projet_post_id) && get_sub_field('adresse', $fiche_projet_post_id)){
-													$heures_tournage[$l] = '(de '. get_sub_field('tournage_debut', $fiche_projet_post_id) .' à '. get_sub_field('tournage_fin', $fiche_projet_post_id) .')';
-												}
-												else {
-													$heures_tournage[$l] = '';
-												}
+											$heure_debut =  substr(get_sub_field('tournage_debut', $fiche_projet_post_id),0,2);
+											$heure_fin = substr(get_sub_field('tournage_fin', $fiche_projet_post_id),0,2);
+											if($date_PAT == $date_tournage && $heure_pat_comp >= $heure_debut && $heure_pat_comp <= $heure_fin){
 												if(get_sub_field('adresse', $fiche_projet_post_id)){
-													$adresses_tournage[$l] = get_sub_field('adresse', $fiche_projet_post_id)['address'];
+													$adresses_tournage[] = get_sub_field('adresse', $fiche_projet_post_id)['address'];
 												}
 												else {
-													$adresses_tournage[$l] = '';
+													$adresses_tournage[] = '';
 												}
 											}
-											
-											$l++;
 										}
 									}
 									//tableau des données
 									$group_2_display[$date_PAT][] = array(
 										'heure_PAT' => $heure_PAT,
-										'heures_tournage' => $heures_tournage,
 										'adresses_tournage' => $adresses_tournage,
 										'group_id' => $group_id,
 										'fiche_projet_post_id' => $fiche_projet_post_id,
@@ -219,9 +208,8 @@
 					<?php
 					//Lieu
 					
-					foreach($projet['heures_tournage'] as $l => $heure_tournage){
-						echo $projet['adresses_tournage'][$l];
-						echo ' '. $heure_tournage;
+					foreach($projet['adresses_tournage'] as $adresse_tournage){
+						echo $adresse_tournage;
 						echo '<br>';
 					}
 					?>
