@@ -238,7 +238,7 @@
 				echo '<div class="boxneed"><h4 class="red">Maquillage</h4>';
 				while ( have_rows('besoin_maquillage_oui', $fiche_projet_post_id) ) {
 					the_row();
-					echo get_sub_field('nombre', $fiche_projet_post_id) .' comédien(s) | '. get_sub_field('type', $fiche_projet_post_id) .' | PAT '. get_sub_field('pat', $fiche_projet_post_id) .'<br/>';
+					echo get_sub_field('nombre', $fiche_projet_post_id) .' comédien(s) | '. get_sub_field('type', $fiche_projet_post_id) .' | PAT '. get_sub_field('jour_pat', $fiche_projet_post_id) .' '. get_sub_field('horaire_pat', $fiche_projet_post_id) .'<br/>';
 				}
 				echo '</div>';
 			}
@@ -249,7 +249,7 @@
 				echo '<div class="boxneed"><h4 class="red">Maquillage</h4>';
 				while ( have_rows('besoin_coiffure_oui', $fiche_projet_post_id) ) {
 					the_row();
-					echo get_sub_field('nombre', $fiche_projet_post_id) .' comédien(s) | '. get_sub_field('type', $fiche_projet_post_id) .' | PAT '. get_sub_field('pat', $fiche_projet_post_id) .'<br/>';
+					echo get_sub_field('nombre', $fiche_projet_post_id) .' comédien(s) | '. get_sub_field('type', $fiche_projet_post_id) .' | PAT '. get_sub_field('jour_pat', $fiche_projet_post_id) .' '. get_sub_field('horaire_pat', $fiche_projet_post_id) .'<br/>';
 				
 				}
 				echo '</div>';
