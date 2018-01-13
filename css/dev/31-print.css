@@ -17,7 +17,7 @@ h2 {
 	margin-top: 38px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .title {
 	font-weight: bold;
 	text-transform: uppercase;
 }
@@ -90,7 +90,6 @@ td {
 	text-align: center;
 }
 
-/* fiches besoins */
 span.bg {
 	padding: 1px 2px;
 	display: inline-block;
@@ -105,30 +104,29 @@ span.bg {
 	background-color: #000;
 }
 
-
-/* fiches projet completes */
-
-.besoins h1 {
-	font-size: 17px;
-}
-
-.besoins h2 {
-	font-size: 12px;
-}
-
-.red {
-	color: #ec1f3e;
+.film-info {
+	background-image: url("https://kinogeneva.ch/wp-content/themes/kleo-child/img/fiches2018/star.png");
+	background-repeat: no-repeat;
+	padding-left: 85px;
 }
 
 .right {
 	float: right;
 }
 
-.center {
-	text-align: center;
+.block-50 {
+	width: 40%;
+	float: left;
+	margin-right: 5%
 }
 
-.besoins {
+img.vignette {
+	width: 60px;
+	height: auto;
+}
+
+.end-fiche {
+	margin-bottom: 50px;
 }
 
 .strong {
