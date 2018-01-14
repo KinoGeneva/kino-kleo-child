@@ -15,7 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="robots" content="noindex, nofollow">
 		<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:500,300' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="<?php echo $url ?>/css/dev/30-print.css">
+		<link rel="stylesheet" href="<?php echo $url ?>/css/dev/31-print.css">
 
     </head>
     <body>
@@ -29,13 +29,11 @@
 		<!-- Begin Article -->
 		<article>
 			<div class="article-content">
-			<h4>Autorisations de tournage</h4>
 			<?php
 
 			//init du tableau des besoins par date
 			$group_2_display = array(
 				//dates 2018
-				'sans date' => array(),
 				'dimanche 14 janvier' => array(),
 				'lundi 15 janvier' => array(),
 				'mardi 16 janvier' => array(),
@@ -49,13 +47,6 @@
 				'mercredi 24 janvier' => array(),
 				'jeudi 25 janvier' => array(),
 				'vendredi 26 janvier' => array(),
-				//dates 2017
-				'mardi 10 janvier' => array(),
-				'mercredi 11 janvier' => array(),
-				'vendredi 13 janvier' => array(),
-				'samedi 14 janvier' => array(),
-				'lundi 16 janvier' => array(),
-				'mardi 17 janvier' => array(),
 			);
 			
 			
@@ -71,16 +62,8 @@
 					$id_real = get_field('realisateur', $fiche_projet_post_id)['ID'];
 					//$group = groups_get_group( array( 'group_id' => $group_id ) );
 					
-					//obtenir la session automatiquement
-					$sessions_terms = get_terms( array(
-						'taxonomy' => 'user-group',
-						'name__like' => 'session' ,
-						'fields' => 'names',
-					) );
-					$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
-
-					$sessions = current( ( array_intersect( $sessions_terms,$user_terms ) ) );
-
+					$sessions = wp_get_object_terms( $group_id , 'bp_group_tags', array('fields' => 'names') );
+					
 					//classement par jour de tournage
 					if( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
 						while ( have_rows('lieux_de_tournage', $fiche_projet_post_id) ) {
@@ -96,8 +79,9 @@
 								else {
 									$adresse = '';
 								}
-								$dispositif = get_sub_field('tournage_dispositif', $fiche_projet_post_id);
-								
+								if(!$dispositif = get_sub_field('tournage_dispositif', $fiche_projet_post_id)){
+									$dispositif = array();
+								}
 								
 								$group_2_display[$date][] = array(
 									'date' => $date,
@@ -129,30 +113,61 @@
 			print_r($group_2_display);
 			echo '</pre>';
 */
-
-
+?>
+		<div class="bandeau no-print">
+				<span class="bg bggreen">Autorisations</span>
+				<br/>
+				<span class="bg bgblack" style="margin-left: 47px;">de tournage</span>
+		</div>
+<?php
 		foreach($group_2_display as $date => $entry){
 			if(!empty($entry)){
-				echo '<div class="profile clearfix print-profile">';
-				echo '<h2>'. $date .'</h2>';
+				?>
+				<div class="profile clearfix print-profile">
+					<div class="bandeau no-screen">
+						<span class="bg bggreen">Autorisations</span>
+						<br/>
+						<span class="bg bgblack" style="margin-left: 47px;">de tournage</span>
+						
+					</div>
+					<img src="https://kinogeneva.ch/wp-content/uploads/2015/11/KinoGeneva_Red_S.jpg" alt="kinoGeneva" class="no-screen right"/>
+					<div>
+				<?php
+				
+				echo '<h1 class="green">'. $date .'</h1>';
 				uasort($entry, function($a, $b) {
 				   if ($a == $b) {
 					return 0;
 					}
 				return ($a < $b) ? -1 : 1;
 				});
+				?>
+					</div>
+					
+				<?php
 				foreach($entry as $projet){
 					echo '<div style="page-break-inside: avoid;">';
-					echo '<h3>'. $projet['horaire'] .'<br/>'.  $projet['adresse'] .'</h3>';
 					
-					?>			
-					<ul>
-						<li>Tournage de <b><?php echo $projet['group_name']; ?></b> (<?php echo $projet['sessions']; ?>)</li>
-						<li>Un film de <?php echo $projet['nom_real']; ?> | <?php echo $projet['email_real'] ?> | <?php echo $projet['tel_real'] ?></li>
-						<li>Nombre de personnes sur le plateau: 
-						<?php
-						//on commence à 1 : le réal
-						$nb_personnes = 1;
+					//horaire et lieux
+					echo '<p class="red strong">';
+					echo $projet['horaire'];
+					echo ' | ';
+					echo $projet['adresse'];
+					echo '</p>';
+					
+					//film
+
+					echo '<div>Tournage du film <span class="strong">'. $projet['group_name'] .'</span></div>';
+					//réal
+					
+					echo '<div>De <span class="strong">'. $projet['nom_real'] .'</span> | ';
+					echo $projet['tel_real'] .' | ';
+					echo $projet['email_real'];
+					echo '</div>';
+
+					echo '<p><span class="strong">Nombre de personnes</span> sur le plateau: ';
+					//on commence à 1 : le réal
+					$nb_personnes = 1;
 						//equipe
 						while ( have_rows('equipe', $projet['fiche_projet_post_id']) ) {
 							the_row();
@@ -172,28 +187,36 @@
 								$nb_personnes++;
 							}
 						}
+					echo $nb_personnes;
+					echo '</p>';
+					
+					echo '<p>';
+					if(!empty($projet['dispositif'])){
+						echo '<div class="strong">Dispositif de tournage:</div>';
+						foreach( $projet['dispositif'] as $dispositif) {
+							echo $dispositif;
+						}
 						
-						echo $nb_personnes;
-						?>
-						</li>
-						<li>
-							Dispositif de tournage: <?php echo $projet['dispositif']; ?>
-						</li>
-						<li>
-							Scénario: <?php echo $projet['synopsis']; ?>
-						</li>
-					</ul>
-		<hr/>
-			</div>
-			<div style="clear: both;"></div>
-			<?php } ?>
-			</div>
-			<div class="page-break"></div>
-		<?php }
-		}?>
-			
-			</div><!--end article-content-->
+					}
+					echo '</p>';
 
+					echo '<div><div class="strong">Synopsis:</div>'. $projet['synopsis'] .'</div>';
+
+				echo '</div>';
+				echo '<hr />';	
+
+				}  // end foreach $entry ?>
+
+					<div class="footer no-screen">
+						&nbsp;
+					</div>
+				</div>
+		<?php // fin de profile 
+			}
+		}?>
+
+				
+			</div><!--end article-content-->
 		</article>
 		<!-- End  Article -->
 <?php } else {

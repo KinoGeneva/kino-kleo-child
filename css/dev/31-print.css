@@ -83,12 +83,26 @@ table {
 }
 
 td {
-	border-width: 1px 0px;
-	border-color: #00;
-	border-style: solid;
+	border: none;
+	border-top-width: 1px;
+	border-top-color: #000;
+	border-top-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #000;
+	border-bottom-style: solid;
 	vertical-align: baseline;
 	text-align: center;
 }
+
+td.no-top-border {
+	border-top: none;
+	text-align: left;
+}
+
+td.no-bottom-border {
+	border-bottom: none;
+}
+
 
 span.bg {
 	padding: 1px 2px;
