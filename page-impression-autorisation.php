@@ -134,7 +134,7 @@
 					<div>
 				<?php
 				
-				echo '<h1 class="green">'. $date .'</h1>';
+				echo '<h1 class="green big">'. $date .'</h1>';
 				uasort($entry, function($a, $b) {
 				   if ($a == $b) {
 					return 0;

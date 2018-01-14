@@ -34,8 +34,27 @@ print_r( $projets['groups']);
 echo '</pre>';
 */
 //display
+
+//séparé technicien et comédien
+//supprimé email et tél du réal
+//dispo: n'indiquer que la date en chiffres
+
+
+//chef op - ingé son - monteur - mixeur - étalonneur
+
+//xprofile:
+//Image->Chef-fe opérateur-rice
+//son->Ingénieur-e / Preneur-se Son
+//Postproduction image -> Monteur-se image
+//Postproduction son -> Mixeur-se son / Ingénieur-e du son
+
+//ou dans les champs ACF.
+//champ ACF => équipe => liste d'équipe avec id des membres
+//membre du groupe => id => chercher dans le champs ACF correspondant l'id du membre
+
+//s'il a ça de coché, l'indiquer
 if ( !empty($projets['groups']) ) { ?>
-		<h2>Projets</h2>
+		<h2>Par projets</h2>
 
         <table id="projets" class="table table-hover table-bordered table-condensed pending-form">
         	<thead>
@@ -121,14 +140,13 @@ if ( !empty($projets['groups']) ) { ?>
 			<?php
 			//members
 			if(!empty($members['members'])){
-				echo '<ul>';
 				foreach($members['members'] as $member){
 					//rôle kino
 					$kino_user_role = kino_user_participation(
 						$member->ID, 
 						$kino_fields
 					);
-					echo '<li><a href="'. $url .'/members/'. $member->user_nicename .'">'. $member->display_name .'</a><br/>';
+					echo '<div><a href="'. $url .'/members/'. $member->user_nicename .'">'. $member->display_name .'</a><br/>';
 					// Technicien ?
 					if ( in_array( "technicien-kab", $kino_user_role )) {
 						echo '<span class="kp-pointlist">Artisan-ne / technicien-ne';
@@ -168,9 +186,8 @@ if ( !empty($projets['groups']) ) { ?>
 							echo '<span class="jour-dispo"> '. substr($value, 0, 5) .'</span>';
 						}
 					}
-					echo '</li>';
+					echo '</div>';
 				}
-				echo '</ul>';
 			}
 				
 			?>
@@ -183,6 +200,27 @@ if ( !empty($projets['groups']) ) { ?>
 		</table>
 <?php	
 } //end if $projets
+
+//affichage par kinoite
+$ids_of_kino_participants = get_objects_in_term( 
+	$kino_fields['group-kino-pending'] , 
+	'user-group' 
+);
+
+foreach($ids_of_kino_participants as $id){
+	
+	$all_members_projects[$id] = groups_get_user_groups($id);
+}
+echo '<pre>';
+print_r( $all_members_projects);
+echo '</pre>';
+
+foreach($all_members_projects as $user_id => $array) {
+	$user = get_user_by('id', $user_id);
+	$groups = $array['groups'];
+	echo $user->display_name;
+
+}
 ?>
 	</div><!--end article-content-->
 

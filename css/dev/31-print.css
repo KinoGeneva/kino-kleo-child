@@ -41,6 +41,10 @@ hr {
 	color: #ed1c24;
 }
 
+.big {
+	font-size: 160%;
+}
+
 /* each page */
 .profile {
 	width: 200mm;
