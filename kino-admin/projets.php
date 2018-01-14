@@ -42,6 +42,7 @@ if ( !empty($projets['groups']) ) { ?>
 				<tr>
           			<th>#</th>
           			<th>Titre</th>
+          			<th>Status</th>
 					<th>Sessions</th>
 					<th>Réal</th>
         		    <th>Email</th>
@@ -82,6 +83,11 @@ if ( !empty($projets['groups']) ) { ?>
 						<a href="<?php echo $url;?>/projets/<?php echo $projet->slug ?>" target="_blank"><?php echo $projet->name; ?></a>
 					</td>
 					<td>
+					<?php
+						echo  $projet->status;
+					?>
+					</td>
+					<td>
 			<?php
 			foreach($sessions as $session) {
 				echo $session;
@@ -115,9 +121,56 @@ if ( !empty($projets['groups']) ) { ?>
 			<?php
 			//members
 			if(!empty($members['members'])){
+				echo '<ul>';
 				foreach($members['members'] as $member){
-					echo '<span class="kp-pointlist"><a href="'. $url .'/members/'. $member->user_nicename .'">'. $member->display_name .'</a></span>';
+					//rôle kino
+					$kino_user_role = kino_user_participation(
+						$member->ID, 
+						$kino_fields
+					);
+					echo '<li><a href="'. $url .'/members/'. $member->user_nicename .'">'. $member->display_name .'</a><br/>';
+					// Technicien ?
+					if ( in_array( "technicien-kab", $kino_user_role )) {
+						echo '<span class="kp-pointlist">Artisan-ne / technicien-ne';
+						$kino_niveau = bp_get_profile_field_data( array(
+								'field'   => 1075,
+								'user_id' => $member->ID
+							) );
+							if (!empty($kino_niveau)) {
+									echo ' ['.kino_process_niveau($kino_niveau).']';
+							}
+						
+						echo '</span>';
+					}
+					// Comédien ?
+					if ( in_array( "comedien-kab", $kino_user_role )) {
+						echo '<span class="kp-pointlist">Comédien-ne';
+						
+						// niveau?
+						$kino_niveau = bp_get_profile_field_data( array(
+								'field'   => 927,
+								'user_id' => $member->ID
+						) );
+						if (!empty($kino_niveau)) {
+							echo ' ['.kino_process_niveau($kino_niveau).']';
+						}
+						
+						echo '</span>';
+					}
+					//dispo
+					$dispo = bp_get_profile_field_data( array(
+						'field'   => $kino_fields["dispo"],
+						'user_id' => $member->ID
+					) );
+					if ( $dispo ) {
+						echo '<div>DISPO: </div>';
+						foreach ( $dispo as $key => $value) {
+							echo '<span class="jour-dispo"> '. substr($value, 0, 5) .'</span>';
+						}
+					}
+					echo '</li>';
 				}
+				echo '</ul>';
 			}
 				
 			?>
