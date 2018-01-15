@@ -55,7 +55,7 @@ function custom_acf_save_post( $post_id ) { //$post_id (int|string) the ID of th
 add_action( 'get_header', 'tsm_do_acf_form_head', 1 );
 function tsm_do_acf_form_head() {
 	// Bail if not logged in or not able to post
-	if ( ! ( is_user_logged_in() || current_user_can('publish_posts') ) ) {
+	if ( ! ( is_user_logged_in() || current_user_can('edit_posts') ) ) {
 		return;
 	}
 	acf_form_head();
