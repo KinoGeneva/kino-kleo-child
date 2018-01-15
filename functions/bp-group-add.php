@@ -90,6 +90,7 @@ function remove_group_admin_tab() {
 		'forum' => 1,
 		'notifications' => 1,
 		'docs' => 1,
+		'group-avatar' => 1
 	);
 	$parent_nav_slug = bp_get_current_group_slug() . '_manage';
 	// Remove the nav items
