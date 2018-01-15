@@ -33,28 +33,13 @@ echo '<pre>';
 print_r( $projets['groups']);
 echo '</pre>';
 */
-//display
 
-//séparé technicien et comédien
-//supprimé email et tél du réal
 //dispo: n'indiquer que la date en chiffres
 
 
-//chef op - ingé son - monteur - mixeur - étalonneur
-
-//xprofile:
-//Image->Chef-fe opérateur-rice
-//son->Ingénieur-e / Preneur-se Son
-//Postproduction image -> Monteur-se image
-//Postproduction son -> Mixeur-se son / Ingénieur-e du son
-
-//ou dans les champs ACF.
-//champ ACF => équipe => liste d'équipe avec id des membres
-//membre du groupe => id => chercher dans le champs ACF correspondant l'id du membre
-
-//s'il a ça de coché, l'indiquer
 if ( !empty($projets['groups']) ) { ?>
-		<h2>Par projets</h2>
+		<h2><?php echo count($projets['groups']); ?> groupes visibles (public ou privé)</h2>
+		<p>Note: cette page n'affiche pas les projets "masqués" (qui concerne généralement les éditions précédentes).</p>
 
         <table id="projets" class="table table-hover table-bordered table-condensed pending-form">
         	<thead>
@@ -64,9 +49,13 @@ if ( !empty($projets['groups']) ) { ?>
           			<th>Status</th>
 					<th>Sessions</th>
 					<th>Réal</th>
-        		    <th>Email</th>
-					<th>Tél</th>
-					<th>Membres</th>
+					<th>Chef-op</th>
+					<th>Ingé Son</th>
+					<th>Monteur</th>
+					<th>Etalonneur</th>
+					<th>Mixeur</th>
+					<th>Autres tech.</th>
+					<th>Comédiens</th>
           		</tr>
           	</thead>
 			<tbody>
@@ -83,17 +72,7 @@ if ( !empty($projets['groups']) ) { ?>
 			
 			$tel_real = xprofile_get_field_data('Téléphone', $id_real);
 		}
-		//members
-		$args = array(
-			'group_id' => $group_id,
-			'value' => false,
-			);
-		$members = groups_get_group_members( $args );
-		/*
-		echo '<pre>';
-		print_r($members);
-		echo '</pre>';
-*/
+
 		$sessions = wp_get_object_terms( $group_id , 'bp_group_tags', array('fields' => 'names') );
 	?>
 				<tr class="pending-candidate" data-id="<?php echo $group_id; ?>">
@@ -109,7 +88,7 @@ if ( !empty($projets['groups']) ) { ?>
 					<td>
 			<?php
 			foreach($sessions as $session) {
-				echo $session;
+				echo '<span class="kp-pointlist">'. $session .'</span>';
 			}
 			?>
 					</td>
@@ -121,75 +100,130 @@ if ( !empty($projets['groups']) ) { ?>
 			}
 			?>
 					</td>
-					<td>
+
 			<?php
-			if($fiche_projet_post_id){ ?>
-					<a href="mailto:'. <?php echo $object_real->user_email; ?> .'?Subject=Kino%20Kabaret" target="_top"><?php echo $object_real->user_email; ?></a>
-				<?php
-			}
-			?>
-					</td>
-					<td>
-			<?php
-			if($fiche_projet_post_id){
-				echo $tel_real;
-			}
-			?>	
-					</td>
-					<td>
-			<?php
-			//members
-			if(!empty($members['members'])){
-				foreach($members['members'] as $member){
-					//rôle kino
-					$kino_user_role = kino_user_participation(
-						$member->ID, 
-						$kino_fields
-					);
-					echo '<div><a href="'. $url .'/members/'. $member->user_nicename .'">'. $member->display_name .'</a><br/>';
-					// Technicien ?
-					if ( in_array( "technicien-kab", $kino_user_role )) {
-						echo '<span class="kp-pointlist">Artisan-ne / technicien-ne';
-						$kino_niveau = bp_get_profile_field_data( array(
-								'field'   => 1075,
-								'user_id' => $member->ID
-							) );
-							if (!empty($kino_niveau)) {
-									echo ' ['.kino_process_niveau($kino_niveau).']';
-							}
-						
-						echo '</span>';
-					}
-					// Comédien ?
-					if ( in_array( "comedien-kab", $kino_user_role )) {
-						echo '<span class="kp-pointlist">Comédien-ne';
-						
-						// niveau?
-						$kino_niveau = bp_get_profile_field_data( array(
-								'field'   => 927,
-								'user_id' => $member->ID
-						) );
-						if (!empty($kino_niveau)) {
-							echo ' ['.kino_process_niveau($kino_niveau).']';
-						}
-						
-						echo '</span>';
-					}
-					//dispo
-					$dispo = bp_get_profile_field_data( array(
-						'field'   => $kino_fields["dispo"],
-						'user_id' => $member->ID
-					) );
-					if ( $dispo ) {
-						echo '<div>DISPO: </div>';
-						foreach ( $dispo as $key => $value) {
-							echo '<span class="jour-dispo"> '. substr($value, 0, 5) .'</span>';
-						}
-					}
-					echo '</div>';
+			
+			#tous les membres et suiveurs du projet (du groupe buddypress)
+			$group_members[] = array();
+			$args = array(
+				'group_id' => $group_id,
+				'exclude_admins_mods'=> 0
+			); 
+			if ( bp_group_has_members( $args ) ) {
+				while ( bp_group_members() ) {
+					bp_group_the_member();
+					$group_members[bp_get_member_user_id()] = bp_get_group_member_link();
 				}
 			}
+			
+			#les membres techniciens de la fiche projet
+			$portfolio_members= array();
+			if($fiche_projet_post_id){
+				#les membres selon la fiche projet : # plateforme (on stock l'identifiant) + # non plateforme (on stock le nom renseigné)
 				
+				if( have_rows('equipe', $fiche_projet_post_id) ){
+					while ( have_rows('equipe', $fiche_projet_post_id) )  {
+						the_row();
+						$portfolio_member = '';
+						if(get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)){
+							$portfolio_member = get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)['ID'];
+						}
+						else if(get_sub_field('membre_hors_plateforme', $fiche_projet_post_id)){
+							$portfolio_member = get_sub_field('membre_hors_plateforme', $fiche_projet_post_id);
+						}
+						if($portfolio_member) {
+							$portfolio_members[get_sub_field('role', $fiche_projet_post_id)][] = $portfolio_member;
+						}
+					}
+				}
+/*
+	echo '<pre>';
+	print_r($portfolio_members);
+	echo '</pre>';
+*/
+				#equipe par rôle
+				$roles_2_display = array('Chef-fe opérateur-rice'=> array(), 'Ingénieur-e / Preneur-se Son' => array(), 'Monteur-se image' => array(), 'Étalonneur-se' => array(), 'Mixeur-se son / Ingénieur-e du son' => array(), 'Autre' => array());
+/*
+	echo '<pre>';
+	print_r($roles_2_display);
+	echo '</pre>';
+*/
+				#classement dans les différentes colonnes à afficher
+				foreach($portfolio_members as $role => $members){
+					foreach($members as $member){
+						if(array_key_exists($role, $roles_2_display)){
+							
+							if(array_key_exists($member, $group_members) ){
+								$roles_2_display[$role][] = '<span class="kp-pointlist">'. $group_members[$member] .'</span>';
+							}
+							else {
+								$roles_2_display[$role][] = '<span class="kp-pointlist">'. $member .'</span>';
+							}
+						}
+						else {
+							if(array_key_exists($member, $group_members) ){
+								$roles_2_display['Autre'][] = '<span class="kp-pointlist"> ['. $role .'] '. $group_members[$member] .'</span>';
+							}
+							else {
+								$roles_2_display['Autre'][] = '<span class="kp-pointlist"> ['. $role .'] '. $member .'</span>';
+							}
+						}
+							
+					}
+				}
+				
+				
+				foreach($roles_2_display as $role_2_display){
+					echo '<td>';
+					foreach($role_2_display as $member){
+						echo $member;						
+					}
+					echo '</td>';
+				}
+				
+				//les autres techniciens
+				
+				
+			
+			}
+			
+			else {
+				echo '<td colspan="6"></td>';
+			}
+			?>
+
+				<td>
+			<?php
+			#les membres comédiens de la fiche projet
+			$comediens = array();
+			if($fiche_projet_post_id){
+				#les comédiens plateforme
+					if( get_field('comedien-nes', $fiche_projet_post_id) ){
+						foreach(get_field('comedien-nes', $fiche_projet_post_id) as $comedien) {
+							$comediens[] = $comedien['ID'];
+						}
+					}
+					#les comédiens hors-plateforme
+					if( get_field('autres_comediens', $fiche_projet_post_id) ){
+						$comediens[] = get_field('autres_comediens', $fiche_projet_post_id);
+					}
+				
+				#comédiens
+				if(!empty($comediens)){
+					
+					foreach( $comediens as $m=> $member) {
+					if(array_key_exists($member, $group_members)){
+							echo '<span class="kp-pointlist">'. $group_members[$member] .'</span>'; 
+						}
+						else {
+							echo '<span class="kp-pointlist">'. wp_strip_all_tags($member) .'</span>';
+						}
+
+					}
+				}
+			}
+			
+			
 			?>
 					</td>
 				</tr>
@@ -200,7 +234,7 @@ if ( !empty($projets['groups']) ) { ?>
 		</table>
 <?php	
 } //end if $projets
-
+/*
 //affichage par kinoite
 $ids_of_kino_participants = get_objects_in_term( 
 	$kino_fields['group-kino-pending'] , 
@@ -220,7 +254,7 @@ foreach($all_members_projects as $user_id => $array) {
 	$groups = $array['groups'];
 	echo $user->display_name;
 
-}
+}*/
 ?>
 	</div><!--end article-content-->
 
