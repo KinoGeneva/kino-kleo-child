@@ -189,3 +189,29 @@ function conditionsEditsRedirect() {
 		exit;
 	}
 }
+
+#https://premium.wpmudev.org/blog/hide-wordpress-media-uploader-button/
+/**
+ * Allow access to own content only
+ */
+function my_authored_content($query) {
+
+	//get current user info to see if they are allowed to access ANY posts and pages
+	$current_user = wp_get_current_user();
+	// set current user to $is_user
+	$is_user = $current_user->user_login;
+
+	//if is admin or 'is_user' does not equal #username
+	if (!current_user_can('edit_pages')){
+		//if in the admin panel
+		if($query->is_admin) {
+
+			global $user_ID;
+			$query->set('author',  $user_ID);
+
+		}
+		return $query;
+	}
+	return $query;
+}
+add_filter('pre_get_posts', 'my_authored_content');

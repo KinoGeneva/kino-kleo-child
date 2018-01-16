@@ -50,12 +50,25 @@ function custom_acf_save_post( $post_id ) { //$post_id (int|string) the ID of th
 //https://www.advancedcustomfields.com/resources/acf_form/
 //sanitize all $_POST data with the wp_kses_post() function. Defaults to true. Added in v5.6.5
 
+//bibliothèque des médias
+add_action( 'wp_enqueue_scripts', 'projet_media_add', 25 );
+function projet_media_add() {
+	if ( ! ( is_user_logged_in() ) ) {
+		return;
+	}
+	wp_enqueue_script( 
+		'projet_media_add', 
+		get_stylesheet_directory_uri() . '/js/projet_media_add.js', 
+		array('jquery') 
+	);
+}
 
-//ajoute au header tous les scripts de ACF permettant d'enregistrer les données
+
+//ajoute au header tous les scripts de ACF permettant d'enregistrer les données sur les groupes seulement et pour les utilisateurs avec droits
 add_action( 'get_header', 'tsm_do_acf_form_head', 1 );
 function tsm_do_acf_form_head() {
 	// Bail if not logged in or not able to post
-	if ( ! ( is_user_logged_in() || current_user_can('edit_posts') ) ) {
+	if ( !bp_is_group() || !is_user_logged_in() || !current_user_can('edit_posts') || bp_is_current_action( 'create' ) ) {
 		return;
 	}
 	acf_form_head();
@@ -162,7 +175,7 @@ function add_group_media_tab() {
 	$parent_nav_url =  bp_get_group_permalink( groups_get_current_group() ) ;
 
 	$add_group_tab_args = array( 
-		'name' => 'Médias', 
+		'name' => 'Photos de tournage', 
 		'slug' => 'media-projet',
 		'default_subnav_slug' => 'media-projet',
 		'parent_slug' => $parent_nav_slug,
