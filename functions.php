@@ -201,8 +201,8 @@ function my_authored_content($query) {
 	// set current user to $is_user
 	$is_user = $current_user->user_login;
 
-	//if is admin or 'is_user' does not equal #username
-	if (!current_user_can('edit_pages')){
+	//if is contributor or 'is_user' does not equal #username
+	if( !current_user_can('edit_posts') ){
 		//if in the admin panel
 		if($query->is_admin) {
 
