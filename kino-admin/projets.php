@@ -275,7 +275,11 @@ if(!empty($all_members)){ ?>
 			echo '<li>';
 			//lien et nom du groupe
 			echo $project_info['project_display'];
-			echo '<br/>';
+			echo '[';
+			foreach($project_info['sessions'] as $session){
+				'<span class="kp-pointlist">'. $session .'</span>';
+			}
+			echo '']'<br/>';
 			foreach($project_info['roles'] as $role){
 				echo '<span class="kp-pointlist">'. $role .'</span>';
 			}
