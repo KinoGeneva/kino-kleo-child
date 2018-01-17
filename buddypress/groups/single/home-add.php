@@ -4,6 +4,7 @@
 $group_id = bp_get_group_id(); 
 $fiche_projet_post_id = groups_get_groupmeta($group_id, 'fiche-projet-post-id');
 
+$url = home_url();
 //on affiche les données ACF	
 
 ?>
@@ -199,16 +200,13 @@ $(document).ready(function(){
 		the_field('duree', $fiche_projet_post_id); ?> | <?php the_field('genre', $fiche_projet_post_id); 
 		echo '</span>';
 
-		//obtenir la session automatiquement
-		$sessions_terms = get_terms( array(
-			'taxonomy' => 'user-group',
-			'name__like' => 'session' ,
-			'fields' => 'names',
-		) );
-		$user_terms = wp_get_object_terms( $id_real , 'user-group', array('fields' => 'names'));
-		$sessionReal = current( ( array_intersect( $sessions_terms,$user_terms ) ) );
+		$sessions = wp_get_object_terms( $group_id , 'bp_group_tags', array('fields' => 'names') );
 		
-		echo '<h3 class="red">'. $sessionReal .'</h3>';
+		echo '<h3 class="red">';
+		foreach($sessions as $session){
+			echo $session .' ';
+		}
+		echo '</h3>';
 		?>
 		
 		<h3>Le réalisateur</h3>
@@ -239,79 +237,56 @@ $(document).ready(function(){
 		<h3>Équipe</h3>
 
 		<?php
-		#les membres selon la fiche projet : # plateforme (on stock l'identifiant) + # non plateforme (on stock le nom renseigné)
-		$projet_members= array();
+		#les membres selon la fiche projet : plateforme  + non plateforme
+		$projet_members = array();
 		if( have_rows('equipe', $fiche_projet_post_id) ){
 			while ( have_rows('equipe', $fiche_projet_post_id) )  {
 				the_row();
-				if(get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)){
-					$projet_member = get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)['ID'];
+				if($portfolio_member = get_sub_field('membre_kino_kabaret_2017', $fiche_projet_post_id)){
+					$kino_member_id = $portfolio_member['ID'];
+					$kino_member = get_user_by('id', $kino_member_id);
+					$member_display = '<a href="'. $url .'/members/'. $kino_member->user_nicename .'/" target="_blank">'. $kino_member->display_name .'</a>';
+					//role
+					if(!$role = get_sub_field('role', $fiche_projet_post_id) ){
+						$role = '-';
+					}
 				}
-				else if(get_sub_field('membre_hors_plateforme', $fiche_projet_post_id)){
-					$projet_member = get_sub_field('membre_hors_plateforme', $fiche_projet_post_id);
+				//les participants non membres
+				elseif($member_display = wp_strip_all_tags(get_sub_field('membre_hors_plateforme', $fiche_projet_post_id))){
+					//role
+					if(!$role = get_sub_field('role', $fiche_projet_post_id) ){
+						$role = '-';
+					}
 				}
-				if($projet_member) {
-					$projet_members[get_sub_field('role', $fiche_projet_post_id)][] = $projet_member;
-				}
+				$projet_members[$role][] = $member_display;
+				
 			}
 		}
-		#les comédiens plateforme
-		if( get_field('comedien-nes', $fiche_projet_post_id) ){
-			foreach(get_field('comedien-nes', $fiche_projet_post_id) as $comedienKK) {
-				$comediens[] = $comedienKK['ID'];
+		#les comédiens
+		//plateforme
+		if($portfolio_members = get_field('comedien-nes', $fiche_projet_post_id) ){
+			foreach($portfolio_members as $portfolio_member) {
+				$kino_member_id = $portfolio_member['ID'];
+				$kino_member = get_user_by('id', $kino_member_id);
+				
+				$member_display = '<a href="'. $url .'/members/'. $kino_member->user_nicename .'/" target="_blank">'. $kino_member->display_name .'</a>';
+				$projet_members['comediens'][] = $member_display;
 			}
 		}
-		#les comédiens hors-plateforme
-		if( get_field('autres_comediens', $fiche_projet_post_id) ){
-			$comediens[] = get_field('autres_comediens', $fiche_projet_post_id);
+		//non plateforme
+		if( $member_display = wp_strip_all_tags(get_field('autres_comediens', $fiche_projet_post_id) )){
+			$projet_members['comediens'][] = $member_display;
 		}
 		
-		//print_r($projet_members);
 		
-		#les membres du projet qui sont membre du projet (du groupe buddypress)
-		$members_KK[] = array();
-		$args = array(
-			'group_id' => bp_get_group_id(),
-			'exclude_admins_mods'=> 0
-		); 
-		if ( bp_group_has_members( $args ) ) {
-			while ( bp_group_members() ) {
-				bp_group_the_member();
-				$members_KK[bp_get_member_user_id()] = bp_get_group_member_link();
-			}
-		}
-		# affichage de tous les membres de l'équipe et de leurs rôles
+		#affichage
 		$display_members = '';
-		
-		#comédiens
-		if(!empty($comediens)){
-			$display_members.= '<b>Comédien-ne-s | </b>';
-			foreach( $comediens as $m=> $member) {
-			if(array_key_exists($member, $members_KK)){
-					$display_members.= $members_KK[$member]; 
-				}
-				else {
-					$display_members.= wp_strip_all_tags($member);
-				}
-				if($m<count($comediens)-1){
-					$display_members.= ', ';
-				}
-			}
-			$display_members.= '<br/>';
-		}
-		
-		#equipe
 		foreach( $projet_members as $role => $members) {
 			$display_members.= '<b>'. $role .' | </b>';
 			foreach($members as $member){
-				if(array_key_exists($member, $members_KK)){
-					$display_members.= $members_KK[$member]; 
-				}
-				else {
-					$display_members.= $member;
-				}
-				$display_members.= '<br/>';
+				$display_members.= '<span class="kp-pointlist">'. $member .'</span>';
 			}
+			$display_members.= '<br/>';
 		}
 		echo $display_members;
 		?>
@@ -396,32 +371,39 @@ $(document).ready(function(){
 		<div style="clear: both"></div>
 		
 		<?php
-		$projection = array(
-		'Session 1' => '19 janvier à 20h30, Ciné-concert Alhambra',
-		'Session 2' => '22 janvier à 21h, salle centrale de la Madeleine',
-		'Session 3' => '26 janvier à 21h, salle centrale de la Madeleine',
+		$projections = array(
+		'Session 1 (ciné-concert) 19/01' => '19 janvier à 20h30, Ciné-concert Alhambra',
+		'Session 2 (libre) 22/01' => '22 janvier à 21h, salle centrale de la Madeleine',
+		'Session 3 (libre) 26/01' => '26 janvier à 21h, salle centrale de la Madeleine',
 		);
-
-		//date de projection si définie
-		if(isset($projection[$sessionReal])) {
-			echo '<h1>Projection le '. $projection[$sessionReal] .'</h1>';
+	
+		foreach($sessions as $session){
+			//date de projection si définie
+			if(isset($projections[$session])) {
+				echo '<h1>Projection le '. $projections[$session] .'</h1>';
+			}
 		}
-
-
+?>
+		<h3>Photos de tournage</h3>
+		<?php
 		$images = get_field('medias', $fiche_projet_post_id);
 
 		if( $images ): ?>
-		<h3>Photos de tournage</h3>
-				<?php foreach( $images as $image ): ?>
-					<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
-						<a href="<?php echo $image['url']; ?>">
-							 <img src="<?php echo $image['sizes']['thumbnail']; ?>" alt="<?php echo $image['alt']; ?>" />
-						</a>
-						<br/><?php echo $image['caption']; ?>
-					</div>
-				<?php endforeach; ?>
+			<?php foreach( $images as $image ): ?>
+				<div style="float: left; margin-right: 10px; margin-bottom: 10px;">
+					<a href="<?php echo $image['url']; ?>">
+						 <img src="<?php echo $image['sizes']['thumbnail']; ?>" alt="<?php echo $image['alt']; ?>" />
+					</a>
+					<br/><?php echo $image['caption']; ?>
+				</div>
+			<?php endforeach; ?>
 
 		<?php endif; ?>
+		<div style="clear: both"></div>
+		<?php
+		//images des membres
+		echo do_shortcode( '[gallery size="thumbnail" link="file" columns="8" id="'. $fiche_projet_post_id .'"]' );
+		?>
 		<div style="clear: both"></div>
 		
 	</div>
