@@ -82,7 +82,17 @@
 								if(!$dispositif = get_sub_field('tournage_dispositif', $fiche_projet_post_id)){
 									$dispositif = array();
 								}
+								if(!$scene = get_sub_field('tournage_scene', $fiche_projet_post_id)){
+									$scene = '';
+								}
 								
+								//adresse réal
+								$adresse_real = bp_get_profile_field_data( array( 'field'   => $kino_fields["rue"], $id_real) ). '<br/>'. 
+								bp_get_profile_field_data( array( $kino_fields["ville"], $id_real) ). '<br/>'. 
+								bp_get_profile_field_data( array( $kino_fields["code-postal"], $id_real) ). '<br/>'. 
+								bp_get_profile_field_data( array( $kino_fields["pays"], $id_real) );
+				
+								//stockage des données pour les afficher
 								$group_2_display[$date][] = array(
 									'date' => $date,
 									'horaire' => $horaire,
@@ -93,10 +103,12 @@
 									'nom_real' => bp_core_get_user_displayname($id_real),
 									'email_real' => xprofile_get_field_data('e-mail', $id_real),
 									'tel_real' => xprofile_get_field_data('Téléphone', $id_real),
+									'adresse_real' => $adresse_real,
 									'sessions' => $sessions,
 									'group_name' => bp_get_group_name(),
 									'dispositif' => $dispositif,
-									'synopsis' => bp_get_group_description()
+									'synopsis' => bp_get_group_description(),
+									'scene' => $scene
 								);
 							}
 							
@@ -125,7 +137,7 @@
 				?>
 				<div class="profile clearfix print-profile">
 					<div class="bandeau no-screen">
-						<span class="bg bggreen">Autorisations</span>
+						<span class="bg bggreen">Demandes d'autorisation</span>
 						<br/>
 						<span class="bg bgblack" style="margin-left: 47px;">de tournage</span>
 						
@@ -162,7 +174,8 @@
 					
 					echo '<div>De <span class="strong">'. $projet['nom_real'] .'</span> | ';
 					echo $projet['tel_real'] .' | ';
-					echo $projet['email_real'];
+					echo $projet['email_real'] .'<br/>';
+					echo $adresse_real;
 					echo '</div>';
 
 					echo '<p><span class="strong">Nombre de personnes</span> sur le plateau: ';
@@ -197,6 +210,13 @@
 							echo $dispositif;
 						}
 						
+					}
+					echo '</p>';
+					
+					echo '<p>';
+					if(!empty($projet['scene'])){
+						echo '<div class="strong">Description de la scène:</div>';
+						echo $projet['scene'];
 					}
 					echo '</p>';
 
