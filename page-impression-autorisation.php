@@ -241,7 +241,7 @@
 		<!-- End  Article -->
 <?php } else {
 
-echo '<h1>Désolé, l’accès à cette page est réservé aux membres Kino Geneva!</h1>';
+echo '<h1>Désolé, l’accès à cette page est réservé aux administrateurs-trices de Kino Geneva!</h1>';
 }
 // end if current user can...  ?>  
     </body>
