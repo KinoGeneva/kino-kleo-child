@@ -279,7 +279,7 @@ if(!empty($all_members)){ ?>
 			foreach($project_info['sessions'] as $session){
 				'<span class="kp-pointlist">'. $session .'</span>';
 			}
-			echo '']'<br/>';
+			echo '<br/>';
 			foreach($project_info['roles'] as $role){
 				echo '<span class="kp-pointlist">'. $role .'</span>';
 			}
