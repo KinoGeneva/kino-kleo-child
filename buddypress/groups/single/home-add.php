@@ -239,6 +239,24 @@ $(document).ready(function(){
 		<?php
 		#les membres selon la fiche projet : plateforme  + non plateforme
 		$projet_members = array();
+		
+		#les comédiens
+		//plateforme
+		if($portfolio_members = get_field('comedien-nes', $fiche_projet_post_id) ){
+			foreach($portfolio_members as $portfolio_member) {
+				$kino_member_id = $portfolio_member['ID'];
+				$kino_member = get_user_by('id', $kino_member_id);
+				
+				$member_display = '<a href="'. $url .'/members/'. $kino_member->user_nicename .'/" target="_blank">'. $kino_member->display_name .'</a>';
+				$projet_members['Comédiens'][] = $member_display;
+			}
+		}
+		//non plateforme
+		if( $member_display = wp_strip_all_tags(get_field('autres_comediens', $fiche_projet_post_id) )){
+			$projet_members['Comédiens'][] = $member_display;
+		}
+		
+		//les techniciens
 		if( have_rows('equipe', $fiche_projet_post_id) ){
 			while ( have_rows('equipe', $fiche_projet_post_id) )  {
 				the_row();
@@ -261,23 +279,7 @@ $(document).ready(function(){
 				$projet_members[$role][] = $member_display;
 				
 			}
-		}
-		#les comédiens
-		//plateforme
-		if($portfolio_members = get_field('comedien-nes', $fiche_projet_post_id) ){
-			foreach($portfolio_members as $portfolio_member) {
-				$kino_member_id = $portfolio_member['ID'];
-				$kino_member = get_user_by('id', $kino_member_id);
-				
-				$member_display = '<a href="'. $url .'/members/'. $kino_member->user_nicename .'/" target="_blank">'. $kino_member->display_name .'</a>';
-				$projet_members['comediens'][] = $member_display;
-			}
-		}
-		//non plateforme
-		if( $member_display = wp_strip_all_tags(get_field('autres_comediens', $fiche_projet_post_id) )){
-			$projet_members['comediens'][] = $member_display;
-		}
-		
+		}		
 		
 		#affichage
 		$display_members = '';
