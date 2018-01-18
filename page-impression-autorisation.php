@@ -23,6 +23,8 @@
     	//current url
     	$current_url = home_url(add_query_arg(array(),$wp->request));
     	
+		$kino_fields = kino_test_fields();
+
     	if ( current_user_can( "publish_pages") ) {
     	
     ?>
@@ -87,10 +89,11 @@
 								}
 								
 								//adresse réal
-								$adresse_real = bp_get_profile_field_data( array( 'field'   => $kino_fields["rue"], $id_real) ). '<br/>'. 
-								bp_get_profile_field_data( array( $kino_fields["ville"], $id_real) ). '<br/>'. 
-								bp_get_profile_field_data( array( $kino_fields["code-postal"], $id_real) ). '<br/>'. 
-								bp_get_profile_field_data( array( $kino_fields["pays"], $id_real) );
+								$adresse_real = xprofile_get_field_data( $kino_fields["rue"], $id_real ). '<br/>'. 
+								xprofile_get_field_data( $kino_fields["ville"], $id_real ). '<br/>'. 
+								xprofile_get_field_data( $kino_fields["code-postal"], $id_real ) .' '. xprofile_get_field_data( $kino_fields["pays"], $id_real );
+								
+								//$adresse_real = xprofile_get_field_data($kino_fields["rue"], $id_real);
 				
 								//stockage des données pour les afficher
 								$group_2_display[$date][] = array(
@@ -124,7 +127,7 @@
 			echo '<pre>';
 			print_r($group_2_display);
 			echo '</pre>';
-*/
+			*/
 ?>
 		<div class="bandeau no-print">
 				<span class="bg bggreen">Autorisations</span>
@@ -175,7 +178,7 @@
 					echo '<div>De <span class="strong">'. $projet['nom_real'] .'</span> | ';
 					echo $projet['tel_real'] .' | ';
 					echo $projet['email_real'] .'<br/>';
-					echo $adresse_real;
+					echo $projet['adresse_real'];
 					echo '</div>';
 
 					echo '<p><span class="strong">Nombre de personnes</span> sur le plateau: ';
