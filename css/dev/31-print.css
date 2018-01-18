@@ -65,6 +65,12 @@ hr {
 	font-weight: 900;
 }
 
+.acf-map {
+	width: 200mm;
+	height: 450px;
+	border: #ccc solid 1px;
+	margin: 20px 0;
+}
 
 .footer {
 	width: 200mm;

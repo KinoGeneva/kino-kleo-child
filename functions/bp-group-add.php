@@ -63,6 +63,20 @@ function projet_media_add() {
 	);
 }
 
+#google map + champs ACF
+function project_enqueue_script() {
+	wp_enqueue_script(
+	'map-js',
+	get_stylesheet_directory_uri() . '/js/map.js',
+	false
+	);
+	wp_enqueue_script(
+	'googlemap',
+	'https://maps.googleapis.com/maps/api/js?key=AIzaSyDJ-H97yAa8Ze_h_Vu9Vd05of-i__ozsA4',
+	false
+	);	
+}
+add_action( 'wp_enqueue_scripts', 'project_enqueue_script' );
 
 //ajoute au header tous les scripts de ACF permettant d'enregistrer les données sur les groupes seulement et pour les utilisateurs avec droits
 add_action( 'get_header', 'tsm_do_acf_form_head', 1 );
