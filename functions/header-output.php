@@ -71,7 +71,13 @@ function kino_wp_head(){
     	}
     	
     	<?php 
-    } 
+    }
+    else { ?>
+		body.members #buddypress .bps_header {
+    		display: block;
+		}
+    	<?php
+    	}
     
     /*
     	Code for non-Editors and non-Admin
