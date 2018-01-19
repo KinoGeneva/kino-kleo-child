@@ -105,26 +105,31 @@
 					}
 
 				} else {
+					// check for plugin using plugin name
+					if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
+						bp_get_template_part( 'groups/single/home-light');
+					}
+					else {
+						/**
+						 * Fires before the display of the group status message.
+						 *
+						 * @since 1.1.0
+						 */
+						do_action( 'bp_before_group_status_message' ); ?>
 
-					/**
-					 * Fires before the display of the group status message.
-					 *
-					 * @since 1.1.0
-					 */
-					do_action( 'bp_before_group_status_message' ); ?>
+						<div id="message" class="info">
+							<p><?php bp_group_status_message(); ?></p>
+						</div>
 
-					<div id="message" class="info">
-						<p><?php bp_group_status_message(); ?></p>
-					</div>
+						<?php
 
-					<?php
-
-					/**
-					 * Fires after the display of the group status message.
-					 *
-					 * @since 1.1.0
-					 */
-					do_action( 'bp_after_group_status_message' );
+						/**
+						 * Fires after the display of the group status message.
+						 *
+						 * @since 1.1.0
+						 */
+						do_action( 'bp_after_group_status_message' );
+					}
 
 				}
 				
