@@ -23,6 +23,11 @@
     
     <div class="row">
     
+      <?php /* removed: 
+      bp_get_template_part( 'members/single/cover-image-header' );
+      bp_get_template_part( 'members/single/member-header' );
+      */
+       ?>
     <?php
     
     // Navigation de 1er niveau
