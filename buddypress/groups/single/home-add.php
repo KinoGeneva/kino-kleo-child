@@ -47,7 +47,7 @@ $url = home_url();
 		echo '<h4 class="no-color">'. bp_core_get_userlink($id_real) .'</h4>';
 		//montre seulement les infos de contacts aux personnes connectées
 		if ( is_user_logged_in() ) {
-			xprofile_get_field_data('e-mail', $id_real) .'<br/>'. xprofile_get_field_data('Téléphone', $id_real);
+			echo xprofile_get_field_data('e-mail', $id_real) .'<br/>'. xprofile_get_field_data('Téléphone', $id_real);
 		}
 		?>
 		
