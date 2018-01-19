@@ -193,6 +193,9 @@
 							echo '<div class="strong">Dispositif de tournage:</div>';
 							foreach( $tournage['dispositif'] as $dispositif) {
 								echo $dispositif;
+								if($dispositif != end($tournage['dispositif'])){
+									echo ' | ';
+								}
 							}
 							
 						}
