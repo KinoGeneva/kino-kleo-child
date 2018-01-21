@@ -28,12 +28,21 @@ $args = array(
 );
 $projets = groups_get_groups( $args );
 
+//compta
+$term_ids =  array( $kino_fields['compta-paid-25'], $kino_fields['compta-paid-40'], $kino_fields['compta-paid-100'], $kino_fields['compta-paid-125'],  $kino_fields['compta-paid-offert-25'], $kino_fields['compta-paid-offert-125']);
+
+//inscription
+foreach($term_ids as $term_id){
+	$compta_ids[$term_id] = get_objects_in_term(
+		$term_id, 
+		'user-compta' 
+	);
+}
 /*
 echo '<pre>';
 print_r( $projets['groups']);
 echo '</pre>';
 */
-
 
 if ( !empty($projets['groups']) ) { 
 	foreach ($projets['groups'] as $project) {
@@ -65,9 +74,6 @@ if ( !empty($projets['groups']) ) {
 			//empty tech et comédien tab 1
 			$all_projects[$group_id]['tech'] = array();
 			$all_projects[$group_id]['comediens'] = array();
-			
-			//empty roles tableau 2
-			$all_members[$real_id]['groups'][$group_id]['roles'] = array();
 
 			//tableau 1
 			$all_projects[$group_id]['real_display'] = $real_display;
@@ -78,6 +84,7 @@ if ( !empty($projets['groups']) ) {
 				'sessions' => $sessions,
 				'project_display' => $project_display,
 				'project_status' => $project_status,
+				'roles' => array()
 			);
 			$all_members[$real_id]['groups'][$group_id]['roles'][] = 'réalisateur-trice';
 			
@@ -138,6 +145,7 @@ if ( !empty($projets['groups']) ) {
 					$all_members[$kino_member_id]['groups'][$group_id]['sessions'] = $sessions;
 					$all_members[$kino_member_id]['groups'][$group_id]['project_display'] = $project_display;
 					$all_members[$kino_member_id]['groups'][$group_id]['roles'][] = 'comedien-ne';
+					
 				}
 			}
 			//tableau 1: les comédiens hors-plateforme
@@ -257,6 +265,8 @@ if(!empty($all_members)){ ?>
 			<thead>
 				<th>#</th>
 				<th>Participant</th>
+				<th>Kabaret?</th>
+				<th>Compta?</th>
 				<th>Projets et rôles</th>
 			</thead>
 			<tbody>
@@ -264,11 +274,49 @@ if(!empty($all_members)){ ?>
 	$metronom = 1;
 	
 	foreach($all_members as $user_id => $member){
+		//compta
+		$compta = array();
+		foreach($compta_ids as $term_id => $users_id) {
+			if ( in_array( $user_id, $users_id ) ) {
+				if(!$date = get_user_meta($user_id, 'compta-'. $term_id, true)){
+					$date = '11.01.2018';
+					//NOTE: concerne 2018 seulement - la donnée user meta indiquant la date de paiement a été ajoutée après le début des inscriptions. Avant cette date, selon info d'Anais, toutes les entrées ont été fournies le 11.01.2018
+				}
+				$compta[$term_id] = $date;
+			}
+		}
+		
 		echo '<tr class="pending-candidate" data-id="'. $user_id .'">';
 		echo '<th>'. $metronom++ .'</th>';
 		echo '<td>';
 		echo $member['member_display'];
 		echo '</td>';
+		echo '<td>';
+		//Inscrit au Kabaret?
+		$kino_test = bp_get_profile_field_data( array(
+				'field'   => $kino_fields['kabaret'], 
+				'user_id' => $user_id
+		) );
+		if ( ( $kino_test == "oui" ) || ( $kino_test == "yes" ) ) {
+			echo 'OUI';
+		}
+		else {
+			echo 'NON';
+		}
+		echo '</td>';
+		echo '<td>';
+		//compta
+		if(!empty($compta)){
+			foreach($compta as $term_id => $date){
+				$term = get_term_by('id', intval($term_id), 'user-compta');
+				echo '<span class="kp-pointlist">'. $term->name .' le '. $date .'</span>';
+			}
+		}
+		else {
+			echo 'NON';
+		}
+		echo '</td>';
+		//projets
 		echo '<td>';
 		echo '<ul>';
 		foreach($member['groups'] as $group_id => $project_info){
